@@ -51,7 +51,7 @@ const ViewBenefeciareList = ({navigation, navigation: {goBack}, route}) => {
 
    let object = {
      projectId: projectId,
-     token: user.AccessToken,
+     token: user?.AccessToken,
    };
   const nav = () => {
     if (!routeData) {

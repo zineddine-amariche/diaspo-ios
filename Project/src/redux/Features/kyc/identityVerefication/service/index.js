@@ -25,7 +25,7 @@ const api = async obejct => {
       'Content-Type': 'multipart/form-data',
     },
   });
-console.log('res.data', res.data)
+// console.log('res.data', res.data)
   return res.data;
 };
 const uploadphotoService = {

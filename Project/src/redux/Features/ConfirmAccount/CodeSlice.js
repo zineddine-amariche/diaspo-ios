@@ -9,13 +9,25 @@ import {onError} from '../../../hooks';
 export const onConfirmCode = createAsyncThunk(
   'confirm/code',
   async (object, thunkAPI) => {
-    const {code, token, userName} = object;
+    const {code, token,onSuccess,onAccountConfirmed, userName} = object;
     try {
       let obj = {
         userName,
         code,
       };
       let data = await CodeService.api(obj, token);
+      console.log('data.status', data.status)
+      if(data.status=="success"){
+        onSuccess()
+      }
+      if(data.status=="error"){
+        // onAccountConfirmed()
+         Toast.show(
+           `${data.status}, ${data.statusDescription}`
+         );
+        console.log('status', data.status)
+        console.log('first', data)
+      }
       return data;
     } catch (error) {
       const {onErrorAction} = object;
@@ -62,7 +74,7 @@ export const onReSendCode = createAsyncThunk(
     const {token, OnSendOtp, userName} = object;
     try {
       let res = await ReSendCodeService.api(userName, token);
-      // console.log('res', res)
+      //  console.log('res', res)
       // console.log('token', token)
       if (res.status === 'success') {
         OnSendOtp(); //onSuccess

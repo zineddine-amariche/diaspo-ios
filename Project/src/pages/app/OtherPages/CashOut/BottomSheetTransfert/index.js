@@ -16,25 +16,20 @@ import SecondaryHeader from "../../../../../components/Headers/root/SecondaryHea
 import MainAccount from "../Components/MainAccount";
 import Rectangle from "../../../../../components/views/Rectangle";
 import Form0 from "../Components/Forms/Form0";
-import Form1 from "../Components/Forms/Form1";
 import Space from "../../../../../components/Space";
 import Bottom1 from "./BottomSheetAccount";
-import Bottom4 from "./BottomSheetPassword";
-import Bottom2 from "./BottomSheetReceiversPhoneEmail";
-import Bottom3 from "./BottomSheetReceiversFullName";
+ 
 import {
   PaleGreyButton,
   PrimaryButtonLinear,
 } from "../../../../../components/Buttons";
 import { useEffect } from "react";
 import Contacts from "react-native-contacts";
-import Line from "../../../../../components/views/line";
 import CreatedSuccess from "../../../../../components/views/Layouts/AuthLayout/Model";
 import { Head, Txt } from "../../../../../components/utils";
 import illusphone from "../../../../../Assets/Img/illusphone.png";
 import { Formik } from "formik";
 import { useTransfers } from "../Hooks";
-import ImageInfo from "../../../../../Assets/Img/icon24Info.png";
 import Note from "../../../../../components/views/Note";
 const BottomSheetTransfert = ({ goBack, navigation }) => {
   const bottomSheetModalRef = useRef(null);
@@ -120,7 +115,7 @@ const BottomSheetTransfert = ({ goBack, navigation }) => {
     if (conts === "authorized") {
       // console.log("authorized");
       Contacts.getAll().then((contacts) => {
-        // console.log(contacts);
+        //  console.log(contacts);
         setContactsPhone(contacts);
       });
     }
@@ -129,18 +124,18 @@ const BottomSheetTransfert = ({ goBack, navigation }) => {
     }
   };
 
-  useEffect(() => {
-    // !!first get permession then get contacts
-    if (ContactsPhone.length === 0) {
-      Req();
+  // useEffect(() => {
+  //   // !!first get permession then get contacts
+  //   if (ContactsPhone.length === 0) {
+  //     Req();
 
-      if (Req) {
-        getContacts();
-      } else {
-        console.log("no permession");
-      }
-    }
-  }, []);
+  //     if (Req) {
+  //       getContacts();
+  //     } else {
+  //       console.log("no permession");
+  //     }
+  //   }
+  // }, []);
 
   const { validationSchema1, State1, Transfers } = useTransfers();
   const { validationSchema, State0 } = useTransfers();

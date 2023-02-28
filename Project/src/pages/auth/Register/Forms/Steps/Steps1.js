@@ -1,4 +1,11 @@
-import {Image, StyleSheet, TouchableOpacity, useColorScheme, View} from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import PrimaryInput from '../../../../../components/Input';
 import CustomDatePiker from '../../../../../components/DatePiker';
@@ -10,7 +17,7 @@ import * as ImagePicker from 'react-native-image-picker';
 import avatar from '../../../../../Assets/Img/avatar.png';
 import icon16CameraPlus from '../../../../../Assets/Img/icon16CameraPlus.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const Step1 = ({
   step,
@@ -100,15 +107,15 @@ const FormInputs = ({
   const [selectedNationality, setSelectedNationaity] = useState(null);
   const [selectedNationalityFlag, setSelectedNationaityFlag] = useState(null);
 
-
-
-  const isReturns = useSelector(state => state.registerPerssisteSlice.isReturns)
+  const isReturns = useSelector(
+    state => state.registerPerssisteSlice.isReturns,
+  );
   //  console.log('isReturns', isReturns)
 
   // create new values of birthday & nationalty
-// console.log('values', values)
+  // console.log('values', values)
   useEffect(() => {
-    if (step == 1 && isReturns ===1) {
+    if (step == 1 && isReturns === 1) {
       AsyncStorage.getItem('step1FormData').then(data => {
         if (data) {
           // console.log('data', typeof JSON.parse(data));
@@ -128,8 +135,7 @@ const FormInputs = ({
   const minimumDate = new Date();
   minimumDate.setFullYear(minimumDate.getFullYear() - 90);
   const maximumDate = new Date();
-  maximumDate.setFullYear(maximumDate.getFullYear() - 18); 
-
+  maximumDate.setFullYear(maximumDate.getFullYear() - 18);
 
   return (
     <>
@@ -192,23 +198,30 @@ const FormInputs = ({
         </View>
 
         <Space space={20} />
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: COLORS.silver,
+            paddingBottom: Platform.OS == 'ios' ? 10 : 0,
+          }}>
+          <CustomDatePiker
+            label={'Date of birth'}
+            setFieldValue={setFieldValue}
+            name={'birthDay'}
+            errors={errors.birthDay}
+            touched={touched.birthDay}
+            placeholder={'Select your date of birth'}
+            onBlur={handleBlur('birthDay')}
+            selectedValue={selected}
+            placeholderTextColor={COLORS.darkBlueGrey}
+            fontSize={18}
+            IsTouched={IsBirthDay}
+            setIsTouched={setIsBirthDay}
+            minimumDate={minimumDate}
+            maximumDate={maximumDate}
+          />
+        </View>
 
-        <CustomDatePiker
-          label={'Date of birth'}
-          setFieldValue={setFieldValue}
-          name={'birthDay'}
-          errors={errors.birthDay}
-          touched={touched.birthDay}
-          placeholder={'Select your date of birth'}
-          onBlur={handleBlur('birthDay')}
-          selectedValue={selected}
-          placeholderTextColor={COLORS.darkBlueGrey}
-          fontSize={18}
-          IsTouched={IsBirthDay}
-          setIsTouched={setIsBirthDay}
-          minimumDate={minimumDate}
-          maximumDate={maximumDate}
-        />
         <Space space={20} />
 
         <SelectCountry

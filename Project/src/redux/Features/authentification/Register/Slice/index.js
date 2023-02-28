@@ -9,11 +9,11 @@ export const register = createAsyncThunk(
       const token = thunkAPI.getState().token.token;
       const {onSuccess, obj} = data;
       let res = await registerService.api(obj, token);
-      console.log('res', res.data.walletAccountUser.email);
+      console.log('res', res?.data?.walletAccountUser?.email);
 
-      let userName = res.data.walletAccountUser.email;
+      let userName = res?.data?.walletAccountUser?.email;
       if (res.status == 'success') {
-        onSuccess(userName);
+        onSuccess(userName,res?.data?.walletAccountUser?.userId);
       }
       return res;
     } catch (error) {
@@ -23,8 +23,10 @@ export const register = createAsyncThunk(
         error.message ||
         error.toString();
 
+        console.log('message', message)
+
         if (message.status == 'error') {
-          Toast.show(`${message.status} , ${message.StatusDescription}`);
+          Toast.show(`${message.status} , ${message.statusDescription}`);
         } else {
           if (
             message.StatusDescription

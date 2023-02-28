@@ -13,7 +13,7 @@ const api = async (dataUser, token) => {
   };
 
   const res = await axios.post(API_URL, { mobileNumbers: dataUser }, config);
-  console.log('res.data----walletAccountUserMobile', res.data.data.walletAccountUserMobile)
+  // console.log('res.data----walletAccountUserMobile', res.data.data.walletAccountUserMobile)
   return res.data.data.walletAccountUserMobile;
 };
 const connectedService = {

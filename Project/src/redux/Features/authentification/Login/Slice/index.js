@@ -14,18 +14,20 @@ export const login = createAsyncThunk(
       const token = thunkAPI.getState().token.token;
 
       let data = await loginService.api(user, token);
-      // console.log('data', data.data.UserKycDetails);
+      // console.log('data', data.data.userId);
       if (data.status === 'success') {
-        if (
-          data.data.UserKycDetails?.kycStatus == 'NO_KYC' ||
-          data.data.UserKycDetails?.kycStatus == 'FAILED'
-        ) {
-          navtokyc();
+        if (data.data.UserKycDetails?.kycStatus == 'NO_KYC') {
+          navtokyc(data.data.userId);
         } else if (data.data.UserKycDetails?.kycStatus == 'PENDING_REVIEW') {
-          navtoReview();
+          navtoReview('PENDING_REVIEW',data.data.userId);
           Toast.show(`account is under review `);
+          // navtoHomePage();
+        } else if (data.data.UserKycDetails?.kycStatus == 'FAILED') {
+          navtoReview('FAILED',data.data.userId);
+          Toast.show(`We failed to
+          verify your information`);
         } else if (data.data.UserKycDetails?.kycStatus == 'VALIDATED') {
-          navtoHomePage();
+          navtoHomePage(data.data.userId);
           Toast.show(`${data.status} `);
         }
 
@@ -35,13 +37,23 @@ export const login = createAsyncThunk(
       }
     } catch (error) {
       const {onErrorAction} = object;
-
       const message =
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
+
+      // console.log('message', message);
+
       if (message.status == 'error') {
-        Toast.show(`${message.status} , ${message.StatusDescription}`);
+        message.statusDescription || message.StatusDescription
+          ? Toast.show(
+              `${message.status} , ${
+                message.statusDescription
+                  ? message.statusDescription
+                  : message.StatusDescription
+              }`,
+            )
+          : Toast.show(`${message} `);
       } else {
         if (
           message.StatusDescription
@@ -94,6 +106,7 @@ const loginSlice = createSlice({
       state.isError = false;
       state.message = '';
       state.user = null;
+      state.isAuth = false;
     },
     setNotifyUser: (state, action) => {
       state.notification = action.payload?.data?.notification?.notify;

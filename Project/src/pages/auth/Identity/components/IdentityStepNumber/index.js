@@ -3,10 +3,13 @@ import React from 'react';
 import {COLORS} from '../../../../../theme';
 import {Txt} from '../../../../../components/utils';
 import TextSteps from '../TextSteps';
+import Space from '../../../../../components/Space';
 
 const IdentityStepNumber = ({step}) => {
   return (
     <>
+    <Space space={20}/>
+
       <View
         style={{
           width: '100%',

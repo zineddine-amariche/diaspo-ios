@@ -15,7 +15,7 @@ const api = async (dataUser, token) => {
   };
 
   const res = await axios.get(url, config);
-  console.log('CodeService', res.data)
+  // console.log('CodeService', res.data)
   return res.data;
 };
 const CodeService = {

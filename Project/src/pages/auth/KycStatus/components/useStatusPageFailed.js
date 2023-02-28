@@ -1,0 +1,76 @@
+import {StyleSheet, Text, View} from 'react-native';
+import {Image, SafeAreaView} from 'react-native';
+
+import React from 'react';
+import {StatusBar} from 'react-native';
+import {COLORS} from '../../../../theme';
+import WhiteHeader from '../../../../components/Headers/Auth/KycWhiteHeader';
+import {Txt} from '../../../../components/utils';
+import Space from '../../../../components/Space';
+import review from '../../../../Assets/Kyc/FrameFailed.png';
+import {PaleGreyButton, PrimaryButton} from '../../../../components/Buttons';
+import {useNavigation} from '@react-navigation/native';
+
+const UseStatusPageFailed = ({onClose}) => {
+  const nav = useNavigation();
+
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.white,
+        alignItems: 'center',
+      }}>
+      <StatusBar translucent={true} backgroundColor={'transparent'} />
+      <WhiteHeader
+        onClose={onClose}
+        title="Review of information"
+        isClose={true}
+      />
+      <View style={{alignItems: 'center'}}>
+        <Space space={60} />
+        <View style={{padding: 25}}>
+          <Image source={review} />
+          <Space />
+          <Txt fontSize={24} lineHeight={34} style={{textAlign: 'center'}}>
+            We failed to
+          </Txt>
+          <Txt fontSize={24} lineHeight={34} style={{textAlign: 'center'}}>
+            verify your information
+          </Txt>
+          <Space />
+
+          <Txt
+            color={COLORS.TextBody}
+            fontSize={16}
+            style={{lineHeight: 24, textAlign: 'center'}}
+            // fontFamily={'Oxygen-Regular'}
+          >
+            Please review and help us to provide the missing information.
+          </Txt>
+        </View>
+      </View>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          flex: 1,
+          width: '100%',
+          alignItems: 'center',
+          paddingBottom: 30,
+        }}>
+        <PrimaryButton
+          onPress={() => {
+            nav.navigate('ReviewOfInformation');
+          }}
+          width={'90%'}>
+          Review information
+        </PrimaryButton>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default UseStatusPageFailed;
+
+const styles = StyleSheet.create({});

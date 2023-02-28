@@ -33,34 +33,7 @@ import { useNavigation } from "@react-navigation/native";
 export function DrawerContent(props) {
   const navigation = useNavigation();
 
-  // const channelId = () => {
-  //   PushNotification.createChannel({
-  //     channelId: "notificationId",
-  //     channelName: "notifications",
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   channelId();
-  // }, []);
-
-
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-  //     console.log('forground', remoteMessage)
-  //     PushNotification.localNotification({
-  //       channelId:'notificationId',
-  //       message: remoteMessage.notification.body,
-  //       title: remoteMessage.notification.title,
-  //       bigPictureUrl: remoteMessage.notification.android.imageUrl,
-  //       smallIcon: remoteMessage.notification.android.imageUrl,
-  //       vibrate:true,
-        
-  //     });
  
-  //   });
-  //   return unsubscribe;
-  // }, []);
 
 
   useEffect(() => {
@@ -76,22 +49,7 @@ export function DrawerContent(props) {
 
 
 
-  // useEffect(() => {
-  //     // Check whether an initial notification is available
-  //     messaging()
-  //     .getInitialNotification()
-  //     .then(remoteMessage => {
-  //       if (remoteMessage) {
-  //         console.log(
-  //           'Notification caused app to open from quit state:',
-  //           remoteMessage.notification,
-  //         );
-  //         // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
-  //       }
-  //       // setLoading(false);
-  //     });
-
-  // }, []);
+ 
 
   const { t, i18n } = useTranslation ( );
 

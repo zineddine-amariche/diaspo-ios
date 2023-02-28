@@ -1,22 +1,31 @@
-import { View, Text, StyleSheet, Dimensions, Animated, Alert, Linking } from "react-native";
-import React, { useRef } from "react";
-import Slide from "./Components/Slide";
-import { TouchableOpacity } from "react-native";
-import { COLORS } from "../../../theme";
-import DataSlider from "./Components/slides";
-import { PrimaryButton } from "../../../components/Buttons";
-import Line from "../../../components/views/line";
-import Space from "../../../components/Space";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Animated,
+  Alert,
+  Linking,
+  Platform,
+} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import Slide from './Components/Slide';
+import {TouchableOpacity} from 'react-native';
+import {COLORS} from '../../../theme';
+import DataSlider from './Components/slides';
+import {PrimaryButton} from '../../../components/Buttons';
+import Line from '../../../components/views/line';
+import Space from '../../../components/Space';
 
-import Contacts from "react-native-contacts";
-import { useDispatch, useSelector } from "react-redux";
-import { GetSatetContacts } from "../../../redux/Features/Tontine/ManagePayers/Contacts";
+import Contacts from 'react-native-contacts';
+import {useDispatch, useSelector} from 'react-redux';
+import {GetSatetContacts} from '../../../redux/Features/Tontine/ManagePayers/Contacts';
+import { useIsFocused } from '@react-navigation/native';
 
-
-const { width, height } = Dimensions.get("window");
+const {width, height} = Dimensions.get('window');
 const BORDER_RADUIS = 75;
 
-const SwiperBoard = ({ navigation }) => {
+const SwiperBoard = ({navigation}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const refSlides = useRef(null);
@@ -24,33 +33,34 @@ const SwiperBoard = ({ navigation }) => {
   const Bgs = [COLORS.Vert0, COLORS.Vert0, COLORS.Vert0];
   const Bgs2 = [COLORS.Vert1, COLORS.Vert1, COLORS.Vert1];
 
-
   const dispatch = useDispatch();
 
-  const contacts = useSelector((state) => ({ ...state.contacts }));
+  const contacts = useSelector(state => ({...state.contacts}));
 
-  Contacts.checkPermission().then((res) => {
-    if (res === "authorized" && contacts.length !== 0) {
+  Contacts.checkPermission().then(res => {
+    if (res === 'authorized' && contacts.length !== 0) {
       getContacts();
-    } else if (res === "denied") {
-      Alert.alert("Dipaso", "You have to give permission to get contacts ", [
+    } else if (res === 'denied') {
+      Alert.alert('Dipaso', 'You have to give permission to get contacts ', [
         {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
         },
-        { text: "Allow", onPress: () => Linking.openSettings() },
+        {text: 'Allow', onPress: () => Linking.openSettings()},
       ]);
     }
   });
+  const isFocused =useIsFocused()
 
   const getContacts = async () => {
     try {
-      Contacts.getAll().then((res) => {
+      Contacts.getAll().then(res => {
+        // console.log('res constacts', res);
         if (!contacts.contacts) {
           dispatch(GetSatetContacts(res));
         }
-        res.map((item) => {
+        res.map(item => {
           return item;
         });
       });
@@ -59,32 +69,44 @@ const SwiperBoard = ({ navigation }) => {
     }
   };
 
+  const getIosConatct = () => {
+    if (Platform.OS == 'ios') {
+      Contacts.getAll().then(res => {
+        if (!contacts.contacts) {
+          dispatch(GetSatetContacts(res));
+        }
+      });
+    }
+  };
 
-  const Indicator = ({ scrollX }) => {
+  useEffect(() => {
+    getIosConatct();
+  }, [isFocused]);
+
+  const Indicator = ({scrollX}) => {
     return (
       <View
         style={{
-          flexDirection: "row",
-          alignSelf: "center",
+          flexDirection: 'row',
+          alignSelf: 'center',
           marginVertical: 10,
           marginTop: 20,
-        }}
-      >
+        }}>
         {DataSlider.map((data, i) => {
           const backgroundColor = scrollX.interpolate({
             inputRange: Bgs2.map((_, i) => i * width),
-            outputRange: Bgs2.map((bg) => bg),
+            outputRange: Bgs2.map(bg => bg),
           });
           const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
           const scale = scrollX.interpolate({
             inputRange,
             outputRange: [0.8, 1.4, 0.8],
-            extrapolate: "clamp",
+            extrapolate: 'clamp',
           });
           const opacity = scrollX.interpolate({
             inputRange,
             outputRange: [0.4, 1, 0.4],
-            extrapolate: "clamp",
+            extrapolate: 'clamp',
           });
           return (
             <Animated.View
@@ -103,45 +125,43 @@ const SwiperBoard = ({ navigation }) => {
                     scale,
                   },
                 ],
-              }}
-            ></Animated.View>
+              }}></Animated.View>
           );
         })}
       </View>
     );
   };
-  const IndicatorTitle = ({ scrollX }) => {
+  const IndicatorTitle = ({scrollX}) => {
     return (
       <View
         style={{
-          alignSelf: "center",
-        }}
-      >
+          alignSelf: 'center',
+        }}>
         {DataSlider.map((data, i) => {
           const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
 
           const scale = scrollX.interpolate({
             inputRange,
             outputRange: [0.2, 1, 0.2],
-            extrapolate: "clamp",
+            extrapolate: 'clamp',
           });
           const opacity = scrollX.interpolate({
             inputRange: inputRange,
             outputRange: [0, 1, 0],
-            extrapolate: "clamp",
+            extrapolate: 'clamp',
           });
           const translateY = scrollX.interpolate({
             inputRange: inputRange,
             outputRange: [-250, 0, 500],
-            extrapolate: "clamp",
+            extrapolate: 'clamp',
           });
           return (
             <Animated.View
               key={`indicator-${i}`}
               style={{
-                position: "absolute",
+                position: 'absolute',
                 opacity,
-                alignSelf: "center",
+                alignSelf: 'center',
                 width: width * 0.9,
                 transform: [
                   {
@@ -151,35 +171,31 @@ const SwiperBoard = ({ navigation }) => {
                     translateY,
                   },
                 ],
-              }}
-            >
+              }}>
               <Text
                 style={{
-                  textAlign: "center",
+                  textAlign: 'center',
                   color: COLORS.Vert1,
                   fontSize: 22,
-                  fontWeight: "700",
-                }}
-              >
+                  fontWeight: '700',
+                }}>
                 {data.title}
               </Text>
               <View
                 style={{
-                  alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+                  alignSelf: 'center',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
                 <Text
                   style={{
-                    textAlign: "center",
+                    textAlign: 'center',
                     color: COLORS.slateGrey,
                     fontSize: 14,
                     padding: 6,
                     lineHeight: 20,
                     paddingHorizontal: 30,
-                  }}
-                >
+                  }}>
                   {data.description}
                 </Text>
               </View>
@@ -189,16 +205,15 @@ const SwiperBoard = ({ navigation }) => {
                 condition={DataSlider.length === i + 1 ? false : true}
                 onPress={() => {
                   if (DataSlider.length === i + 1) {
-                    navigation.navigate("login");
+                    navigation.navigate('login');
                   } else {
                     refSlides.current.scrollTo({
                       x: width * (i + 1),
                       animated: true,
                     });
                   }
-                }}
-              >
-                {DataSlider.length - 1 === i ? "GET STARTED" : "Next"}
+                }}>
+                {DataSlider.length - 1 === i ? 'GET STARTED' : 'Next'}
               </PrimaryButton>
             </Animated.View>
           );
@@ -209,13 +224,12 @@ const SwiperBoard = ({ navigation }) => {
 
   const ColorBack = scrollX.interpolate({
     inputRange: Bgs.map((_, i) => i * width),
-    outputRange: Bgs.map((bg) => bg),
+    outputRange: Bgs.map(bg => bg),
   });
-
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.slider, { backgroundColor: ColorBack }]}>
+      <Animated.View style={[styles.slider, {backgroundColor: ColorBack}]}>
         <Animated.ScrollView
           ref={refSlides}
           horizontal
@@ -224,10 +238,9 @@ const SwiperBoard = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
           bounces={false}
           onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: false }
-          )}
-        >
+            [{nativeEvent: {contentOffset: {x: scrollX}}}],
+            {useNativeDriver: false},
+          )}>
           {DataSlider.map((item, i) => {
             return (
               <Slide
@@ -280,7 +293,7 @@ const styles = StyleSheet.create({
   },
 
   line: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 10,
   },
 });

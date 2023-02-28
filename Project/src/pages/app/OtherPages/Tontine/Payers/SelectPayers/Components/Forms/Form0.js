@@ -108,7 +108,7 @@ const Form0 = ({ index, setGlobalBen }) => {
       mobileNumbers: arr,
       token,
     };
-    // console.log("phone numbers", object?.mobileNumbers);
+    //  console.log("phone numbers", object?.mobileNumbers);
     dispatch(connected(object));
   }, []);
   // !create new object

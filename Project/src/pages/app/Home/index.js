@@ -3,7 +3,6 @@ import {
   Linking,
   StyleSheet,
   Text,
-  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -81,7 +80,7 @@ const Home = ({navigation}) => {
     ...state.auth,
   }));
 
-  let userId = user.userId;
+  let userId = user?.userId;
   let object = {
     userId,
     token,

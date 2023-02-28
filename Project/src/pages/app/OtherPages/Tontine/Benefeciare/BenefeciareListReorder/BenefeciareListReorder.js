@@ -41,7 +41,7 @@ const BenefeciareListReorder = ({navigation, route}) => {
 
   let object = {
     projectId: projectId,
-    token: user.AccessToken,
+    token: user?.AccessToken,
   };
 
   useEffect(() => {

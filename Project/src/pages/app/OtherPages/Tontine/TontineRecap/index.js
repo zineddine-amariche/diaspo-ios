@@ -57,7 +57,7 @@ const TontineRecap = ({navigation, route}) => {
 
   let object = {
     projectId,
-    token: user.AccessToken,
+    token: user?.AccessToken,
   };
 
   useEffect(() => {
@@ -119,7 +119,7 @@ const TontineRecap = ({navigation, route}) => {
 
   let iObj = {
     projectId: tontineProjectInfo?.project?.projectId,
-    token: user.AccessToken,
+    token: user?.AccessToken,
   };
 
   return (

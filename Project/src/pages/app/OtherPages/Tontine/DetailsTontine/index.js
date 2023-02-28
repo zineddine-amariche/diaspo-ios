@@ -89,7 +89,7 @@ const InfoScreenTontine = ({navigation, route}) => {
 
     let obje = {
       projectId: tontineProjectInfo?.project?.projectId,
-      token: user.AccessToken,
+      token: user?.AccessToken,
       data: {
         status: 'ACTIVATED',
       },
@@ -110,7 +110,7 @@ const InfoScreenTontine = ({navigation, route}) => {
 
     let object = {
       projectId: tontineProjectInfo?.project?.projectId,
-      token: user.AccessToken,
+      token: user?.AccessToken,
       data: {
         status: 'CANCELLED',
       },
@@ -163,22 +163,8 @@ const InfoScreenTontine = ({navigation, route}) => {
       ? 'Cancelled'
       : 'Finished';
 
-  // console.log(
-  //   'routeData?.listOfParticipants?.length',
-  //   routeData?.listOfParticipants?.length,
-  // );
-  // console.log(
-  //   'routeData?.project?.listOfParticipants?.length ',
-  //   routeData?.project,
-  // );
-  // console.log('isFirstTime', isFirstTime)
-
   const isFocused = useIsFocused();
 
-  // console.log('isFocused', isFocused)
-  // console.log('object', object)
-
-  // console.log('tontineProjectInfo', tontineProjectInfo.project)
   useEffect(() => {
     if (object) {
       dispatch(getTontinesProjectInfo(object));
@@ -228,7 +214,7 @@ const InfoScreenTontine = ({navigation, route}) => {
   };
 
   const ActivityButton = () => {
-    if (tontineProjectInfo.project.asAPayer) {
+    if (tontineProjectInfo?.project.asAPayer) {
       if (tontineProjectInfo?.numberOfPayers > 1) {
         null;
       } else {
@@ -300,34 +286,10 @@ const InfoScreenTontine = ({navigation, route}) => {
                 TextIn={TextIn}
               />
 
-              {/* {tontineProjectInfo?.numberOfPayers ==
-              0 && !tontineProjectInfo.project.asAPayer ? null : (
-                <ActivityDetails
-                  navigation={navigation}
-                  onSuccess={onSuccess}
-                  closeModal={closeModal}
-                  bottomSheetModalRef={bottomSheetModalRef}
-                  projectId={tontineProjectInfo?.project?.projectId}
-                  routeData={tontineProjectInfo}
-                  consult={consult}
-                  isFirstTime={isFirstTime}
-                  startWithparticipants={startWithparticipants}
-                  cancelTontin={cancelTontin}
-                />
-              )} */}
-
               <Activity />
             </View>
           </ScrollView>
-          {/* <TransactionHistory navigation={navigation} /> */}
 
-          {/* <CreateParticipantsButton
-            navigation={navigation}
-            routeData={tontineProjectInfo}
-            handlePresentModalPress={handlePresentModalPress}
-            projectId={tontineProjectInfo?.project?.projectId}
-            // isNewTontine={tontineProjectInfo?.project ? true : false}
-          /> */}
           <ActivityButton />
         </>
 

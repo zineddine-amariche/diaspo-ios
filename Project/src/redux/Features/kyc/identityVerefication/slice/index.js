@@ -68,6 +68,7 @@ export const uploadPhotoSlice = createSlice({
     frontPhotoDocument: null,
     backPhotoDocument: null,
     ProofDocument: null,
+    kycUserId:null
   },
   reducers: {
     resetuploadPhoto: (state, action) => {
@@ -137,6 +138,10 @@ export const uploadPhotoSlice = createSlice({
       // console.log('clear', action.payload);
       action.payload();
     },
+    getkycUserId:(state,action)=>{
+      state.kycUserId = action.payload;
+
+    }
   },
   extraReducers: builder => {
     builder
@@ -182,6 +187,7 @@ export const {
   handleClearBackPhotoDocument,
   handleProofDocument,
   clearProofDocument,
+  getkycUserId
 } = uploadPhotoSlice.actions;
 
 export default uploadPhotoSlice.reducer;

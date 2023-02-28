@@ -81,6 +81,11 @@ const Form = ({onReturn, userName, onErrorAction, onSuccess}) => {
     textInput.focus();
   }, []);
 
+  const nav = useNavigation()
+  const onAccountConfirmed = ()=>{
+    nav.navigate('login')
+  }
+
   return (
     <View>
       <ViewT1>
@@ -96,6 +101,7 @@ const Form = ({onReturn, userName, onErrorAction, onSuccess}) => {
               userName,
               onSuccess,
               onErrorAction,
+              onAccountConfirmed
             };
             dispatch(onConfirmCode(object));
           }}>

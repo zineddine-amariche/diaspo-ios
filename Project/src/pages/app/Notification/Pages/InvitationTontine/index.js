@@ -43,7 +43,7 @@ const InvitationTontine = ({navigation, route}) => {
 
   let object = {
     projectId: data.data.projectId,
-    token: user.AccessToken,
+    token: user?.AccessToken,
   };
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const InvitationTontine = ({navigation, route}) => {
       // console.log('egte-------------------------------',)
       dispatch(getTontinesProjectInfo(object));
     }
-  }, [data.data.projectId, user.AccessToken]);
+  }, [data.data.projectId, user?.AccessToken]);
 
   // ParticipantInfo
   const {tontineProjectInfo, isLoading, message} = useSelector(state => ({
@@ -69,7 +69,7 @@ const InvitationTontine = ({navigation, route}) => {
   const Accepte = () => {
     let objet = {
       participantId: data?.data?.participantsId,
-      token: user.AccessToken,
+      token: user?.AccessToken,
       data: {
         status: 'ACCEPTED',
       },
@@ -84,7 +84,7 @@ const InvitationTontine = ({navigation, route}) => {
   const Decliner = () => {
     let objet = {
       participantId: data?.data?.participantsId,
-      token: user.AccessToken,
+      token: user?.AccessToken,
       data: {
         status: 'DECLINED',
       },

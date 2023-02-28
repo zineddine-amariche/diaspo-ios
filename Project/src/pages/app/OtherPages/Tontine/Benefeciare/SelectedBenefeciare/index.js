@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,8 +6,8 @@ import {
   StatusBar,
   ScrollView,
   Image,
-  Alert,
 } from "react-native";
+import Toast from 'react-native-simple-toast';
 
 import ImgBack from "../../../../../../Assets/Img/HomeBack.png";
 import {
@@ -17,7 +17,6 @@ import {
 import SecondaryHeader from "../../../../../../components/Headers/root/SecondaryHeader";
 import Space from "../../../../../../components/Space";
 import * as _ from "../../../../../../components/utils";
-import CreatedSuccess from "../../../../../../components/views/Layouts/AuthLayout/Model";
 import { COLORS, SIZES } from "../../../../../../theme";
 import HView from "../../../../../../components/views/HView/HView";
 import thumbnailPath from "../../../../../../Assets/Img/ContactsUser.png";
@@ -27,7 +26,6 @@ import { TouchableOpacity } from "react-native";
 import UseCheckBoxElements from "../../../../../../components/checkBox/useCheckBoxElements";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { confirmBeneficiaries } from "../../../../../../redux/Features/Tontine/ManageBenefeciare/confirmBeneficiaries/slice";
 import {
   createParticipants,
   resetSuccesParticipants,
@@ -53,13 +51,7 @@ const ListBéneféciare = ({ navigation, route }) => {
   } = route.params;
   const { token } = useSelector((state) => ({ ...state.token }));
 
-  const [success, setsuccess] = useState(false);
-  const onDissmis = useCallback(() => {
-    setsuccess(false);
-  }, []);
-  const onSuccess = useCallback(() => {
-    setsuccess(true);
-  }, []);
+ 
 
   const NavToCnfPayer = () => {
     navigation.navigate("ConfirmedListBéneféciare", { PayerId: projectId });
@@ -208,9 +200,9 @@ const ListBéneféciare = ({ navigation, route }) => {
       }, 2000);
     } else if (isError) {
       console.log("isError", isError);
-      ToastAndroid.show(
+      Toast.show(
         isError,
-        ToastAndroid.SHORT
+      
       );
       setTimeout(
         () => dispatch(resetBeneficiaries(), dispatch(deleteSelectedList())),
@@ -277,21 +269,6 @@ const ListBéneféciare = ({ navigation, route }) => {
           loading={isLoading}
           disabled={true}
           onPress={() => {
-            // let ARR = [];
-            // GlobalBen.map((i) => {
-            //   return ARR.push(i.userId);
-            // });
-            // GlobalBen3;
-
-            // let obj = {
-            //   appUsers: ARR,
-            //   noneAppUsers: GlobalBen3,
-            //   projectId,
-            //   token,
-            //   type,
-            // };
-            // // dispatch(confirmBeneficiaries(obj));
-            // dispatch(createParticipants(obj));
             onSuccess2()
 
           }}
@@ -302,16 +279,7 @@ const ListBéneféciare = ({ navigation, route }) => {
         <Space space={25} />
         <Line color={COLORS.black} />
       </View>
-{/* 
-      <CreatedSuccess Visible={success2} onDissmis={onDissmis2}>
-        {BodyModelConfirmToReorder ? (
-          <BodyModelConfirmToReorder
-            onDissmis={onDissmis2}
-            pressNo={pressNo}
-            pressYes={pressYes}
-          />
-        ) : null}
-      </CreatedSuccess> */}
+ 
 
       <ModelConfirmCreateParticipants
         success={success2}
@@ -469,43 +437,7 @@ const Content3 = ({ GlobalBen2 }) => {
   });
 };
 
-const BodyModelConfirmToReorder = ({ onDissmis, pressNo, pressYes }) => {
-  return (
-    <>
-      <View style={styles.ModelContainer}>
-        <_.Head
-          //fontFamily={"Poppins-Bold"}
-          style={{ padding: 20, textAlign: "center" }}
-        >
-          Do you want to define the beneficary positions?!
-        </_.Head>
-
-        <HView spaceBetween>
-          <PaleGreyButton
-            onPress={() => {
-              onDissmis();
-              pressNo();
-            }}
-            width={"48%"}
-          >
-            no
-          </PaleGreyButton>
-          <PrimaryButtonLinear
-            disabled={true}
-            width={"48%"}
-            onPress={() => {
-              onDissmis();
-              pressYes();
-            }}
-          >
-            yes
-          </PrimaryButtonLinear>
-        </HView>
-      </View>
-    </>
-  );
-};
-
+ 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.paleGrey,
@@ -557,114 +489,4 @@ const styles = StyleSheet.create({
     width: 40,
   },
 });
-
-{
-  /* <CreatedSuccess Visible={success} onDissmis={onDissmis}>
-        {BodyModel ? (
-          <BodyModel onDissmis={onDissmis} NavToCnfPayer={NavToCnfPayer} />
-        ) : null}
-      </CreatedSuccess> */
-}
-
-{
-  /* <CreatedSuccess Visible={success2} onDissmis={onDissmis2}>
-        {BodyModelConfirmToReorder ? (
-          <BodyModelConfirmToReorder
-            onDissmis={onDissmis2}
-            pressNo={pressNo}
-            pressYes={pressYes}
-          />
-        ) : null}
-      </CreatedSuccess> */
-}
-// const BodyModel = ({ onDissmis, NavToCnfPayer }) => {
-//   return (
-//     <>
-//       <View style={styles.ModelContainer}>
-//         <_.Head
-//          fontFamily={"Poppins-Bold"}
-//           style={{ padding: 20, textAlign: "center" }}
-//         >
-//           Do you want to use the list of payers as beneficaries?
-//         </_.Head>
-
-//         <HView spaceBetween>
-//           <PaleGreyButton
-//             onPress={() => {
-//               onDissmis();
-//               NavToCnfPayer();
-//             }}
-//             width={"48%"}
-//           >
-//             no
-//           </PaleGreyButton>
-//           <PrimaryButtonLinear
-//             disabled={true}
-//             onPress={onDissmis}
-//             width={"48%"}
-//           >
-//             yes
-//           </PrimaryButtonLinear>
-//         </HView>
-//       </View>
-//     </>
-//   );
-// };
-
-// const [checkedState, setCheckedState] = useState(
-//   new Array(item?.length).fill(true)
-// );
-
-// let Reinitiliser = false;
-// const [currentOptionSelected, setCurrentOptionSelected] = useState([]);
-// const handleOnChange = (position, option) => {
-//   const updatedCheckedState = item.map((item, index) =>
-//     index === position ? !item : item
-//   );
-//   setCheckedState(updatedCheckedState);
-
-//   let filter = currentOptionSelected.includes(option);
-//   if (filter) {
-//     let itemsCopy = [...currentOptionSelected];
-//     var index = currentOptionSelected.indexOf(option);
-//     itemsCopy.splice(index, 1); // to delete one item from the new array
-//     setCurrentOptionSelected(itemsCopy);
-//   } else {
-//     setCurrentOptionSelected([...currentOptionSelected, option]);
-//   }
-// };
-
-// const { globaleBeneficiariesSelected } = useSelector((state) => ({
-//   ...state.tontines,
-// }));
-
-// console.log("globalePayerSelected", globalePayerSelected.length);
-
-// useEffect(() => {
-//   setCheckedState(new Array(item?.length).fill(true));
-// }, [item]);
-
-// Navigate to confirmed List payer
-
-{
-  /* <CircleCheckBox
-                          onPress={() => {
-                            handleOnChange(index, item);
-                          }}
-                          checked={check[index]}
-                          index={index}
-                        /> */
-}
-// console.log("GlobalBen", GlobalBen);
-
-{
-  /* <CardUser
-                      item={i}
-                      index={index}
-                      length={ARR?.length}
-                      handleOnChange={handleOnChange}
-                      checkedState={checkedState}
-                      check={checkedState}
-                      ind={ind}
-                    /> */
-}
+ 

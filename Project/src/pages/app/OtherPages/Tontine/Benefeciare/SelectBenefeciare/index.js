@@ -286,10 +286,6 @@ const Benefeciare = ({navigation, route}) => {
       }, 2000);
     } else if (isError) {
       console.log('isError', isError);
-      // ToastAndroid.show(
-      //   isError,
-      //   ToastAndroid.SHORT
-      // );
       setTimeout(
         () => dispatch(resetBeneficiaries(), dispatch(deleteSelectedList())),
         2000,

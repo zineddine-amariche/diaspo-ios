@@ -1,15 +1,15 @@
-import {StyleSheet, Text, ToastAndroid, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {COLORS} from '../../theme';
 import {Txt} from '../utils';
+import Toast from 'react-native-simple-toast';
 
 const SimpleSpiner = ({visible}) => {
   useEffect(() => {
     if (visible) {
-      ToastAndroid.show(
+      Toast.show(
         "You will be redirected to the tontine's details page ",
-        ToastAndroid.SHORT,
       );
     }
   }, [visible]);
@@ -21,9 +21,7 @@ const SimpleSpiner = ({visible}) => {
         padding: 120,
         justifyContent: 'center',
         flexDirection: 'row',
-        // backgroundColor: COLORS.silver,
       }}>
-      {/* <Toast  autoHide  /> */}
 
       <ActivityIndicator
         style={{marginRight: 10, marginTop: 4}}

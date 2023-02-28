@@ -162,7 +162,7 @@ const ListPayer = ({navigation, navigation: {goBack}, route}) => {
 
       let obje = {
         projectId: projectId,
-        token: user.AccessToken,
+        token: user?.AccessToken,
       };
  
       if (TypeOfParticipant === 'PAYER') {
@@ -188,10 +188,7 @@ const ListPayer = ({navigation, navigation: {goBack}, route}) => {
       );
     } else if (isError) {
       console.log('isError', isError);
-      // ToastAndroid.show(
-      //   isError,
-      //   ToastAndroid.SHORT
-      // );
+    
       dispatch(resetSuccesParticipants());
       setTimeout(
         () => dispatch(resetPayers(), dispatch(deleteSelectedListPayers())),

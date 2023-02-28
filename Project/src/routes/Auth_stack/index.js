@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../../pages/auth/Login';
 import Register from '../../pages/auth/Register';
@@ -12,7 +12,7 @@ import {getToken} from '../../redux/Features/AppToken/GetToken';
 import KycForm from '../../pages/auth/KycForm';
 import KycStatusPage from '../../pages/auth/KycStatus';
 import Identity from '../../pages/auth/Identity';
-import {useIsFocused} from '@react-navigation/native';
+import ReviewOfInformation from '../../pages/auth/KycStatus/pages/ReviewOfInformation';
 
 const RootStack = createNativeStackNavigator();
 
@@ -49,6 +49,8 @@ const AuthStackScreen = ({navigation}) => (
     <RootStack.Screen name="CreatPassword" component={CreatPassword} />
     <RootStack.Screen name="ConfirmPhoneNum" component={ConfirmPhoneNum} />
     <RootStack.Screen name="Identity" component={Identity} />
+    <RootStack.Screen name="ReviewOfInformation" component={ReviewOfInformation} />
+    
   </RootStack.Navigator>
 );
 

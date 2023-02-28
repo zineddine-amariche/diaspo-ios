@@ -21,7 +21,7 @@ export const confirmationPassword = createAsyncThunk(
       let res = await confirmCodeService.api(obj, token);
 
       if (res.status == 'success') {
-        onSucces(res.status, `${res.data.StatusDescription}`);
+        onSucces(res.status, `${res.data.statusDescription}`);
         onSuccesAction();
       }
       return res;

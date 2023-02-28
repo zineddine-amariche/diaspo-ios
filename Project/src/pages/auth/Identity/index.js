@@ -62,6 +62,7 @@ const Identity = ({navigation}) => {
     openCamera,
     messasge,
     ProofDocument,
+    kycUserId
   } = useSelector(state => state.uploadPhotoSlice);
   const {user} = useSelector(state => ({
     ...state.register,
@@ -70,6 +71,16 @@ const Identity = ({navigation}) => {
   const {userId} = useSelector(state => ({
     ...state.auth.user,
   }));
+
+console.log('kycUserId', kycUserId)
+ 
+  // const user = useSelector(state => ({
+  //   ...state.auth.user,
+  // }));
+  // console.log('userId', userId)
+// console.log('user', user)
+
+
   const [TypeFileToSend, setTypeFileToSend] = useState('PHOTO_CARD');
   const [typeCam, setTypeCam] = useState(RNCamera.Constants.Type.back);
   const cameraRef = useRef(null);
@@ -103,7 +114,6 @@ const Identity = ({navigation}) => {
     await AsyncStorage.clear();
     navigation.navigate('SplashScreen');
   };
-
 
   const flipCamera = () => {
     setTypeCam(
@@ -151,12 +161,18 @@ const Identity = ({navigation}) => {
       if (frontPhotoDocument?.content) {
         dispatch(handleBackPhotoDocument(obj));
         dispatch(uploadPhoto(obj));
+        console.log('obj--back-', obj.userId)
+
       } else {
         dispatch(handleFrontPhotoDocument(obj));
         dispatch(uploadPhoto(obj));
+        console.log('obj--USERID-', obj.userId)
+
       }
     } else if (step == 3) {
       dispatch(handleProofDocument(obj));
+      console.log('obj--USERID-Step332', obj.userId)
+
     }
   };
 
@@ -202,13 +218,15 @@ const Identity = ({navigation}) => {
           typeToSend: TypeFileToSend,
           content: resizedImageUri.uri,
           token,
-          userId: userId ? userId : user?.data?.walletAccountUser?.userId,
+          userId: kycUserId,
           onSucces,
           onErrorAction,
           size: resizedImageUri.size,
         };
-        // console.log('new size', resizedImageUri.size);
-        onPicIsReady(obj);
+        // console.log('new size', obj.size);
+         onPicIsReady(obj);
+        // console.log('obj--USERID-BIG', obj.userId)
+
       } else {
         let obj = {
           fileName: DATA.fileName,
@@ -216,13 +234,15 @@ const Identity = ({navigation}) => {
           typeToSend: TypeFileToSend,
           content: DATA.uri,
           token,
-          userId: userId ? userId : user?.data?.walletAccountUser?.userId,
+          userId: kycUserId,
           onSucces,
           onErrorAction,
           size: DATA.fileSize,
         };
         console.log('small');
-        onPicIsReady(obj);
+         onPicIsReady(obj);
+        // console.log('obj--USERID-BIG', obj.userId)
+
       }
     }
   };
@@ -258,7 +278,7 @@ const Identity = ({navigation}) => {
         // Calculate the new dimensions to maintain aspect ratio while reducing file size
         let newWidth = data.width;
         let newHeight = data.height;
-        while (imageSizeInBytes> 1500000) {
+        while (imageSizeInBytes > 1500000) {
           newWidth *= 0.9;
           newHeight *= 0.9;
           imageSizeInBytes /= 1.21; // Reduce file size by 10% each iteration
@@ -275,17 +295,19 @@ const Identity = ({navigation}) => {
 
         let obj = {
           fileName: resizedImageUri.name,
-          typeImage:  'image/jpeg',
+          typeImage: 'image/jpeg',
           typeToSend: TypeFileToSend,
           content: resizedImageUri.uri,
           token,
-          userId: userId ? userId : user?.data?.walletAccountUser?.userId,
+          userId: kycUserId,
           onSucces,
           onErrorAction,
           size: resizedImageUri.size,
         };
         // console.log('new size', resizedImageUri.size);
-        onPicIsReady(obj);
+         onPicIsReady(obj);
+        console.log('obj--USERID-BIG', obj.userId)
+
       } else {
         let obj = {
           fileName,
@@ -293,13 +315,15 @@ const Identity = ({navigation}) => {
           typeToSend: TypeFileToSend,
           content: data.uri,
           token,
-          userId: userId ? userId : user?.data?.walletAccountUser?.userId,
+          userId: kycUserId,
           onSucces,
           onErrorAction,
-          size:imageSizeInBytes
+          size: imageSizeInBytes,
         };
         console.log('small');
         onPicIsReady(obj);
+        console.log('obj---userId---onSMALL', obj.userId)
+
       }
     }
   };
@@ -342,15 +366,23 @@ const Identity = ({navigation}) => {
                     width={'100%'}
                     disabled={step >= 4 ? true : false}
                     onPress={() => {
-                      if (selfiePhotoObject?.content && step == 1) {
-                        dispatch(uploadPhoto(selfiePhotoObject));
-                        // console.log('onShow Size', selfiePhotoObject.size);
+                      if (selfiePhotoObject?.content  && step == 1) {
+
+                        if(selfiePhotoObject.userId){
+                         dispatch(uploadPhoto(selfiePhotoObject));
+                          console.log('selfiePhotoObject selfiePhotoObject', selfiePhotoObject.userId);
+                        }else{
+                          console.log(' non selfiePhotoObject.userId', selfiePhotoObject.userId)
+                        }
+
+
                       } else {
                         dispatch(handleCamera(true));
                       }
                     }}>
                     {selfiePhotoObject?.content ? 'Next Step' : 'Upload'}
                   </PrimaryButton>
+                  <Space space={20} />
                 </View>
               ) : null}
               {step == 2 && backPhotoDocument ? (
@@ -376,6 +408,8 @@ const Identity = ({navigation}) => {
                     }}>
                     {'Next Step'}
                   </PrimaryButton>
+                  <Space space={20} />
+
                 </View>
               ) : null}
               {step == 3 && ProofDocument?.content ? (
@@ -400,6 +434,8 @@ const Identity = ({navigation}) => {
                     }}>
                     {'Complete'}
                   </PrimaryButton>
+                  <Space space={20} />
+
                 </View>
               ) : null}
             </>

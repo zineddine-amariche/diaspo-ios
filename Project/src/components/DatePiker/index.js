@@ -77,11 +77,17 @@ const DateHandler = ({
 
   return (
     <>
-      <View
+      <TouchableOpacity
         style={styles.container}
         onPress={() => {
-          showMode('date');
-          setIsTouched(true);
+          if (Platform.OS == 'ios') {
+            return;
+            // showMode('date');
+            // setIsTouched(true);
+          } else {
+            showMode('date');
+            setIsTouched(true);
+          }
         }}>
         <Txt
           style={{
@@ -143,7 +149,7 @@ const DateHandler = ({
             size={24}
           />
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
       {/* {show && ( */}
       {/* <DateTimePicker
           testID="dateTimePiker"

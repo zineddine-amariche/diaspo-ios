@@ -20,7 +20,7 @@ const RenderTontine = ({ item, navigation }) => {
   const dispatch = useDispatch();
   let object = {
     projectId: item.projectId,
-    token: user.AccessToken,
+    token: user?.AccessToken,
   };
   return (
     <View

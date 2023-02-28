@@ -7,8 +7,8 @@ export function UseWallets() {
     ...state.auth,
   }));
 
-  let token = user.AccessToken;
-  let userId = user.userId;
+  let token = user?.AccessToken;
+  let userId = user?.userId;
 
   let object = {
     token,

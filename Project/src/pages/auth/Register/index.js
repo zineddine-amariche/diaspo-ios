@@ -11,6 +11,7 @@ import {activateReturn} from '../../../redux/Features/authentification/Register/
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {resetCode} from '../../../redux/Features/ConfirmAccount/CodeSlice';
 import {Logout} from '../../../redux/Features/authentification/Login/Slice';
+import { getkycUserId } from '../../../redux/Features/kyc/identityVerefication/slice';
 
 const Register = ({navigation, navigation: {goBack}}) => {
   const dispatch = useDispatch();
@@ -19,9 +20,12 @@ const Register = ({navigation, navigation: {goBack}}) => {
   const {isLoading} = useSelector(state => state.register);
   const {clearItem} = useRegister();
 
-  const onSuccess = userName => {
+  const onSuccess = (userName,id) => {
+    dispatch(getkycUserId(id))
+
     navigation.navigate('ConfirmPhoneNum', {
       userName,
+
     });
     clearItem('step1FormData');
     clearItem('step2FormData');

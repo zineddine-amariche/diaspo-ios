@@ -51,7 +51,8 @@ export const COLORS = {
   BlueTxt: "rgb(10,132,255)",
   darkModal: "rgba(84 ,84, 88, 0.65)",
   finished: "rgb(242 ,243, 244)",
-  TextBody:"#798395"
+  TextBody:"#798395",
+  blueIcon:"#F1FBFB"
   
 };
 export const SIZES = {

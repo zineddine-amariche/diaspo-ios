@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Space from '../../../components/Space'
 import { Head } from '../../../components/utils'
+import Toast from 'react-native-simple-toast';
 
 const ConfirmIdentity = () => {
   return (
@@ -184,13 +185,13 @@ const UploadProof = ({
   // }, [result]);
   const handleError = (err) => {
     if (DocumentPicker.isCancel(err)) {
-      ToastAndroid.show("cancelled !", ToastAndroid.SHORT);
+      Toast.show("cancelled !", Toast.SHORT);
       // User cancelled the picker, exit any dialogs or menus and move on
     } else if (isInProgress(err)) {
       // console.warn('multiple pickers were opened, only the last will be considered')
-      ToastAndroid.show(
+      Toast.show(
         "multiple pickers were opened, only the last will be considered !",
-        ToastAndroid.SHORT
+        Toast.SHORT
       );
     } else {
       throw err;

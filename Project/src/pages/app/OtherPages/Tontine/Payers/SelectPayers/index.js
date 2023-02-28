@@ -5,7 +5,6 @@ import {
   StatusBar,
   Image,
   useWindowDimensions,
-  ToastAndroid,
 } from 'react-native';
 
 import ImgBack from '../../../../../../Assets/Img/HomeBack.png';
@@ -223,7 +222,7 @@ const Payer = ({navigation, route}) => {
       dispatch(createNotification(object));
       let obje = {
         projectId: projectId,
-        token: user.AccessToken,
+        token: user?.AccessToken,
       };
 
       if (TypeOfParticipant === 'PAYER') {
@@ -247,7 +246,6 @@ const Payer = ({navigation, route}) => {
       );
     } else if (isError) {
       console.log('isError', isError);
-      // ToastAndroid.show(isError.toString(), ToastAndroid.SHORT);
       dispatch(resetSuccesParticipants());
       setTimeout(
         () => dispatch(resetPayers(), dispatch(deleteSelectedListPayers())),

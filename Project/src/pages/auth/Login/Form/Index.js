@@ -18,6 +18,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { resetCode } from '../../../../redux/Features/ConfirmAccount/CodeSlice';
 import { resetRegister } from '../../../../redux/Features/authentification/Register/Slice';
+import { getkycUserId } from '../../../../redux/Features/kyc/identityVerefication/slice';
 
 const Form = ({navigation}) => {
   const dispatch = useDispatch();
@@ -29,17 +30,22 @@ const Form = ({navigation}) => {
   const {initialValues, validationSchema, hidePass, HandlehidePass} =
     useLogin();
 
-  const navtokyc = () => {
+  const navtokyc = (id) => {
     navigation.navigate('KycForm');
     dispatch(setLoader());
+    dispatch(getkycUserId(id))
     // dispatch(setUserInfoOnLogin(payload));
   };
-  const navtoReview = () => {
-    navigation.navigate('KycStatusPage');
+  const navtoReview = (obj,id) => {
+    navigation.navigate('KycStatusPage',{obj});
     dispatch(setLoader());
+    dispatch(getkycUserId(id))
+
   };
-  const navtoHomePage = () => {
+  const navtoHomePage = (id) => {
     dispatch(getPermission());
+    dispatch(getkycUserId(id))
+
   };
   const onErrorAction = async () => {
     dispatch(resetCode());

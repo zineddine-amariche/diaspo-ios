@@ -112,7 +112,7 @@ const FormInputs = ({
     if (step == 2 && isReturns ==2) {
       AsyncStorage.getItem('step2FormData').then(data => {
         if (data) {
-          console.log('data',  JSON.parse(data));
+          // console.log('data',  JSON.parse(data));
           let obj = JSON.parse(data);
           setValues(JSON.parse(data));
           // console.log('obj', obj);

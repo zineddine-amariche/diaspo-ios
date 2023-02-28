@@ -14,6 +14,7 @@ import {COLORS} from '../../../../../theme';
 import {useDispatch, useSelector} from 'react-redux';
 import DeleteButton from '../../../../../components/Buttons/deleteButton';
 import {handleClearSelfiePhotoObject} from '../../../../../redux/Features/kyc/identityVerefication/slice';
+import Space from '../../../../../components/Space';
 
 const Form1 = () => {
   const {selfiePhotoObject} = useSelector(state => state.uploadPhotoSlice);
@@ -22,6 +23,9 @@ const Form1 = () => {
     dispatch(handleClearSelfiePhotoObject());
   };
   return (
+
+    <>
+    
     <View style={{alignItems: 'center'}}>
       <View style={{padding: 20}}>
         <Txt
@@ -49,6 +53,7 @@ const Form1 = () => {
         )}
       </View>
     </View>
+    </>
   );
 };
 

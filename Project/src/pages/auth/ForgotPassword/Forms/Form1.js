@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -22,6 +23,7 @@ const Form1 = ({handleNextForm}) => {
   const {StateCode, validationSchemaCode} = useForgot();
   let textInput = useRef(null);
   let clockCall = null;
+  const colorScheme = useColorScheme();
 
   const lengthInput = 6;
   const defaultCounter = 30;
@@ -136,11 +138,18 @@ const Form1 = ({handleNextForm}) => {
                                     : COLORS.gray,
                               },
                             ]}>
-                            <Text style={styles.cellText}>
+                            <Txt style={styles.cellText} 
+                            
+                            color={
+                              colorScheme == 'dark'
+                                ? COLORS.silver
+                                : COLORS.silver
+                            }
+                            >
                               {interVal && interVal.length > 0
                                 ? interVal[index]
                                 : ''}
-                            </Text>
+                            </Txt>
                           </View>
                         </TouchableOpacity>
                       );

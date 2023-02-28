@@ -26,7 +26,7 @@ import {
   createTontine,
   resetcreateTontine,
 } from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
-import {ToastAndroid} from 'react-native';
+import Toast from 'react-native-simple-toast';
 
 const PoliciesInstructions = ({navigation, navigation: {goBack}, route}) => {
   const {data} = route.params;
@@ -64,8 +64,8 @@ const PoliciesInstructions = ({navigation, navigation: {goBack}, route}) => {
     ...state.auth,
   }));
 
-  let token = user.AccessToken;
-  let userId = user.userId;
+  let token = user?.AccessToken;
+  let userId = user?.userId;
   let object = {
     token,
     userId,
@@ -87,16 +87,16 @@ const PoliciesInstructions = ({navigation, navigation: {goBack}, route}) => {
   useEffect(() => {
     if (isError || isSuccess === 'error') {
       // alert(message?.StatusDescription);
-      ToastAndroid.show('Create tontine Failed !', ToastAndroid.SHORT);
+      Toast.show('Create tontine Failed !' );
       navigation.navigate('CreateTontine', {ind: 0, type: null});
       console.log('error on Create tontine', message?.StatusDescription);
       dispatch(resetcreateTontine());
     } else if (isSuccess === 'success') {
       let object = {
         projectId: TontineCreated?.data?.project?.projectId,
-        token: user.AccessToken,
+        token: user?.AccessToken,
       };
-      ToastAndroid.show('tontine created successfully !', ToastAndroid.SHORT);
+      Toast.show('tontine created successfully !');
       navigation.navigate('InfoScreenTontine', {
         routeData: TontineCreated?.data,
         isFirstTime: true,

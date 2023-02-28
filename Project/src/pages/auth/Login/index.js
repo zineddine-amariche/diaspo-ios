@@ -25,8 +25,8 @@ const Login = ({navigation, navigation: {goBack}}) => {
         <Txt color={COLORS.white}>Here for the first time ?</Txt>
         <TouchableOpacity
           onPress={() => {
-            //  navigation.navigate('Register');
-             navigation.navigate("KycForm");
+               navigation.navigate('Register');
+            //  navigation.navigate("KycForm");
             //  navigation.navigate("ConfirmPhoneNum",{userName:"userName"});
           }}>
           <Txt color={COLORS.yellow} style={styles.sign}>

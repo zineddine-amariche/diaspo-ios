@@ -47,7 +47,7 @@ export const PrimaryButton = ({
         !condition ? stylep : null,
         {
           width: width || "auto",
-          marginVertical: marginVertical ? marginVertical : 20,
+          marginVertical: marginVertical ? marginVertical : 0,
         },
 
         { ...style },

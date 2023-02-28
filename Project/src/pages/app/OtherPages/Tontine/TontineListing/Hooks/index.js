@@ -38,8 +38,8 @@ export function UseTontines() {
   }));
 
 
-  let token = user.AccessToken;
-  let userId = user.userId;
+  let token = user?.AccessToken;
+  let userId = user?.userId;
 
 
   let object = {
