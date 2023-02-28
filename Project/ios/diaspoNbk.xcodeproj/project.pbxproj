@@ -39,7 +39,7 @@
 		BF63F452E3CF4CC3B5CC458B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6D37E2863304244A4640651 /* Ionicons.ttf */; };
 		C53467367E624CE8BA08F68B /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFF80E9FF9D343F89D5B5A4D /* Roboto-Regular.ttf */; };
 		C9F2CEC8AF4345F2A4C7E80E /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BFC6F2BFBAC415E9575A711 /* Poppins-Black.ttf */; };
-		CEB81EDC29A4E309007E0082 /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = CEB81EDB29A4E12E007E0082 /* GoogleService-Info.plist */; };
+		CECD256429AE00150011EE30 /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = CECD256329ADFE380011EE30 /* GoogleService-Info.plist */; };
 		D5DA3121A23A46349A5B27C1 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EAB2CED2A7D4059B2394987 /* Poppins-Medium.ttf */; };
 		E7AD7287A6BE4A96BD1A252C /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E294C0D895C24D1DA812A09B /* FontAwesome5_Regular.ttf */; };
 		F38CAF1398F9491EA45AA724 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59B598EAF5BF4E028DBBAC6B /* EvilIcons.ttf */; };
@@ -97,7 +97,7 @@
 		C43C2C982F1049139AF6FD3D /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = ../assets/fonts/AntDesign.ttf; sourceTree = "<group>"; };
 		C5889AB02C514063A2C9F117 /* Oxygen-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oxygen-Light.ttf"; path = "../assets/fonts/Oxygen-Light.ttf"; sourceTree = "<group>"; };
 		CE229FFF299F95BD00E1AB1E /* diaspoNbk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = diaspoNbk.entitlements; path = diaspoNbk/diaspoNbk.entitlements; sourceTree = "<group>"; };
-		CEB81EDB29A4E12E007E0082 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CECD256329ADFE380011EE30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D0B0E2764876451D968E1476 /* Oxygen-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oxygen-Regular.ttf"; path = "../assets/fonts/Oxygen-Regular.ttf"; sourceTree = "<group>"; };
 		D7F79C127C0E4FAD8D551CFB /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = ../assets/fonts/Foundation.ttf; sourceTree = "<group>"; };
 		E294C0D895C24D1DA812A09B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = ../assets/fonts/FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
@@ -147,11 +147,11 @@
 		13B07FAE1A68108700A75B9A /* diaspoNbk */ = {
 			isa = PBXGroup;
 			children = (
+				CECD256329ADFE380011EE30 /* GoogleService-Info.plist */,
 				CE229FFF299F95BD00E1AB1E /* diaspoNbk.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				CEB81EDB29A4E12E007E0082 /* GoogleService-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -511,7 +511,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEB81EDC29A4E309007E0082 /* GoogleService-Info.plist in Sources */,
+				CECD256429AE00150011EE30 /* GoogleService-Info.plist in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
