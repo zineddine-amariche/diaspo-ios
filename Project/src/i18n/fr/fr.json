@@ -1,0 +1,92 @@
+{
+  "SplashScreen": {},
+  "SwiperBoard": {},
+  "login": {},
+  "Forgot": {},
+  "CreatPassword": {},
+  "ConfirmPhoneNum": {},
+  "Register": {},
+  "Home": {
+    "price_account_box": {
+      "title": "Compte Diaspo"
+    },
+    "recent_box": {
+      "title": "transactions récentes"
+    },
+    "discount_box": {
+      "title": "DERNIERES REMISES"
+    },
+    "main_account_box": {
+      "title1": "Tontines",
+      "title2": "Encaisser",
+      "title3": "Encaissement",
+      "title4": "Transférer"
+    }
+  },
+  "DiaspoBottomTab": {},
+  "Scann": {},
+  "TopUp": {},
+  "Payer": {},
+  "Wallet": {},
+  "MyCode": {},
+  "Request": {},
+  "CashOut": {},
+  "AddPlan": {},
+  "Tontine": {
+    "title":"Mes Tontines",
+    "button1" :"Ajouter"
+  },
+  "Discount": {},
+  "Planning": {},
+  "Analysis": {},
+  "Settings": {
+    "title": "Languages",
+    "title_back": "retour",
+    "button1": "Réglages",
+    "button2": "Se déconnecter", 
+    "titleDrawer": "menu", 
+    "button3": "Utiliser Face ID pour se connecter/vérifier",
+    "info": " Tous les visages enregistrés dans vos appareils seraient autorisés à vérifier."
+  },
+  "Transfer": {},
+  "Languages": { "title": "Settings", "title_back": "retour" },
+  "ListPayer": {},
+  "Promotion": {},
+  "ContactUs": {
+    "button1": "Nous contacter"
+  },
+  "Categories": {},
+  "CreateCard": {},
+  "PageForTest": {},
+  "Béneféciare": {},
+  "TontineRecap": {},
+  "PageForTest2": {},
+  "BankAccounts": {},
+  "CreditsCards": {},
+  "CardFormInfo": {},
+  "CreateTontine": {},
+  "Entertainment": {},
+  "AboutDiaspora": {
+    "button1": "À propos de la diaspo"
+  },
+  "PrivaciPolicy": {
+    "button1": "Politique de confidentialité"
+  },
+  "ConfirmedList": {},
+  "CreateAccount": {},
+  "Notifications": {},
+  "EWalletAccounts": {},
+  "ListBéneféciare": {},
+  "TermsConditions": {
+    "button1": "termes et conditions"
+  },
+  "InvitationTontine": {},
+  "InfoScreenTontine": {},
+  "HistoryTransaction": {},
+  "TransactionHistory": {},
+  "SearchNotifications": {},
+  "PoliciesInstructions": {},
+  "DetailsEntertainment": {},
+  "BenefeciareListReorder": {},
+  "ConfirmedListBéneféciare": {}
+}

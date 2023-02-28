@@ -1,0 +1,93 @@
+{
+  "SplashScreen": {},
+  "SwiperBoard": {},
+  "login": {},
+  "Forgot": {},
+  "CreatPassword": {},
+  "ConfirmPhoneNum": {},
+  "Register": {},
+  "Home": {
+    "price_account_box": {
+      "title": "Diaspo Account"
+    },
+    "recent_box": {
+      "title": "Recent Transactions"
+    },
+    "discount_box": {
+      "title": "LAST DISCOUNTS"
+    },
+    "main_account_box": {
+      "title1": "Tontines",
+      "title2": "Cash In",
+      "title3": "Cash Out",
+      "title4": "Transfer"
+    }
+  },
+  "DiaspoBottomTab": {},
+  "Scann": {},
+  "TopUp": {},
+  "Payer": {},
+  "Wallet": {},
+  "MyCode": {},
+  "Request": {},
+  "CashOut": {},
+  "AddPlan": {},
+  "Tontine": {
+    "title":"My Tontines",
+    "button1" :"ADD"
+  },
+  "Discount": {},
+  "Planning": {},
+  "Analysis": {},
+  "Settings": {
+    "title": "Languages",
+    "title_back": "retour",
+    "button1": "Settings", 
+    "button2": "log out", 
+    "titleDrawer": "menu", 
+    "button3": "Use Face ID to login/verify",
+    "info": " All faces registered in your devices would be allowed to verify."
+  },
+  "Transfer": {},
+  "Languages": { "title": "Settings", "title_back": "retour" },
+  "ListPayer": {},
+  "Promotion": {},
+  "ContactUs": {
+    "button1": "Contact Us"
+
+  },
+  "Categories": {},
+  "CreateCard": {},
+  "PageForTest": {},
+  "Béneféciare": {},
+  "TontineRecap": {},
+  "PageForTest2": {},
+  "BankAccounts": {},
+  "CreditsCards": {},
+  "CardFormInfo": {},
+  "CreateTontine": {},
+  "Entertainment": {},
+  "AboutDiaspora": {
+    "button1": "About Diaspora"
+  },
+  "PrivaciPolicy": {
+    "button1": "Privaci Policy"
+  },
+  "ConfirmedList": {},
+  "CreateAccount": {},
+  "Notifications": {},
+  "EWalletAccounts": {},
+  "ListBéneféciare": {},
+  "TermsConditions": {
+    "button1": "Terms & Conditions"
+  },
+  "InvitationTontine": {},
+  "InfoScreenTontine": {},
+  "HistoryTransaction": {},
+  "TransactionHistory": {},
+  "SearchNotifications": {},
+  "PoliciesInstructions": {},
+  "DetailsEntertainment": {},
+  "BenefeciareListReorder": {},
+  "ConfirmedListBéneféciare": {}
+}
