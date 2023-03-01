@@ -1,4 +1,4 @@
-import { ImageBackground } from "react-native";
+import { ImageBackground, Platform } from "react-native";
 import { SafeAreaView, StatusBar } from "react-native";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 15,
     overflow: "hidden",
     borderBottomStartRadius: 15,
-    height: 110,
+    height: Platform.OS== 'ios'? 140: 110,
   },
   buttonsConatiner: {
     width: "100%",

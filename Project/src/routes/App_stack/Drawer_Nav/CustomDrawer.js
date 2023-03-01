@@ -102,7 +102,7 @@ export function DrawerContent(props) {
 
   const {informationsUser} = useSelector(state => state.userInformations);
 
-  // console.log('informationsUser', informationsUser)
+//  console.log('informationsUser', informationsUser)
 
   return (
     <SafeAreaView style={{ flex: 1,  }}>

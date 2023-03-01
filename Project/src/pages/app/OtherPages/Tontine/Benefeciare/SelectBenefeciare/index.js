@@ -42,6 +42,7 @@ import {resetBeneficiaries} from '../../../../../../redux/Features/Tontine/Parti
 import {useIsFocused} from '@react-navigation/native';
 import styles from './styles';
 import ModelConfirmCreateParticipants from '../components/Models/Model.ConfirmCreateParticipants';
+import SearchLayout from '../../../../../../components/views/Layouts/AppLayout/ScreenLayout/SearchLayout';
 // import ModelConfirmCreateParticipants from './Components/Models/Model.ConfirmCreateParticipants';
 const durationMs = 350;
 const Benefeciare = ({navigation, route}) => {
@@ -205,6 +206,59 @@ const Benefeciare = ({navigation, route}) => {
     });
   };
 
+  const onSuccesAction = () => {
+    let ids = participants?.map(el => {
+      return el.participantId;
+    });
+    let object = {};
+
+    if (ids && ids.length > 0) {
+      ids?.forEach(element => {
+        object = {
+          registration_ids: deviceTokenFromConnectedUsers,
+          notification: {
+            body: `You has been invited to join “${routeData?.name}” as a beneficiary`,
+            OrganizationId: '2',
+            content_available: true,
+            priority: 'high',
+            subtitle: 'Dipaso Invitation',
+            title: 'Dipaso - Tontine Invitation ',
+            participantsId: element,
+            projectId,
+          },
+          data: {
+            priority: 'high',
+            sound: 'app_sound.wav',
+            content_available: true,
+            bodyText: `You has been invited to join “${routeData?.name}” as a beneficiary`,
+            organization: 'Dipaso',
+            participantsId: element,
+            projectId,
+            timer: new Date(),
+            for: 'invitation',
+            navigate: 'InvitationTontine',
+            forgroundView: 'Notifications',
+            title: 'Dipaso - Tontine Invitation ',
+          },
+        };
+      });
+    }
+
+    dispatch(createNotification(object));
+    navigation.navigate('ViewBenefeciareList', {
+      projectId,
+      routeData, // i get this value from : server
+      title: titree,
+    });
+    dispatch(resetBeneficiaries());
+    dispatch(deleteSelectedList());
+  };
+
+  const onErrorAction = () => {
+    dispatch(resetBeneficiaries());
+    dispatch(deleteSelectedList());
+  };
+
   const confirmCreaton = () => {
     let ARR = [];
     GlobalBen.map(i => {
@@ -218,103 +272,23 @@ const Benefeciare = ({navigation, route}) => {
       projectId,
       token,
       type,
+      onSuccesAction,
+      onErrorAction,
     };
     //  console.log("obj", obj);
     dispatch(createParticipants(obj));
   };
 
-  let ids = participants?.map(el => {
-    return el.participantId;
-  });
-
-  let object = {};
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    if (
-      status === 'success' &&
-      isFocused &&
-      (TypeOfParticipant === 'BENEFICIARY' ||
-        TypeOfParticipant === 'PAYER_AND_BENEFICIARY' ||
-        TypeOfParticipant === 'TONTINE_ORDINARY_TONTINE')
-    ) {
-      console.log('------------- create BENEFICIARY Success  -------------- ');
-
-      if (ids && ids.length > 0) {
-        ids?.forEach(element => {
-          object = {
-            registration_ids: deviceTokenFromConnectedUsers,
-            notification: {
-              body: `You has been invited to join “${routeData?.name}” as a beneficiary`,
-              OrganizationId: '2',
-              content_available: true,
-              priority: 'high',
-              subtitle: 'Dipaso Invitation',
-              title: 'Dipaso - Tontine Invitation ',
-              participantsId: element,
-              projectId,
-            },
-            data: {
-              priority: 'high',
-              sound: 'app_sound.wav',
-              content_available: true,
-              bodyText: `You has been invited to join “${routeData?.name}” as a beneficiary`,
-              organization: 'Dipaso',
-              participantsId: element,
-              projectId,
-              timer: new Date(),
-              for: 'invitation',
-              navigate: 'InvitationTontine',
-              forgroundView: 'Notifications',
-              title: 'Dipaso - Tontine Invitation ',
-            },
-          };
-        });
-      }
-
-      dispatch(createNotification(object));
-
-      setsuccess2(false);
-      dispatch(resetSuccesParticipants());
-      navigation.navigate('ViewBenefeciareList', {
-        projectId,
-        routeData, // i get this value from : server
-        title: titree,
-      });
-
-      setTimeout(() => {
-        dispatch(resetBeneficiaries()), dispatch(deleteSelectedList());
-      }, 2000);
-    } else if (isError) {
-      console.log('isError', isError);
-      setTimeout(
-        () => dispatch(resetBeneficiaries(), dispatch(deleteSelectedList())),
-        2000,
-      );
-    }
-  }, [status, TypeOfParticipant]);
-
- 
-
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
-      <Image
-        style={styles.ImageBackground}
-        source={ImgBack}
-        resizeMode="stretch"
-      />
-      <SearchHeader
-        Cancel="Return"
-        goBack={() => {
-          navigation.navigate('Tontine');
-          //
-          setTimeout(
-            () => dispatch(resetBeneficaire(), dispatch(deleteSelectedList())),
-            durationMs,
-          );
-        }}
-        title={title}
-      />
+    <SearchLayout
+      title={title}
+      onPress={() => {
+        navigation.navigate('Tontine');
+        setTimeout(
+          () => dispatch(resetBeneficaire(), dispatch(deleteSelectedList())),
+          durationMs,
+        );
+      }}>
       <View style={{flex: 1, width: '100%'}}>
         <View style={styles.Tabs}>
           <TabView
@@ -362,25 +336,93 @@ const Benefeciare = ({navigation, route}) => {
         showPopUp={onSuccess2}
       />
       <ModelRemove success={success} onDissmis={onDissmis} />
-     
+
       <ModelConfirmCreateParticipants
         success={success2}
         onDissmis={onDissmis2}
         pressNo={onDissmis2}
         pressYes={confirmCreaton}
       />
-    </SafeAreaView>
+    </SearchLayout>
   );
 };
 export default Benefeciare;
 
-
-
-
-
- {/* <ModelReoder
+{
+  /* <ModelReoder
         success={success2}
         onDissmis={onDissmis2}
         pressNo={pressNo}
         pressYes={pressYes}
-      /> */}
+      /> */
+}
+
+// let ids = participants?.map(el => {
+//   return el.participantId;
+// });
+
+// let object = {};
+// const isFocused = useIsFocused();
+// useEffect(() => {
+//   if (
+//     status === 'success' &&
+//     isFocused &&
+//     (TypeOfParticipant === 'BENEFICIARY' ||
+//       TypeOfParticipant === 'PAYER_AND_BENEFICIARY' ||
+//       TypeOfParticipant === 'TONTINE_ORDINARY_TONTINE')
+//   ) {
+//     console.log('------------- create BENEFICIARY Success  -------------- ');
+
+// if (ids && ids.length > 0) {
+//   ids?.forEach(element => {
+//     object = {
+//       registration_ids: deviceTokenFromConnectedUsers,
+//       notification: {
+//         body: `You has been invited to join “${routeData?.name}” as a beneficiary`,
+//         OrganizationId: '2',
+//         content_available: true,
+//         priority: 'high',
+//         subtitle: 'Dipaso Invitation',
+//         title: 'Dipaso - Tontine Invitation ',
+//         participantsId: element,
+//         projectId,
+//       },
+//       data: {
+//         priority: 'high',
+//         sound: 'app_sound.wav',
+//         content_available: true,
+//         bodyText: `You has been invited to join “${routeData?.name}” as a beneficiary`,
+//         organization: 'Dipaso',
+//         participantsId: element,
+//         projectId,
+//         timer: new Date(),
+//         for: 'invitation',
+//         navigate: 'InvitationTontine',
+//         forgroundView: 'Notifications',
+//         title: 'Dipaso - Tontine Invitation ',
+//       },
+//     };
+//   });
+// }
+
+// dispatch(createNotification(object));
+
+// setsuccess2(false);
+//     dispatch(resetSuccesParticipants());
+//     navigation.navigate('ViewBenefeciareList', {
+//       projectId,
+//       routeData, // i get this value from : server
+//       title: titree,
+//     });
+
+//     setTimeout(() => {
+//       dispatch(resetBeneficiaries()), dispatch(deleteSelectedList());
+//     }, 2000);
+//   } else if (isError) {
+//     console.log('isError', isError);
+//     setTimeout(
+//       () => dispatch(resetBeneficiaries(), dispatch(deleteSelectedList())),
+//       2000,
+//     );
+//   }
+// }, [status, TypeOfParticipant]);

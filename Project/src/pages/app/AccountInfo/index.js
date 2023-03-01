@@ -85,7 +85,7 @@ const AccountInfo = ({navigation}) => {
             //fontFamily="Poppins-SemiBold"
             Bold={'400'}
             lineHeight={28}>
-            {info.email}
+            {info?.email}
           </Txt>
           <Txt
             color={COLORS.white}
@@ -93,7 +93,7 @@ const AccountInfo = ({navigation}) => {
             style={{opacity: 0.7}}
             //fontFamily="Poppins-SemiBold"
             >
-            {info.mobileNumber}
+            {info?.mobileNumber}
           </Txt>
         </View>
       </View>
@@ -153,9 +153,9 @@ const ListInformation = ({info}) => {
           title="Full name"
         />
         {/* <RenderItem item={item.Gender} title="Gender" /> */}
-        <RenderItem item={info.mobileNumber} title="Phone number" notVerifed />
-        <RenderItem item={info.email} title="Email" verifed />
-        <RenderItem item={info.address} title="Address" />
+        <RenderItem item={info?.mobileNumber} title="Phone number" notVerifed />
+        <RenderItem item={info?.email} title="Email" verifed />
+        <RenderItem item={info?.address} title="Address" />
         {/* <RenderItem item={info.verifed} title="Proof of ID" /> */}
         {/* <RenderItem
           item={infoinfo.prood_address}

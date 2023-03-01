@@ -15,9 +15,7 @@ import {TouchableOpacity} from 'react-native';
 import BottomSheetSelect from '../../BottomSheetSelect';
 import {useRef} from 'react';
 import {useCallback} from 'react';
-import {
-  resetSuccesParticipants,
-} from '../../../../../../../redux/Features/Tontine/Participants/create/slice';
+import {resetSuccesParticipants} from '../../../../../../../redux/Features/Tontine/Participants/create/slice';
 import {useDispatch} from 'react-redux';
 
 const ActivityDetails = ({
@@ -35,12 +33,9 @@ const ActivityDetails = ({
     bottomSheetModalRef2.current?.close();
   }, []);
 
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef2.current?.present();
-  }, []);
-
+ 
   return (
-    <View style={{paddingHorizontal: 20, marginTop: 10}}>
+    <View style={{paddingHorizontal: 20}}>
       <ViewT1>
         <DetailsInformations
           onSuccess={onSuccess}
@@ -55,27 +50,16 @@ const ActivityDetails = ({
         routeData?.project?.status === 'COMPLETED' ||
         routeData?.project?.status === 'ACTIVATED' ? null : (
           <>
-            {/* {routeData?.listOfParticipants?.length <= 1 ||
-            routeData?.project?.listOfParticipants.length <= 1 ? (
-              <CreateParticipantsButton
-                routeData={routeData}
-                navigation={navigation}
-                handlePresentModalPress={handlePresentModalPress}
-                projectId={projectId}
-              />
-            ) : ( */}
             <>
               {routeData?.project?.listOfBeneficiaries.length > 0 ? (
                 <ReorderButton projectId={projectId} navigation={navigation} />
               ) : null}
               <Divider />
-              {/* <SendReminderButton/> */}
               <StartTontineButton
                 startWithparticipants={startWithparticipants}
               />
               <CancelTontineButton cancelTontin={cancelTontin} />
             </>
-            {/* )} */}
           </>
         )}
       </ViewT1>
@@ -144,7 +128,6 @@ const CancelTontineButton = ({cancelTontin}) => {
     </>
   );
 };
-
 
 const DetailsInformations = ({
   onSuccess,
@@ -225,8 +208,11 @@ const DetailsInformations = ({
           <HView>
             <Image source={imgInfo} style={styles.img} />
             <Txt fontSize={14} color={COLORS.darkBlueGrey} lineHeight={20}>
-              {routeData?.nextToReceived?.beneficiaryDetails?.details?.firstName}
-               {" "}{routeData?.nextToReceived?.beneficiaryDetails?.details?.lastName}
+              {
+                routeData?.nextToReceived?.beneficiaryDetails?.details
+                  ?.firstName
+              }{' '}
+              {routeData?.nextToReceived?.beneficiaryDetails?.details?.lastName}
             </Txt>
           </HView>
         </TouchableOpacity>
@@ -249,10 +235,15 @@ const DetailsInformations = ({
                 title: 'Beneficiaries List',
               });
             }}
-             disabled={routeData?.numberOfBeneficiaries == 0? true:false }
-            
-            >
-            <Txt fontSize={14} color={routeData?.numberOfBeneficiaries == 0? COLORS.silver:COLORS.orangeYellow} lineHeight={20}>
+            disabled={routeData?.numberOfBeneficiaries == 0 ? true : false}>
+            <Txt
+              fontSize={14}
+              color={
+                routeData?.numberOfBeneficiaries == 0
+                  ? COLORS.silver
+                  : COLORS.orangeYellow
+              }
+              lineHeight={20}>
               View beneficiary list
             </Txt>
           </TouchableOpacity>

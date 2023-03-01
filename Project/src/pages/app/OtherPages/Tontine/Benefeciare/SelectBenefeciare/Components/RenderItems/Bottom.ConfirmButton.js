@@ -1,14 +1,14 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import HView from "../../../../../../../../components/views/HView/HView";
-import { COLORS } from "../../../../../../../../theme";
-import { Txt } from "../../../../../../../../components/utils";
-import Space from "../../../../../../../../components/Space";
-import { PrimaryButtonLinear } from "../../../../../../../../components/Buttons";
-import { confirmBeneficiaries } from "../../../../../../../../redux/Features/Tontine/ManageBenefeciare/confirmBeneficiaries/slice";
-import { useDispatch } from "react-redux";
-import Line from "../../../../../../../../components/views/line";
-import Loader from "./Loader";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import HView from '../../../../../../../../components/views/HView/HView';
+import {COLORS} from '../../../../../../../../theme';
+import {Txt} from '../../../../../../../../components/utils';
+import Space from '../../../../../../../../components/Space';
+import {PrimaryButtonLinear} from '../../../../../../../../components/Buttons';
+import {confirmBeneficiaries} from '../../../../../../../../redux/Features/Tontine/ManageBenefeciare/confirmBeneficiaries/slice';
+import {useDispatch} from 'react-redux';
+import Line from '../../../../../../../../components/views/line';
+import Loader from './Loader';
 
 const BottomConfirmButton = ({
   ARR,
@@ -24,9 +24,8 @@ const BottomConfirmButton = ({
   token,
   title,
   routeData,
-  showPopUp
+  showPopUp,
 }) => {
-  const dispatch = useDispatch();
 
   return (
     <>
@@ -36,8 +35,9 @@ const BottomConfirmButton = ({
             <HView spaceBetween style={styles.rowButtons}>
               <View>
                 {ARR?.length ? (
-                  <Txt fontSize={17} 
-                  //fontFamily={"Roboto-Bold"}
+                  <Txt
+                    fontSize={17}
+                    //fontFamily={"Roboto-Bold"}
                   >
                     {ARR?.length} people selected
                   </Txt>
@@ -46,21 +46,20 @@ const BottomConfirmButton = ({
                 <Space space={8} />
                 <TouchableOpacity
                   onPress={() => {
-                     navigation.navigate("ListBéneféciare", {
-                       GlobalBen,
-                       GlobalBen2,
-                       GlobalBen3,
-                       ARR,
-                       ind: index,
-                       projectId,
-                       type,
-                       title,
-                       routeData,
-                     });
+                    navigation.navigate('ListBéneféciare', {
+                      GlobalBen,
+                      GlobalBen2,
+                      GlobalBen3,
+                      ARR,
+                      ind: index,
+                      projectId,
+                      type,
+                      title,
+                      routeData,
+                    });
                     // console.log('projectId', projectId)
                   }}
-                  disabled={ARR.length !== 0 ? false : true}
-                >
+                  disabled={ARR.length !== 0 ? false : true}>
                   <Txt fontSize={14} color={COLORS.orangeYellow}>
                     View the selected list
                   </Txt>
@@ -69,31 +68,13 @@ const BottomConfirmButton = ({
               <PrimaryButtonLinear
                 loading={loading}
                 disabled={true}
-                width={"40%"}
+                width={'40%'}
                 onPress={() => {
-                  // let ARR = [];
-                  // GlobalBen.map((i) => {
-                  //   return ARR.push(i.userId);
-                  // });
-                  // GlobalBen3;
-
-                  // let obj = {
-                  //   appUsers: ARR,
-                  //   noneAppUsers: GlobalBen3,
-                  //   projectId,
-                  //   token,
-                  //   type,
-                  // };
-                  showPopUp()
-                  // console.log("obj", obj);
-                  // dispatch(createParticipants(obj));
-                }}
-              >
+                  showPopUp();
+                }}>
                 confirm
               </PrimaryButtonLinear>
             </HView>
-            <Space space={25} />
-            <Line color={COLORS.black} />
           </View>
         ) : (
           <Loader />
@@ -107,10 +88,10 @@ export default BottomConfirmButton;
 
 const styles = StyleSheet.create({
   containerButton: {
-    width: "100%",
+    width: '100%',
     paddingHorizontal: 20,
+    paddingBottom: 20,
     backgroundColor: COLORS.white,
-    height: 110,
   },
   rowButtons: {
     paddingTop: 15,

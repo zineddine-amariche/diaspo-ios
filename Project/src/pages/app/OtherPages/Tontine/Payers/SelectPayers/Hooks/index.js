@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useRef } from "react";
 import { deleteSelectedListPayers, resetPayers } from "../../../../../../../redux/Features/Tontine/ManagePayers";
+import { useNavigation } from "@react-navigation/native";
 
 export function useAddNewPersson() {
   const dispatch = useDispatch();
@@ -66,10 +67,10 @@ export function useAddNewPersson() {
 
   const bottomSheetModalRef = useRef(null);
   const bottomSheetModalRef2 = useRef(null);
-
+const nav =useNavigation()
 
   const goBackFun= (navigation)=>{
-    navigation.navigate("Tontine");
+    nav.navigate("Tontine");
     setTimeout(
       () => dispatch(resetPayers(), dispatch(deleteSelectedListPayers())),
       durationMs

@@ -1,19 +1,52 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { onError } from "../../../../../../hooks";
 import ParticipantsService from "../service";
 
 export const createParticipants = createAsyncThunk(
   "participants/create",
-  async (object, thunkAPI) => {
+  async (object, {rejectWithValue,getState}) => {
     // console.log('object', object)
+    const {onSuccesAction} = object
     try {
-      const token = thunkAPI.getState().token.token;
-      return await ParticipantsService.api(object, token);
+      const token = getState().token.token;
+      let res = await ParticipantsService.api(object, token);
+      if(res.status =="success"){
+        onSuccesAction()
+      }
+      return res
     } catch (error) {
+      const {onErrorAction} = object;
       const message =
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
-      return thunkAPI.rejectWithValue(message);
+console.log('message', message)  
+      if (message.status == 'error') {
+        Toast.show(`${message.status} , ${message.statusDescription}`);
+      } else {
+        if (
+          message.StatusDescription
+            ? message.StatusDescription
+            : message.statusDescription == 'Expired token'
+        ) {
+          onError(
+            message.status,
+            message.StatusDescription
+              ? message.StatusDescription
+              : message.statusDescription,
+            onErrorAction,
+          );
+        } else {
+          onError(
+            message.status,
+            message.StatusDescription
+              ? message.StatusDescription
+              : message.statusDescription,
+            null,
+          );
+        }
+      }
+      return rejectWithValue(message);
     }
   }
 );

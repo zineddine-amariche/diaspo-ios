@@ -5,6 +5,7 @@ const API_URL = `https://wallet-gateway-svc-x6fr3lwlgq-nw.a.run.app/v1/wallets/u
 const api = async (userId, token) => {
 
   let url = `${API_URL}/${userId}`;
+  // console.log('url', url)
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -12,7 +13,7 @@ const api = async (userId, token) => {
   };
 
   const res = await axios.get(url, config);
-  // console.log("beneficiaries", res.data);
+  //  console.log("userInfo", res.data);
   return res.data;
 };
 const userInformationsService = {

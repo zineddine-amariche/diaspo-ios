@@ -19,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { resetCode } from '../../../../redux/Features/ConfirmAccount/CodeSlice';
 import { resetRegister } from '../../../../redux/Features/authentification/Register/Slice';
 import { getkycUserId } from '../../../../redux/Features/kyc/identityVerefication/slice';
+import { getUserInformations } from '../../../../redux/Features/authentification/User_informations/slice';
 
 const Form = ({navigation}) => {
   const dispatch = useDispatch();
@@ -34,17 +35,22 @@ const Form = ({navigation}) => {
     navigation.navigate('KycForm');
     dispatch(setLoader());
     dispatch(getkycUserId(id))
+    dispatch(getUserInformations(id));
+
     // dispatch(setUserInfoOnLogin(payload));
   };
   const navtoReview = (obj,id) => {
     navigation.navigate('KycStatusPage',{obj});
     dispatch(setLoader());
     dispatch(getkycUserId(id))
+    dispatch(getUserInformations(id));
+
 
   };
   const navtoHomePage = (id) => {
     dispatch(getPermission());
     dispatch(getkycUserId(id))
+    dispatch(getUserInformations(id));
 
   };
   const onErrorAction = async () => {

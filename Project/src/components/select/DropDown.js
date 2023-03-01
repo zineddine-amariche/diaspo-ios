@@ -38,7 +38,9 @@ const DropDown = ({
   };
 
   const colorScheme = useColorScheme();
-
+  // console.log('value?.label', value?.label);
+  // console.log('colorScheme', colorScheme);
+  // console.log('value', value);
   return (
     <>
       {label ? <Head style={styles.title}>{label}</Head> : null}
@@ -55,45 +57,26 @@ const DropDown = ({
             }
           }}>
           <HView spaceBetween>
-
-            
-            
             {!!value ? (
-            <View style={{ padding:30 }}>
-
-              <Txt
-                Bold="700"
-                color={
-                  colorScheme == 'dark'
-                    ? COLORS.silver
-                    : COLORS.silver
-                }
-              
-                
-                >
-                {value?.label?value?.label:value.toString()}
-              </Txt>
-            </View>
-
+              <View style={{}}>
+                <Txt
+                  Bold="700"
+                  color={colorScheme == 'dark' ? COLORS.silver : COLORS.dark}>
+                  {value.label ? value?.label : value.toString()}
+                </Txt>
+              </View>
             ) : (
-
-            <View style={{backgroundColor:'#019',padding:10 }}>
-
-              <Txt
-                numberOfLines={1}
-                lineHeight={24}
-               
-                color={
-                  colorScheme == 'dark'
-                    ? COLORS.silver
-                    : COLORS.silver
-                }
-                Bold="700"
-                fontSize={fontSize ? fontSize : 16}
-                style={{width: '90%'}}>
-                {placeholder}
-              </Txt>
-            </View>
+              <View style={{}}>
+                <Txt
+                  numberOfLines={1}
+                  lineHeight={24}
+                  color={colorScheme == 'dark' ? COLORS.silver : COLORS.silver}
+                  Bold="700"
+                  fontSize={fontSize ? fontSize : 16}
+                  style={{width: '90%'}}>
+                  {placeholder}
+                </Txt>
+              </View>
             )}
 
             <AntDesign

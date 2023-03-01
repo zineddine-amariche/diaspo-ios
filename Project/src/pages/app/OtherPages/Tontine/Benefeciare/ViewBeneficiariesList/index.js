@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -109,7 +110,6 @@ const ViewBenefeciareList = ({navigation, navigation: {goBack}, route}) => {
   useEffect(() => {
     dispatch(getBeneficiaries(projectId));
   }, [projectId, isFocused, dispatch,visible]);
-
   return (
     <>
       {visible ? (
@@ -276,88 +276,88 @@ const BodyModel1 = ({onDissmis}) => {
     </>
   );
 };
-const BodyModel2 = ({onDissmis, navToTontine}) => {
-  return (
-    <>
-      <View style={styles.ModelContainer}>
-        <Space />
+// const BodyModel2 = ({onDissmis, navToTontine}) => {
+//   return (
+//     <>
+//       <View style={styles.ModelContainer}>
+//         <Space />
 
-        <Head
-          //fontFamily={'Poppins-Bold'}
-          style={{paddingHorizontal: 20, textAlign: 'center'}}>
-          Cancel this Tontine ?
-        </Head>
-        <Space />
+//         <Head
+//           //fontFamily={'Poppins-Bold'}
+//           style={{paddingHorizontal: 20, textAlign: 'center'}}>
+//           Cancel this Tontine ?
+//         </Head>
+//         <Space />
 
-        <View style={{paddingHorizontal: 20, textAlign: 'center'}}>
-          <Txt fontSize={14} color={COLORS.slateGrey}>
-            Are you sur to cancel this tontine
-          </Txt>
-        </View>
-        <Space />
-        <HView spaceBetween>
-          <PaleGreyButton
-            onPress={() => {
-              onDissmis();
-            }}
-            width={'48%'}>
-            NO
-          </PaleGreyButton>
-          <PrimaryButtonLinear
-            disabled={true}
-            onPress={() => {
-              onDissmis();
-              navToTontine();
-            }}
-            width={'48%'}>
-            YES
-          </PrimaryButtonLinear>
-        </HView>
-      </View>
-    </>
-  );
-};
-const BodyModel3 = ({onDissmis, navToTontine}) => {
-  return (
-    <View style={styles.ModelContainer}>
-      <Space />
+//         <View style={{paddingHorizontal: 20, textAlign: 'center'}}>
+//           <Txt fontSize={14} color={COLORS.slateGrey}>
+//             Are you sur to cancel this tontine
+//           </Txt>
+//         </View>
+//         <Space />
+//         <HView spaceBetween>
+//           <PaleGreyButton
+//             onPress={() => {
+//               onDissmis();
+//             }}
+//             width={'48%'}>
+//             NO
+//           </PaleGreyButton>
+//           <PrimaryButtonLinear
+//             disabled={true}
+//             onPress={() => {
+//               onDissmis();
+//               navToTontine();
+//             }}
+//             width={'48%'}>
+//             YES
+//           </PrimaryButtonLinear>
+//         </HView>
+//       </View>
+//     </>
+//   );
+// };
+// const BodyModel3 = ({onDissmis, navToTontine}) => {
+//   return (
+//     <View style={styles.ModelContainer}>
+//       <Space />
 
-      <Head
-        //fontFamily={'Poppins-Bold'}
-        style={{paddingHorizontal: 20, textAlign: 'center'}}>
-        Start with particial list
-      </Head>
-      <Space />
+//       <Head
+//         //fontFamily={'Poppins-Bold'}
+//         style={{paddingHorizontal: 20, textAlign: 'center'}}>
+//         Start with particial list
+//       </Head>
+//       <Space />
 
-      <View style={{paddingHorizontal: 20, textAlign: 'center'}}>
-        <Txt color={COLORS.slateGrey} fontSize={14}>
-          Please confir to start the tontine with the partial of accepted payers
-          and beneficiaries, You will need to wait for these payers and
-          beneficiaries to accept this change before starting the tontine anyway
-        </Txt>
-      </View>
-      <Space />
-      <HView spaceBetween>
-        <PaleGreyButton
-          onPress={() => {
-            onDissmis();
-          }}
-          width={'48%'}>
-          Cancel
-        </PaleGreyButton>
-        <PrimaryButtonLinear
-          disabled={true}
-          onPress={() => {
-            onDissmis();
-            navToTontine();
-          }}
-          width={'48%'}>
-          CONFIRM
-        </PrimaryButtonLinear>
-      </HView>
-    </View>
-  );
-};
+//       <View style={{paddingHorizontal: 20, textAlign: 'center'}}>
+//         <Txt color={COLORS.slateGrey} fontSize={14}>
+//           Please confir to start the tontine with the partial of accepted payers
+//           and beneficiaries, You will need to wait for these payers and
+//           beneficiaries to accept this change before starting the tontine anyway
+//         </Txt>
+//       </View>
+//       <Space />
+//       <HView spaceBetween>
+//         <PaleGreyButton
+//           onPress={() => {
+//             onDissmis();
+//           }}
+//           width={'48%'}>
+//           Cancel
+//         </PaleGreyButton>
+//         <PrimaryButtonLinear
+//           disabled={true}
+//           onPress={() => {
+//             onDissmis();
+//             navToTontine();
+//           }}
+//           width={'48%'}>
+//           CONFIRM
+//         </PrimaryButtonLinear>
+//       </HView>
+//     </View>
+//   );
+// };
 
 const ReorderButton = ({resetSuccesParticipants, navigation, projectId}) => {
   const dispatch = useDispatch();
@@ -376,8 +376,9 @@ const ReorderButton = ({resetSuccesParticipants, navigation, projectId}) => {
         width={'100%'}>
         Reorder Beneficiaries
       </PrimaryButtonLinear>
-      <Space space={20} />
-      <Line color={COLORS.black} />
+      {/* <Space space={20} /> */}
+      {/* <Line color={COLORS.black} /> */}
+      {/* {Platform.OS == 'ios' ? <Space/>:null  } */}
     </View>
   );
 };
@@ -413,9 +414,9 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
     backgroundColor: COLORS.white,
-    height: 110,
-    paddingTop: 25,
-    position: 'absolute',
-    bottom: 0,
+    // height: 110,
+    paddingVertical: 20,
+    // position: 'absolute',
+    // bottom: 0,
   },
 });

@@ -262,9 +262,9 @@ const PoliciesInstructions = ({navigation, navigation: {goBack}, route}) => {
           </View>
         </ScrollView>
 
-        <View style={styles.containerButton}>
+        {/* <View style={styles.containerButton}>
           <Line color={COLORS.black} />
-        </View>
+        </View> */}
       </>
     </SafeAreaView>
   );

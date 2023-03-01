@@ -301,8 +301,8 @@ const ListPayer = ({navigation, navigation: {goBack}, route}) => {
           loading={isLoading}>
           confirm
         </PrimaryButtonLinear>
-        <Space space={25} />
-        <Line color={COLORS.black} />
+        {/* <Space space={25} />
+        <Line color={COLORS.black} /> */}
       </View>
       {/* <CreatedSuccess Visible={success} onDissmis={onDissmis}>
         {BodyModel ? (
@@ -374,9 +374,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   ImageBackground: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
     width: SIZES.width,
-    height: 110,
+    // height: 110,
   },
   topinuptxt: {
     padding: 20,

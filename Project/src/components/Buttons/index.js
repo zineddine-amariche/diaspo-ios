@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Image,
+  Platform,
 } from "react-native";
 import React, { useRef } from "react";
 import { Txt } from "../utils";
@@ -10,6 +11,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { COLORS } from "../../theme";
 import newButton from "../../Assets/Img/newButton.png";
 import { View } from "react-native";
+import Space from "../Space";
 
 export const PrimaryButton = ({
   children,
@@ -113,6 +115,7 @@ export const PrimaryButtonLinear = ({
     },
   ];
   return (
+    <>
     <TouchableOpacity
       ref={hoverRef}
       onPress={onPress}
@@ -153,6 +156,9 @@ export const PrimaryButtonLinear = ({
         )}
       </LinearGradient>
     </TouchableOpacity>
+    {Platform.OS == 'ios' ? <Space space={20} /> : null}
+
+    </>
   );
 };
 

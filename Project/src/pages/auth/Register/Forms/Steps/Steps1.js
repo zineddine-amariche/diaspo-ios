@@ -198,12 +198,8 @@ const FormInputs = ({
         </View>
 
         <Space space={20} />
-        <View
-          style={{
-            borderBottomWidth: 1,
-            borderBottomColor: COLORS.silver,
-            paddingBottom: Platform.OS == 'ios' ? 10 : 0,
-          }}>
+
+
           <CustomDatePiker
             label={'Date of birth'}
             setFieldValue={setFieldValue}
@@ -220,7 +216,6 @@ const FormInputs = ({
             minimumDate={minimumDate}
             maximumDate={maximumDate}
           />
-        </View>
 
         <Space space={20} />
 

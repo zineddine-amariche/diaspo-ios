@@ -25,32 +25,15 @@ const DetailsTontine = ({
       ? COLORS.coral
       : COLORS.silver;
 
-  // console.log('routeData.prject', routeData?.project?.retentionRate)
-
-  //  console.log('tontineProjectInfo', tontineProjectInfo?.payers[0]?.details.firstName)
-   
-   
    let startDate = moment.unix(tontineProjectInfo?.project?.startAt);
    let formattedDate = startDate.format('lll');
-// console.log(formattedDate); // output: 2022-05-12
 
   return (
     <View style={{paddingHorizontal: 20}}>
-      <Space space={30} />
+      <Space  />
 
       <ViewT1>
         <Txt fontSize={17}>Tontine Details</Txt>
-        <Space space={10} />
-        {/* <HView spaceBetween>
-          <Txt fontSize={14} color={COLORS.coolGrey}>
-            Tontine ID
-          </Txt>
-          <Txt fontSize={14} color={COLORS.darkBlueGrey}>
-            {routeData?.project?.accountId
-              ? routeData?.project?.accountId
-              : routeData?.accountId}
-          </Txt>
-        </HView> */}
         <Space space={10} />
 
         <HView spaceBetween>

@@ -1,4 +1,10 @@
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {COLORS} from '../../../theme';
 import {Head, Txt} from '../../utils';
@@ -16,10 +22,26 @@ const SecondaryHeader = ({
   Notifications,
   onSearch,
   visible,
-  colorText,
   TextIn,
-  BackgroundColorText,
 }) => {
+  let colorText =
+    sousTontine === 'ACTIVATED'
+      ? COLORS.greenishTeal
+      : sousTontine === 'IN PROGRESS'
+      ? COLORS.orangeYellow
+      : sousTontine === 'CANCELLED'
+      ? COLORS.coral
+      : COLORS.silver;
+
+  let BackgroundColorText =
+    sousTontine === 'ACTIVATED'
+      ? COLORS.lightSage
+      : sousTontine === 'IN PROGRESS'
+      ? COLORS.offWhite
+      : sousTontine === 'CANCELLED'
+      ? COLORS.veryLightPink
+      : COLORS.finished;
+
   return (
     <View style={[styles.header]}>
       <View style={styles.row}>
@@ -74,7 +96,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     width: '100%',
-    paddingTop: 50,
+    paddingTop: Platform.OS == 'ios' ? 30 : 50,
     paddingBottom: 30,
     zIndex: 999,
   },

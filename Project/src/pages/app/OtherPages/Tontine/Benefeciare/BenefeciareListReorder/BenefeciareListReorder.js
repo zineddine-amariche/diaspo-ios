@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, SafeAreaView, StatusBar, Image} from 'react-native';
+import {View, SafeAreaView, StatusBar, Image, Platform} from 'react-native';
 
 import ImgBack from '../../../../../../Assets/Img/HomeBack.png';
 import SecondaryHeader from '../../../../../../components/Headers/root/SecondaryHeader';
@@ -106,8 +106,10 @@ const BenefeciareListReorder = ({navigation, route}) => {
                 Finish And Send Invitation
               </PrimaryButtonLinear>
             )}
-            <Space space={25} />
-            <Line color={COLORS.black} />
+
+
+            {/* <Space space={25} /> */}
+            {/* <Line color={COLORS.black} /> */}
           </View>
         </>
       )}

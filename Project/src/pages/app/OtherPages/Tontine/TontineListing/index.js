@@ -7,9 +7,10 @@ import {
   Image,
   Alert,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 
-import ImgBack from '../../../../../Assets/Img/HomeBack.png';
+import ImgBack from '../../../../../Assets/headerImg/background.png';
 import {PrimaryButton} from '../../../../../components/Buttons';
 import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHeader';
 import Space from '../../../../../components/Space';
@@ -33,19 +34,16 @@ import {
   resetTontine,
 } from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
 import {Logout} from '../../../../../redux/Features/authentification/Login/Slice';
-import {  TabBar, TabView} from 'react-native-tab-view';
+import {TabBar, TabView} from 'react-native-tab-view';
 import {useIsFocused} from '@react-navigation/native';
 import BottomSheetSelect from './BottomSheetSelect';
 import {useTranslation} from 'react-i18next';
- 
 
 const Tontine = ({navigation, navigation: {goBack}}) => {
   const bottomSheetModalRef = useRef(null);
   const bottomSheetModalRef2 = useRef(null);
   const {t, i18n} = useTranslation();
   const {object} = UseTontines();
-
-  // const [SelectMethod, setSelectMethod] = useState(null);
   const {state, schema, onSubmit} = UseTontines();
 
   const handlePresentModalPress = useCallback(() => {
@@ -104,49 +102,46 @@ const Tontine = ({navigation, navigation: {goBack}}) => {
     dispatch(getTontines(object));
   }, [isFocused]);
 
-  const clearAsyncStorage = async () => {
-    dispatch(Logout());
-    AsyncStorage.clear();
-    dispatch(resetTontine());
-  };
 
-  useEffect(() => {
-    if (message) {
-      Alert.alert(
-        message?.status,
-        message?.statusDescription
-          ? message?.statusDescription
-          : 'Error getting information',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => {
-              if (
-                message?.statusDescription == 'Expired token' ||
-                message?.statusDescription == 'Wrong number of segments'
-              ) {
-                clearAsyncStorage();
-              } else {
-                dispatch(resetTontine());
-              }
-            },
 
-            style: 'cancel',
-          },
-          {
-            text: 'OK',
-            onPress: () => {
-              if (message?.statusDescription == 'Expired token') {
-                clearAsyncStorage();
-              } else {
-                dispatch(resetTontine());
-              }
-            },
-          },
-        ],
-      );
-    }
-  }, [message]);
+  // useEffect(() => {
+  //   if (message) {
+  //     Alert.alert(
+  //       message?.status,
+  //       message?.statusDescription
+  //         ? message?.statusDescription
+  //         : 'Error getting information',
+  //       [
+  //         {
+  //           text: 'Cancel',
+  //           onPress: () => {
+  //             if (
+  //               message?.statusDescription == 'Expired token' ||
+  //               message?.statusDescription == 'Wrong number of segments'
+  //             ) {
+  //               clearAsyncStorage();
+  //             } else {
+  //               dispatch(resetTontine());
+  //             }
+  //           },
+
+  //           style: 'cancel',
+  //         },
+  //         {
+  //           text: 'OK',
+  //           onPress: () => {
+  //             if (message?.statusDescription == 'Expired token') {
+  //               clearAsyncStorage();
+  //             } else {
+  //               dispatch(resetTontine());
+  //             }
+  //           },
+  //         },
+  //       ],
+  //     );
+  //   }
+  // }, [message]);
+
   const layout = useWindowDimensions();
 
   let num = isLoading ? '  ' : ' (' + tontines?.ProjectLists.length + ')';
@@ -223,6 +218,7 @@ const Tontine = ({navigation, navigation: {goBack}}) => {
                     loading={isSubmitting}>
                     {t('Tontine.button1')}
                   </PrimaryButton>
+                  {/* {Platform.OS == 'ios' ? null : <Space  space={20}/>} */}
                 </View>
               )}
             </>
@@ -287,10 +283,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   ImageBackground: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
     width: SIZES.width,
-    height: 170,
+    // height: 170,
     zIndex: 99,
+    position: 'absolute',
+    top: Platform.OS == 'android' ? -40 : 0,
   },
   topinuptxt: {
     padding: 20,

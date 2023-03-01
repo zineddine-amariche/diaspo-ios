@@ -107,10 +107,12 @@ const Home = ({navigation}) => {
   useEffect(() => {
     dispatch(updateNotify(objectUpdate));
   }, [devicetoken, deviceOS]);
+    const isFocused = useIsFocused();
 
-  useEffect(() => {
-    dispatch(getUserInformations(userId));
-  }, []);
+
+    useEffect(() => {
+      dispatch(getUserInformations(userId));
+    }, [isFocused]);
   const {isLoading, message} = useSelector(state => state.walletAccounts);
 
   const clearAsyncStorage = async () => {
@@ -158,7 +160,6 @@ const Home = ({navigation}) => {
       );
     }
   }, [message]);
-  // const isFocused = useIsFocused();
   // const route = useRoute();
   // console.log('route.name', route.name);
 

@@ -19,9 +19,9 @@ export const login = createAsyncThunk(
         if (data.data.UserKycDetails?.kycStatus == 'NO_KYC') {
           navtokyc(data.data.userId);
         } else if (data.data.UserKycDetails?.kycStatus == 'PENDING_REVIEW') {
-          navtoReview('PENDING_REVIEW',data.data.userId);
+          // navtoReview('PENDING_REVIEW',data.data.userId);
           Toast.show(`account is under review `);
-          // navtoHomePage();
+           navtoHomePage(data.data.userId);
         } else if (data.data.UserKycDetails?.kycStatus == 'FAILED') {
           navtoReview('FAILED',data.data.userId);
           Toast.show(`We failed to

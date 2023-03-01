@@ -6,18 +6,16 @@ import {
   StatusBar,
   ScrollView,
   Image,
-  TouchableOpacity,
-  Text,
+  Platform,
 } from 'react-native';
-import Line from '../../../../../components/views/line';
-import ImgBack from '../../../../../Assets/Img/HomeBack.png';
+import ImgBack from '../../../../../Assets/headerImg/background.png';
 import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHeader';
 import {COLORS, SIZES} from '../../../../../theme';
 import DetailsTontine from './components/DetailsTontine/DetailsTontine';
-import ActivityDetails from './components/ActivityDetails/ActivityDetails';
+import Toast from 'react-native-simple-toast';
+
 import {
   PaleGreyButton,
-  PrimaryButton,
   PrimaryButtonLinear,
 } from '../../../../../components/Buttons';
 import BottomInfo from './BottomSheetInfo';
@@ -38,55 +36,46 @@ import BottomSheetSelect from './BottomSheetSelect';
 import {getTontinesProjectInfo} from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
 import Spiner from '../../../../../components/spiner';
 import {useIsFocused} from '@react-navigation/native';
-// import { Toast, durations } from 'react-native-toast-message'
+import Activity from './components/Activity';
+import ActivityButton from './components/ActivityButton';
+
 const InfoScreenTontine = ({navigation, route}) => {
-  const {consult, object, isFirstTime} = route.params;
-
-  const {tontineProjectInfo, isError, isSuccess, isLoading, message} =
-    useSelector(state => ({
-      ...state.tontines,
-    }));
-
   const dispatch = useDispatch();
   const bottomSheetModalRef = useRef(null);
+  const bottomSheetModalRef2 = useRef(null);
+  const isFocused = useIsFocused();
 
-  const [success, setsuccess] = useState(false);
 
-  const onSuccess = useCallback(() => {
+  const {consult, object, isFirstTime} = route.params;
+
+  const [success2, setsuccess2] = useState(false);
+  const [success3, setsuccess3] = useState(false);
+  const [loading, setloading] = useState(false);
+
+
+  const {tontineProjectInfo, isLoading} = useSelector(state => ({
+    ...state.tontines,
+  }));
+  const {user} = useSelector(state => ({
+    ...state.auth,
+  }));
+
+
+  const onOpenInfomationDetails = useCallback(() => {
     dispatch(getSpecificParticipant(tontineProjectInfo?.project?.projectId));
-    setsuccess(true);
     bottomSheetModalRef.current?.present();
   }, []);
 
   const closeModal = useCallback(() => {
     bottomSheetModalRef.current.close();
   }, []);
-
-  //  console.log("routeData---", routeData);
-
-  // Add models
-
-  const [success2, setsuccess2] = useState(false);
-  const [success3, setsuccess3] = useState(false);
-
   const startWithparticipants = () => {
     setsuccess2(true);
   };
   const cancelTontin = () => {
     setsuccess3(true);
   };
-
-  const {user} = useSelector(state => ({
-    ...state.auth,
-  }));
-
   const navToTontine = () => {
-    // navigation.navigate("Tontine");
-    // setTimeout(
-    //   () => dispatch(resetBeneficaire(), dispatch(deleteSelectedList())),
-    //   durationMs
-    // );
-
     let obje = {
       projectId: tontineProjectInfo?.project?.projectId,
       token: user?.AccessToken,
@@ -100,14 +89,7 @@ const InfoScreenTontine = ({navigation, route}) => {
       navigation.navigate('Tontine');
     }, 1000);
   };
-
   const cancellTontine = () => {
-    // navigation.navigate("Tontine");
-    // setTimeout(
-    //   () => dispatch(resetBeneficaire(), dispatch(deleteSelectedList())),
-    //   durationMs
-    // );
-
     let object = {
       projectId: tontineProjectInfo?.project?.projectId,
       token: user?.AccessToken,
@@ -115,13 +97,11 @@ const InfoScreenTontine = ({navigation, route}) => {
         status: 'CANCELLED',
       },
     };
-    // console.log('object', object)
     dispatch(updateTontine(object));
     setTimeout(() => {
       navigation.navigate('Tontine');
     }, 1000);
   };
-  const bottomSheetModalRef2 = useRef(null);
 
   const closeSelect = useCallback(() => {
     bottomSheetModalRef2.current?.close();
@@ -130,29 +110,8 @@ const InfoScreenTontine = ({navigation, route}) => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef2.current?.present();
   }, []);
-  // console.log('routeData?.project?.name', routeData?.status)
 
-  // console.log('routeData?.project?.projectId', routeData?.project?.projectId);
 
-  // console.log('tontineProjectInfo', tontineProjectInfo);
-
-  let colorText =
-    tontineProjectInfo?.project?.status === 'ACTIVATED'
-      ? COLORS.greenishTeal
-      : tontineProjectInfo?.project?.status === 'IN PROGRESS'
-      ? COLORS.orangeYellow
-      : tontineProjectInfo?.project?.status === 'CANCELLED'
-      ? COLORS.coral
-      : COLORS.silver;
-
-  let BackgroundColorText =
-    tontineProjectInfo?.project?.status === 'ACTIVATED'
-      ? COLORS.lightSage
-      : tontineProjectInfo?.project?.status === 'IN PROGRESS'
-      ? COLORS.offWhite
-      : tontineProjectInfo?.project?.status === 'CANCELLED'
-      ? COLORS.veryLightPink
-      : COLORS.finished;
 
   let TextIn =
     tontineProjectInfo?.project?.status === 'ACTIVATED'
@@ -163,7 +122,6 @@ const InfoScreenTontine = ({navigation, route}) => {
       ? 'Cancelled'
       : 'Finished';
 
-  const isFocused = useIsFocused();
 
   useEffect(() => {
     if (object) {
@@ -171,75 +129,33 @@ const InfoScreenTontine = ({navigation, route}) => {
     }
   }, [object, isFirstTime, isFocused]);
 
-  const Activity = () => {
-    if (tontineProjectInfo?.project?.asAPayer) {
-      if (tontineProjectInfo?.numberOfPayers > 1) {
-        return (
-          <ActivityDetails
-            navigation={navigation}
-            onSuccess={onSuccess}
-            closeModal={closeModal}
-            bottomSheetModalRef={bottomSheetModalRef}
-            projectId={tontineProjectInfo?.project?.projectId}
-            routeData={tontineProjectInfo}
-            consult={consult}
-            isFirstTime={isFirstTime}
-            startWithparticipants={startWithparticipants}
-            cancelTontin={cancelTontin}
-          />
-        );
-      } else {
-        null;
-      }
-    } else {
-      if (tontineProjectInfo?.numberOfPayers > 0) {
-        return (
-          <ActivityDetails
-            navigation={navigation}
-            onSuccess={onSuccess}
-            closeModal={closeModal}
-            bottomSheetModalRef={bottomSheetModalRef}
-            projectId={tontineProjectInfo?.project?.projectId}
-            routeData={tontineProjectInfo}
-            consult={consult}
-            isFirstTime={isFirstTime}
-            startWithparticipants={startWithparticipants}
-            cancelTontin={cancelTontin}
-          />
-        );
-      } else {
-        null;
-      }
-    }
-  };
 
-  const ActivityButton = () => {
-    if (tontineProjectInfo?.project.asAPayer) {
-      if (tontineProjectInfo?.numberOfPayers > 1) {
-        null;
+  const onCreate = () => {
+    {
+      if (tontineProjectInfo?.project?.type === 'TONTINE_ORDINARY_TONTINE') {
+        setloading(true);
+        dispatch(createTypeParticipants('TONTINE_ORDINARY_TONTINE'));
+
+        setTimeout(() => {
+          navigation.navigate('Béneféciare', {
+            projectId:tontineProjectInfo?.project?.projectId,
+            type: 'PAYER_AND_BENEFICIARY',
+            routeData:tontineProjectInfo,
+            title: 'Select participants',
+          });
+          setloading(false);
+        }, 1000);
+      } else if (tontineProjectInfo?.project?.type === 'TONTINE_CUSTOM_TONTINE') {
+        setloading(true);
+        handlePresentModalPress();
+        setTimeout(() => {
+          setloading(false);
+        }, 10000);
       } else {
-        return (
-          <CreateParticipantsButton
-            navigation={navigation}
-            routeData={tontineProjectInfo}
-            handlePresentModalPress={handlePresentModalPress}
-            projectId={tontineProjectInfo?.project?.projectId}
-            // isNewTontine={tontineProjectInfo?.project ? true : false}
-          />
-        );
-      }
-    } else {
-      if (tontineProjectInfo?.numberOfPayers > 0) {
-        null;
-      } else {
-        return (
-          <CreateParticipantsButton
-            navigation={navigation}
-            routeData={tontineProjectInfo}
-            handlePresentModalPress={handlePresentModalPress}
-            projectId={tontineProjectInfo?.project?.projectId}
-            // isNewTontine={tontineProjectInfo?.project ? true : false}
-          />
+        Toast.showWithGravity(
+          ' Error type tontine !',
+          Toast.SHORT,
+          Toast.CENTER,
         );
       }
     }
@@ -266,19 +182,17 @@ const InfoScreenTontine = ({navigation, route}) => {
           title={tontineProjectInfo?.project?.name}
           sousTontine={tontineProjectInfo?.project?.status}
           Cancel="Return"
-          colorText={colorText}
           TextIn={TextIn}
-          BackgroundColorText={BackgroundColorText}
         />
 
         <>
           <ScrollView
             contentContainerStyle={{width: SIZES.width}}
             showsVerticalScrollIndicator={false}>
-            <View>
+            <>
               <DetailsTontine
                 tontineProjectInfo={tontineProjectInfo}
-                onSuccess={onSuccess}
+                onSuccess={onOpenInfomationDetails}
                 closeModal={closeModal}
                 isFirstTime={isFirstTime}
                 projectId={tontineProjectInfo?.project?.projectId}
@@ -286,16 +200,35 @@ const InfoScreenTontine = ({navigation, route}) => {
                 TextIn={TextIn}
               />
 
-              <Activity />
-            </View>
+              <Activity
+                asAPayer={tontineProjectInfo?.project?.asAPayer}
+                numberOfPayers={tontineProjectInfo?.numberOfPayers}
+                projectId={tontineProjectInfo?.project?.projectId}
+                consult={consult}
+                onSuccess={onOpenInfomationDetails}
+                closeModal={closeModal}
+                isFirstTime={isFirstTime}
+                startWithparticipants={startWithparticipants}
+                cancelTontin={cancelTontin}
+                bottomSheetModalRef={bottomSheetModalRef}
+                tontineProjectInfo={tontineProjectInfo}
+              />
+            </>
           </ScrollView>
-
-          <ActivityButton />
+          <ActivityButton
+            asAPayer={tontineProjectInfo?.project.asAPayer}
+            numberOfPayers={tontineProjectInfo?.numberOfPayers}
+            tontineProjectInfo={tontineProjectInfo}
+            handlePresentModalPress={handlePresentModalPress}
+            projectId={tontineProjectInfo?.project?.projectId}
+            loading={loading}
+            onCreate={onCreate}
+          />
         </>
 
         <BottomInfo
           bottomSheetModalRef={bottomSheetModalRef}
-          onSuccess={onSuccess}
+          onSuccess={onOpenInfomationDetails}
           closeModal={closeModal}
         />
 
@@ -419,66 +352,6 @@ const BodyModel3 = ({onDissmis, navToTontine}) => {
   );
 };
 
-const TransactionHistory = ({navigation}) => {
-  return (
-    <View style={styles.buttonsConatiner}>
-      <PrimaryButton
-        onPress={() => {
-          navigation.navigate('TransactionHistory');
-        }}>
-        View Transaction History
-      </PrimaryButton>
-      <Line color={COLORS.black} />
-    </View>
-  );
-};
-
-const CreateParticipantsButton = ({
-  routeData,
-  navigation,
-  handlePresentModalPress,
-  projectId,
-}) => {
-  const dispatch = useDispatch();
-
-  const [loading, setloading] = useState(false);
-
-  // console.log('first', first)
-  // console.log('projectId---', projectId);
-  // console.log('routeData', routeData);
-
-  return (
-    <View style={styles.buttonsConatiner}>
-      <PrimaryButton
-        onPress={() => {
-          if (routeData?.project?.type === 'TONTINE_ORDINARY_TONTINE') {
-            setloading(true);
-            dispatch(createTypeParticipants('TONTINE_ORDINARY_TONTINE'));
-            setTimeout(() => {
-              navigation.navigate('Béneféciare', {
-                projectId,
-                type: 'PAYER_AND_BENEFICIARY',
-                routeData,
-                title: 'Select participants',
-              });
-              setloading(false);
-            }, 1000);
-          } else if (routeData?.project?.type === 'TONTINE_CUSTOM_TONTINE') {
-            setloading(true);
-            handlePresentModalPress();
-            setTimeout(() => {
-              setloading(false);
-            }, 10000);
-          }
-        }}
-        loading={loading}>
-        CREATE PARTICIPANTS
-      </PrimaryButton>
-      {/* <Line color={COLORS.black} /> */}
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.paleGrey,
@@ -486,19 +359,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   ImageBackground: {
-    ...StyleSheet.absoluteFillObject,
     width: SIZES.width,
-    height: 190,
+    zIndex: 99,
+    position: 'absolute',
+    top: Platform.OS == 'android' ? -40 : 0,
   },
 
-  buttonsConatiner: {
-    width: '100%',
-    paddingHorizontal: 20,
-    backgroundColor: COLORS.white,
-    height: 110,
-    position: 'absolute',
-    bottom: 0,
-  },
   ModelContainer: {
     padding: 10,
   },

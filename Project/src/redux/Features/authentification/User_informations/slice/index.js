@@ -14,6 +14,8 @@ export const getUserInformations = createAsyncThunk(
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
+
+        console.log('message', message)
       return thunkAPI.rejectWithValue(message);
     }
   }

@@ -1,13 +1,12 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   View,
-  SafeAreaView,
   StatusBar,
   Image,
   useWindowDimensions,
+  SafeAreaView,
 } from 'react-native';
 
-import ImgBack from '../../../../../../Assets/Img/HomeBack.png';
 import Space from '../../../../../../components/Space';
 import BottomSheetAddTontine from './BottomSheetAdd';
 
@@ -39,6 +38,8 @@ import styles from './styles';
 import ModelRemove from '../Components/models/Model.Remove';
 import ModelUseAsBeneficiary from '../Components/models/Model.useAsBeneficiary';
 import ModelConfirmCreatePayers from '../Components/models/Model.ConfirmCreatePayers';
+// import ScreensLayout from '../../../../../../components/views/Layouts/AppLayout/ScreenLayout/screenLayout';
+import SearchLayout from '../../../../../../components/views/Layouts/AppLayout/ScreenLayout/SearchLayout';
 
 const Payer = ({navigation, route}) => {
   const {projectId, type, routeData} = route.params;
@@ -305,20 +306,8 @@ const Payer = ({navigation, route}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
-      <Image
-        style={styles.ImageBackground}
-        source={ImgBack}
-        resizeMode="stretch"
-      />
-      <SearchHeader
-        Cancel="Return"
-        goBack={() => goBackFun(navigation)}
-        title={'Select Payers'}
-      />
-
-      <View style={styles.Tabs}>
+    <SearchLayout title={'Select Payers'} onPress={goBackFun}>
+      <View style={{flex: 1, width: '100%'}}>
         <TabView
           navigationState={{index, routes}}
           renderScene={renderScene}
@@ -385,7 +374,7 @@ const Payer = ({navigation, route}) => {
         onSuccess={onSuccess}
         closeDrawer={closeEditModal}
       />
-    </SafeAreaView>
+    </SearchLayout>
   );
 };
 export default Payer;

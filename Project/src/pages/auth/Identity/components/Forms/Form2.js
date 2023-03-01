@@ -106,7 +106,10 @@ const UploadFront = ({OpenCamera}) => {
 
   const deletePhoto = () => {
     dispatch(handleClearFrontPhotoDocument());
+    dispatch(handleClearBackPhotoDocument());
+
   };
+ 
 
   return (
     <>
@@ -179,28 +182,11 @@ const UploadBack = ({OpenCamera}) => {
   );
 
   const dispatch = useDispatch();
-  const launchImageLibrary = async () => {
-    let result = await ImagePicker.launchImageLibrary({
-      mediaTypes: 'photo',
-      allowsEditing: true,
-      // aspect: [4, 3],
-    });
-
-    if (!result.didCancel) {
-      let obj = {
-        type: '',
-        content: result.assets[0].uri,
-        token,
-      };
-      setFileUri(result.assets[0].uri);
-      dispatch(uploadPhoto(obj));
-    }
-  };
+ 
 
   const deletePhoto = () => {
     dispatch(handleClearBackPhotoDocument());
   };
-  // console.log('backPhotoDocument?.content', backPhotoDocument?.content)
   return (
     <>
       {loading ? (

@@ -75,8 +75,8 @@ const BottomConfirmBTN = ({
                 ARR={ARR}
               />
             </HView>
-            <Space space={25} />
-            <Line color={COLORS.black} />
+            {/* <Space space={25} /> */}
+            {/* <Line color={COLORS.black} /> */}
           </View>
         ) : (
           <CustomSpiner />
@@ -132,8 +132,10 @@ const styles = StyleSheet.create({
   containerButton: {
     width: '100%',
     paddingHorizontal: 20,
-    height: 110,
+    // height: 110,
     backgroundColor: COLORS.white,
+    paddingBottom:20,
+
   },
   rowButtons: {
     paddingTop: 15,

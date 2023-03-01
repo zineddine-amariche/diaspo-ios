@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {
   Image,
+  Platform,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -84,6 +85,7 @@ const PrimaryInput = ({
               {...style}
               style={{
                 color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
+                padding: Platform.OS =='ios' ? 13 : 7
               }}
               secureTextEntry={hidePass ? true : false}
               editable={editable}

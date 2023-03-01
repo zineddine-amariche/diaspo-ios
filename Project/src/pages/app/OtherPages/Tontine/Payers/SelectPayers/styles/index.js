@@ -1,4 +1,4 @@
-import {  StyleSheet } from "react-native";
+import {  Platform, StyleSheet } from "react-native";
 import { COLORS, SIZES } from "../../../../../../../theme";
 
 
@@ -6,22 +6,17 @@ import { COLORS, SIZES } from "../../../../../../../theme";
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: COLORS.paleGrey,
+      // backgroundColor: COLORS.paleGrey,
       alignItems: "center",
-      flex: 1,
+      // flex: 1,
     },
-    ImageBackground: {
-      ...StyleSheet.absoluteFillObject,
-      width: SIZES.width,
-      height: 152,
-      zIndex: 99,
-    },
+
     topinuptxt: {
       padding: 20,
     },
   
     Tabs: {
-      flex: 1,
+      // flex: 1,
       width: "100%",
     },
     line: {
