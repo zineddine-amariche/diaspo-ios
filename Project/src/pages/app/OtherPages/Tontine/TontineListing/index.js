@@ -1,11 +1,10 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {
   View,
   StyleSheet,
   SafeAreaView,
   StatusBar,
   Image,
-  Alert,
   useWindowDimensions,
   Platform,
 } from 'react-native';
@@ -27,13 +26,10 @@ import Form3 from './Components/Forms/Form3/Form3';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import Spiner from '../../../../../components/spiner';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   getTontines,
-  resetTontine,
 } from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
-import {Logout} from '../../../../../redux/Features/authentification/Login/Slice';
 import {TabBar, TabView} from 'react-native-tab-view';
 import {useIsFocused} from '@react-navigation/native';
 import BottomSheetSelect from './BottomSheetSelect';
@@ -104,43 +100,7 @@ const Tontine = ({navigation, navigation: {goBack}}) => {
 
 
 
-  // useEffect(() => {
-  //   if (message) {
-  //     Alert.alert(
-  //       message?.status,
-  //       message?.statusDescription
-  //         ? message?.statusDescription
-  //         : 'Error getting information',
-  //       [
-  //         {
-  //           text: 'Cancel',
-  //           onPress: () => {
-  //             if (
-  //               message?.statusDescription == 'Expired token' ||
-  //               message?.statusDescription == 'Wrong number of segments'
-  //             ) {
-  //               clearAsyncStorage();
-  //             } else {
-  //               dispatch(resetTontine());
-  //             }
-  //           },
 
-  //           style: 'cancel',
-  //         },
-  //         {
-  //           text: 'OK',
-  //           onPress: () => {
-  //             if (message?.statusDescription == 'Expired token') {
-  //               clearAsyncStorage();
-  //             } else {
-  //               dispatch(resetTontine());
-  //             }
-  //           },
-  //         },
-  //       ],
-  //     );
-  //   }
-  // }, [message]);
 
   const layout = useWindowDimensions();
 
@@ -336,3 +296,43 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.lightBlueGrey,
   },
 });
+
+
+
+  // useEffect(() => {
+  //   if (message) {
+  //     Alert.alert(
+  //       message?.status,
+  //       message?.statusDescription
+  //         ? message?.statusDescription
+  //         : 'Error getting information',
+  //       [
+  //         {
+  //           text: 'Cancel',
+  //           onPress: () => {
+  //             if (
+  //               message?.statusDescription == 'Expired token' ||
+  //               message?.statusDescription == 'Wrong number of segments'
+  //             ) {
+  //               clearAsyncStorage();
+  //             } else {
+  //               dispatch(resetTontine());
+  //             }
+  //           },
+
+  //           style: 'cancel',
+  //         },
+  //         {
+  //           text: 'OK',
+  //           onPress: () => {
+  //             if (message?.statusDescription == 'Expired token') {
+  //               clearAsyncStorage();
+  //             } else {
+  //               dispatch(resetTontine());
+  //             }
+  //           },
+  //         },
+  //       ],
+  //     );
+  //   }
+  // }, [message]);

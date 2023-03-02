@@ -24,14 +24,16 @@ export const sendReqcode = createAsyncThunk(
         error.message ||
         error.toString();
 
-      if (message.status == 'error') {
-        Toast.show(
-          `${message.status} , ${
-            message.StatusDescription
-              ? message.StatusDescription
-              : 'Something went wrong.'
-          }`,
-        );
+      if (message.status == 'error'&&message.status ) {
+        message.statusDescription || message.StatusDescription
+        ? Toast.show(
+            `${message.status} , ${
+              message.statusDescription
+                ? message.statusDescription
+                : message.StatusDescription
+            }`,
+          )
+        : Toast.show(`${message} `);
       } else {
         if (
           message.StatusDescription

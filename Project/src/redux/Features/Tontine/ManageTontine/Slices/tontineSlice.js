@@ -48,9 +48,9 @@ export const getTontines = createAsyncThunk(
         error.message ||
         error.toString();
 
-      // console.log('message', message);
+       console.log('message', message);
 
-      if (message.status == 'error') {
+      if (message.status == 'error' &&message.status ) {
         message.statusDescription || message.StatusDescription
           ? Toast.show(
               `${message.status} , ${

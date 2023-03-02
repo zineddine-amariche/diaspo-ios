@@ -1,21 +1,57 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { onError } from "../../../../../hooks";
 import userInformationsService from "../service";
  
 
 export const getUserInformations = createAsyncThunk(
   "userInformations/get",
   async (object, thunkAPI) => {
-    // console.log('object', object)
     try {
       const token = thunkAPI.getState().token.token;
       return await userInformationsService.api(object, token);
     } catch (error) {
+      const {onErrorAction} = data;
       const message =
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
 
-        console.log('message', message)
+        console.log('register message', message)
+
+        if (message.status == 'error' &&message.status ) {
+          message.statusDescription || message.StatusDescription
+          ? Toast.show(
+              `${message.status} , ${
+                message.statusDescription
+                  ? message.statusDescription
+                  : message.StatusDescription
+              }`,
+            )
+          : Toast.show(`${message} `);
+        } else {
+          if (
+            message.StatusDescription
+              ? message.StatusDescription
+              : message.statusDescription == 'Expired token'
+          ) {
+            onError(
+              message.status,
+              message.StatusDescription
+                ? message.StatusDescription
+                : message.statusDescription,
+              onErrorAction,
+            );
+          } else {
+            onError(
+              message.status,
+              message.StatusDescription
+                ? message.StatusDescription
+                : message.statusDescription,
+              null,
+            );
+          }
+        }
+        console.log('message--getUsersInfromation', message)
       return thunkAPI.rejectWithValue(message);
     }
   }

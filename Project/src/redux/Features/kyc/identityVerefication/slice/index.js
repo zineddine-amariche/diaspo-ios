@@ -11,6 +11,7 @@ export const uploadPhoto = createAsyncThunk(
       let res = await uploadphotoService.api(object);
       if (res.status == 'success') {
         onSucces();
+        console.log('sucujsj', res.data);
       } else {
         Toast.show('success , this endpoint retunrn 200 but its an error  !');
       }
@@ -22,31 +23,60 @@ export const uploadPhoto = createAsyncThunk(
         error.message ||
         error.toString();
 
-      if (message.status == 'error') {
-        Toast.show(`${message.status} , ${message.StatusDescription}`);
-      } else {
-        if (
+      console.log('message', message);
+      if (
+        message.status === 'error' &&
+        message.status &&
+        (message.statusDescription || message.StatusDescription)
+      ) {
+        Toast.show(
+          `${message.status} , ${
+            message.statusDescription
+              ? message.statusDescription
+              : message.StatusDescription
+          }`,
+        );
+      } else if (
+        message.status === 'error' &&
+        message.statusDescription == 'Expired token'
+      ) {
+        onError(
+          message.status,
           message.StatusDescription
             ? message.StatusDescription
-            : message.statusDescription == 'Expired token'
-        ) {
-          onError(
-            message.status,
-            message.StatusDescription
-              ? message.StatusDescription
-              : message.statusDescription,
-            onErrorAction,
-          );
-        } else {
-          onError(
-            message.status,
-            message.StatusDescription
-              ? message.StatusDescription
-              : message.statusDescription,
-            null,
-          );
-        }
+            : message.statusDescription,
+          onErrorAction,
+        );
+      } else {
+        onError(
+          message.status,
+          message.StatusDescription
+            ? message.StatusDescription
+            : message.statusDescription,
+          null,
+        );
       }
+      //     message.StatusDescription
+      //     ? message.StatusDescription
+      //     : message.statusDescription == 'Expired token'
+      //  {
+      //   onError(
+      //     message.status,
+      //     message.StatusDescription
+      //       ? message.StatusDescription
+      //       : message.statusDescription,
+      //     onErrorAction,
+      //   );
+      // } else {
+      //   onError(
+      //     message.status,
+      //     message.StatusDescription
+      //       ? message.StatusDescription
+      //       : message.statusDescription,
+      //     null,
+      //   );
+      // }
+
       return rejectWithValue(message);
     }
   },
@@ -68,7 +98,8 @@ export const uploadPhotoSlice = createSlice({
     frontPhotoDocument: null,
     backPhotoDocument: null,
     ProofDocument: null,
-    kycUserId:null
+    kycUserId: null,
+    passportDoc: null,
   },
   reducers: {
     resetuploadPhoto: (state, action) => {
@@ -135,13 +166,21 @@ export const uploadPhotoSlice = createSlice({
       state.isBack = false;
       state.isFront = false;
       state.step = 1;
-      // console.log('clear', action.payload);
-      action.payload();
+      (state.passportDoc = null),
+        // console.log('clear', action.payload);
+        action.payload();
     },
-    getkycUserId:(state,action)=>{
+    getkycUserId: (state, action) => {
       state.kycUserId = action.payload;
-
-    }
+    },
+    handlePassportDoc: (state, action) => {
+      state.passportDoc = action.payload;
+      state.openCamera = false;
+    },
+    clearPassportDoc: state => {
+      state.passportDoc = null;
+      state.openCamera = false;
+    },
   },
   extraReducers: builder => {
     builder
@@ -187,7 +226,9 @@ export const {
   handleClearBackPhotoDocument,
   handleProofDocument,
   clearProofDocument,
-  getkycUserId
+  getkycUserId,
+  handlePassportDoc,
+  clearPassportDoc,
 } = uploadPhotoSlice.actions;
 
 export default uploadPhotoSlice.reducer;

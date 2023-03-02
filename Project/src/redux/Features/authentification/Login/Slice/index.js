@@ -19,9 +19,11 @@ export const login = createAsyncThunk(
         if (data.data.UserKycDetails?.kycStatus == 'NO_KYC') {
           navtokyc(data.data.userId);
         } else if (data.data.UserKycDetails?.kycStatus == 'PENDING_REVIEW') {
-          // navtoReview('PENDING_REVIEW',data.data.userId);
+          //  navtoReview('PENDING_REVIEW',data.data.userId);
           Toast.show(`account is under review `);
-           navtoHomePage(data.data.userId);
+          //  navtoHomePage(data.data.userId);
+           navtokyc(data.data.userId);//for Test
+
         } else if (data.data.UserKycDetails?.kycStatus == 'FAILED') {
           navtoReview('FAILED',data.data.userId);
           Toast.show(`We failed to
@@ -44,7 +46,7 @@ export const login = createAsyncThunk(
 
       // console.log('message', message);
 
-      if (message.status == 'error') {
+      if (message.status == 'error' &&message.status ) {
         message.statusDescription || message.StatusDescription
           ? Toast.show(
               `${message.status} , ${

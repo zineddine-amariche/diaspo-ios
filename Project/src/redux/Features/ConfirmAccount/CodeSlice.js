@@ -9,24 +9,22 @@ import {onError} from '../../../hooks';
 export const onConfirmCode = createAsyncThunk(
   'confirm/code',
   async (object, thunkAPI) => {
-    const {code, token,onSuccess,onAccountConfirmed, userName} = object;
+    const {code, token, onSuccess, onAccountConfirmed, userName} = object;
     try {
       let obj = {
         userName,
         code,
       };
       let data = await CodeService.api(obj, token);
-      console.log('data.status', data.status)
-      if(data.status=="success"){
-        onSuccess()
+      console.log('data.status', data.status);
+      if (data.status == 'success') {
+        onSuccess();
       }
-      if(data.status=="error"){
+      if (data.status == 'error') {
         // onAccountConfirmed()
-         Toast.show(
-           `${data.status}, ${data.statusDescription}`
-         );
-        console.log('status', data.status)
-        console.log('first', data)
+        Toast.show(`${data.status}, ${data.statusDescription}`);
+        console.log('status', data.status);
+        console.log('first', data);
       }
       return data;
     } catch (error) {
@@ -36,10 +34,12 @@ export const onConfirmCode = createAsyncThunk(
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
-      if (message.status == 'error') {
-        Toast.show(
-          `${message.status} , Invalid verification code provided, please try again"`,
-        );
+      if (message.status == 'error' &&message.status ) {
+        message.statusDescription || message.StatusDescription
+          ? Toast.show(
+              `${message.status} , Invalid verification code provided, please try again `,
+            )
+          : Toast.show(`${message} `);
       } else {
         if (
           message.StatusDescription

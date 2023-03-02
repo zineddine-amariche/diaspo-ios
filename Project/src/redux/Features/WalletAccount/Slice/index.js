@@ -7,7 +7,9 @@ export const walletAccounts = createAsyncThunk("wallet/account", async (user, th
   // console.log('user', user)
   try {
     const token = thunkAPI.getState().token.token;
-    return await getListwalletAccounts.api(user, token);
+    let res =await getListwalletAccounts.api(user, token)
+    // console.log('res.data--walletAccounts', res.data)
+    return res
   } catch (error) {
     const message =
       (error.response && error.response.data) ||

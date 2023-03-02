@@ -113,8 +113,8 @@ const AccountInfo = ({navigation}) => {
         <WhiteButton onPress={clearAsyncStorage}>logout</WhiteButton>
       </View>
       <Space space={30} />
-      <Line width={'30%'} height={3} color={COLORS.lightNavy} />
-      <Space space={6} />
+      {/* <Line width={'30%'} height={3} color={COLORS.lightNavy} /> */}
+      {/* <Space space={6} /> */}
     </ScrollView>
   );
 };

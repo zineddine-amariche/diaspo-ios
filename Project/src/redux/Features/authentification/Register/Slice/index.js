@@ -23,9 +23,9 @@ export const register = createAsyncThunk(
         error.message ||
         error.toString();
 
-        console.log('message', message)
+        console.log('register message', message)
 
-        if (message.status == 'error') {
+        if (message.status == 'error' &&message.status ) {
           Toast.show(`${message.status} , ${message.statusDescription}`);
         } else {
           if (

@@ -1,26 +1,17 @@
-import {
-  Button,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import {Txt} from '../../../../../components/utils';
 import ImageDashed from '../../../../../Assets/Kyc/RectangleDashed.png';
-import addfrontphoto from '../../../../../Assets/Kyc/addfrontphoto.png';
+import addfrontphoto from '../../../../../Assets/Kyc/galleryadd.png';
 import addBackphoto from '../../../../../Assets/Kyc/GroupBack.png';
 import {COLORS} from '../../../../../theme';
 import checked from '../../../../../Assets/Kyc/icon3.png';
-import * as ImagePicker from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import Spiner from '../../../../../components/spiner';
 import {
-  activateFront,
+  clearPassportDoc,
+  handleCamera,
   handleClearBackPhotoDocument,
   handleClearFrontPhotoDocument,
-  uploadPhoto,
 } from '../../../../../redux/Features/kyc/identityVerefication/slice';
 import Space from '../../../../../components/Space';
 import DeleteButton from '../../../../../components/Buttons/deleteButton';
@@ -30,51 +21,47 @@ const data2 = [
   {
     color: COLORS.grayIcon,
     label: 'PASSPORT',
-    value: "PASSPORT",
+    value: 'PASSPORT',
     icon: 'minus',
   },
   {
     color: COLORS.grayIcon,
     label: 'DRIVING_LICENSE',
-    value: "DRIVING_LICENSE",
+    value: 'DRIVING_LICENSE',
     icon: 'minus',
   },
   {
     color: COLORS.grayIcon,
     label: 'CARD_ID',
-    value: "CARD_ID",
+    value: 'CARD_ID',
     icon: 'minus',
   },
   {
     color: COLORS.grayIcon,
     label: 'NATIONAL_ID',
-    value: "NATIONAL_ID",
+    value: 'NATIONAL_ID',
     icon: 'minus',
   },
 ];
 
-
-const Form2 = ({OpenCamera, TypeFileToSend,onSelectType}) => {
-  const {
-    isFront,
-    isBack,
-    messasge,
-    loading,
-    selfiePhotoObject,
-    frontPhotoDocument,
-  } = useSelector(state => state.uploadPhotoSlice);
+const Form2 = ({  TypeFileToSend, onSelectType}) => {
+  const {loading, frontPhotoDocument} = useSelector(
+    state => state.uploadPhotoSlice,
+  );
 
   return TypeFileToSend !== 'PHOTO_CARD' ? (
     <>
-      {!loading ? <UploadFront OpenCamera={OpenCamera} /> : null}
+      {!loading && TypeFileToSend !== 'PASSPORT' ? (
+        <UploadFront   />
+      ) : (
+        <UploadPassport   />
+      )}
       {frontPhotoDocument && !loading ? (
-        <UploadBack OpenCamera={OpenCamera} />
+        <UploadBack   />
       ) : null}
     </>
   ) : (
-    <View style={{  width:"100%"}}>
-      {/* <Txt>select type of Document</Txt> */}
-
+    <View style={{width: '100%'}}>
       <DropDown
         label={'Select type of Document'}
         data={data2}
@@ -82,10 +69,9 @@ const Form2 = ({OpenCamera, TypeFileToSend,onSelectType}) => {
         errors={false}
         touched={false}
         placeholder={'Select type of Document'}
-        // onBlur={handleBlur('language')}
         value={TypeFileToSend}
         onSelect={onSelectType}
-        placeholderTextColor={"#100"}
+        placeholderTextColor={'#100'}
       />
     </View>
   );
@@ -95,22 +81,22 @@ export default Form2;
 
 const styles = StyleSheet.create({});
 
-const UploadFront = ({OpenCamera}) => {
+const UploadFront = () => {
   const dispatch = useDispatch();
 
   const [fileUri, setFileUri] = useState('');
 
-  const {isFront, isBack, messasge, frontPhotoDocument, loading} = useSelector(
+  const {frontPhotoDocument, loading} = useSelector(
     state => state.uploadPhotoSlice,
   );
 
   const deletePhoto = () => {
     dispatch(handleClearFrontPhotoDocument());
     dispatch(handleClearBackPhotoDocument());
-
   };
- 
-
+  const handleCam = () => {
+    dispatch(handleCamera(true));
+  };
   return (
     <>
       {loading ? (
@@ -124,15 +110,14 @@ const UploadFront = ({OpenCamera}) => {
               fontSize={16}
               style={{lineHeight: 24, textAlign: 'center'}}
               // fontFamily={'Oxygen-Regular'}
-              >
+            >
               Please upload photos of your government issued identity
               documentation (ID card, passport or driver's license) with your
               data visible.
             </Txt>
           </View>
           <TouchableOpacity
-            // onPress={launchImageLibrary}
-            onPress={OpenCamera}
+            onPress={handleCam}
             style={{
               marginTop: 20,
               overflow: 'hidden',
@@ -159,14 +144,24 @@ const UploadFront = ({OpenCamera}) => {
                 />
               </>
             ) : (
-              <Image
-                source={addfrontphoto}
+              <View
                 style={{
                   position: 'absolute',
                   alignSelf: 'center',
                   justifyContent: 'center',
-                }}
-              />
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={addfrontphoto}
+                  style={{
+                    marginRight: 10,
+                  }}
+                />
+                <View>
+                  <Txt Bold={'700'}>Add front photo</Txt>
+                </View>
+              </View>
             )}
           </TouchableOpacity>
         </View>
@@ -175,39 +170,27 @@ const UploadFront = ({OpenCamera}) => {
   );
 };
 
-const UploadBack = ({OpenCamera}) => {
-  const [fileUri, setFileUri] = useState('');
-  const {isFront, isBack, messasge, backPhotoDocument, loading} = useSelector(
+const UploadBack = () => {
+  const dispatch = useDispatch();
+  const {backPhotoDocument, loading} = useSelector(
     state => state.uploadPhotoSlice,
   );
-
-  const dispatch = useDispatch();
- 
-
   const deletePhoto = () => {
     dispatch(handleClearBackPhotoDocument());
   };
+  const handleCam = () => {
+    dispatch(handleCamera(true));
+  };
+
   return (
     <>
       {loading ? (
         <SimpleSpiner />
       ) : (
         <View style={{alignItems: 'center'}}>
-          {/* <View style={{padding: 25}}>
-            <Txt
-              color={COLORS.TextBody}
-              fontSize={16}
-              style={{lineHeight: 24, textAlign: 'center'}}
-              fontFamily={'Oxygen-Regular'}>
-              Please upload photos of your government issued identity
-              documentation (ID card, passport or driver's license) with your
-              data visible.
-            </Txt>
-          </View> */}
           <Space />
           <TouchableOpacity
-            // onPress={launchImageLibrary}
-            onPress={OpenCamera}
+            onPress={handleCam}
             style={{
               marginTop: 20,
               overflow: 'hidden',
@@ -219,7 +202,6 @@ const UploadBack = ({OpenCamera}) => {
             {backPhotoDocument?.content ? (
               <>
                 <DeleteButton onDelete={deletePhoto} />
-
                 <Image
                   source={{uri: backPhotoDocument?.content}}
                   style={{
@@ -233,14 +215,24 @@ const UploadBack = ({OpenCamera}) => {
                 />
               </>
             ) : (
-              <Image
-                source={addBackphoto}
+              <View
                 style={{
                   position: 'absolute',
                   alignSelf: 'center',
                   justifyContent: 'center',
-                }}
-              />
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={addfrontphoto}
+                  style={{
+                    marginRight: 10,
+                  }}
+                />
+                <View>
+                  <Txt Bold={'700'}>Add back photo</Txt>
+                </View>
+              </View>
             )}
           </TouchableOpacity>
         </View>
@@ -249,40 +241,83 @@ const UploadBack = ({OpenCamera}) => {
   );
 };
 
-const UploadSuccess = () => {
-  const {isFront, isBack, messasge, loading} = useSelector(
-    state => state.uploadPhotoSlice,
-  );
+const UploadPassport = () => {
+  const dispatch = useDispatch();
+  const {loading, passportDoc} = useSelector(state => state.uploadPhotoSlice);
+  const deletePhoto = () => {
+    dispatch(clearPassportDoc());
+  };
+  const handleCam = () => {
+    dispatch(handleCamera(true));
+  };
   return (
     <>
       {loading ? (
         <SimpleSpiner />
       ) : (
         <View style={{alignItems: 'center'}}>
-          <Space space={60} />
+          <Space space={20} />
           <View style={{padding: 25}}>
-            <View
-              style={{
-                backgroundColor: COLORS.blueGreen,
-                height: 60,
-                width: 60,
-                borderRadius: 60,
-                alignItems: 'center',
-                justifyContent: 'center',
-                alignSelf: 'center',
-                marginBottom: 30,
-              }}>
-              <Image source={checked} />
-            </View>
             <Txt
               color={COLORS.TextBody}
               fontSize={16}
               style={{lineHeight: 24, textAlign: 'center'}}
               // fontFamily={'Oxygen-Regular'}
-              >
-              The images have been successfully uploaded. Click next to complete
+            >
+              Please upload photos of your government issued identity
+              documentation (ID card, passport or driver's license) with your
+              data visible.
             </Txt>
           </View>
+          <TouchableOpacity
+            onPress={handleCam}
+            style={{
+              marginTop: 20,
+              overflow: 'hidden',
+              borderRadius: 24,
+
+              justifyContent: 'center',
+            }}>
+            <Image source={ImageDashed} style={{}} />
+
+            {passportDoc?.content ? (
+              <>
+                <DeleteButton onDelete={deletePhoto} />
+
+                <Image
+                  source={{uri: passportDoc?.content}}
+                  style={{
+                    position: 'absolute',
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                    width: 420,
+                    height: 400,
+                  }}
+                  resizeMode="center"
+                />
+              </>
+            ) : (
+              <View
+                style={{
+                  position: 'absolute',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={addfrontphoto}
+                  style={{
+                    marginRight: 10,
+                  }}
+                />
+                <View>
+                  <Txt Bold={'700'}>add your passport </Txt>
+                  <Txt Bold={'700'}>photo </Txt>
+                </View>
+              </View>
+            )}
+          </TouchableOpacity>
         </View>
       )}
     </>

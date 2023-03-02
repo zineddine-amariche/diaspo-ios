@@ -68,14 +68,14 @@ const DrawerScreen = (props) => {
       .getInitialNotification()
       .then((remoteMessage) => {
 
-        console.log('Message handled in the background!', remoteMessage) 
+        // console.log('Message handled in the background!', remoteMessage) 
         if (remoteMessage) {
          
           navigation.navigate(remoteMessage?.data?.navigate,{data:remoteMessage,isBackground:true});
         }
       });
       messaging().setBackgroundMessageHandler(async remoteMessage => {
-        console.log('Message handled in the background!', remoteMessage);
+        // console.log('Message handled in the background!', remoteMessage);
        });
   }, []);
 

@@ -13,13 +13,16 @@ import addfrontphoto from '../../../../../Assets/Kyc/addfrontphoto.png';
 import {COLORS} from '../../../../../theme';
 import DeleteButton from '../../../../../components/Buttons/deleteButton';
 import {useDispatch, useSelector} from 'react-redux';
-import { clearProofDocument } from '../../../../../redux/Features/kyc/identityVerefication/slice';
-const Form3 = ({OpenCamera}) => {
+import { clearProofDocument, handleCamera } from '../../../../../redux/Features/kyc/identityVerefication/slice';
+const Form3 = () => {
   const dispatch = useDispatch();
 
   const {ProofDocument} = useSelector(state => state.uploadPhotoSlice);
   const deletePhoto = () => {
     dispatch(clearProofDocument());
+  };
+  const handleCam = () => {
+    dispatch(handleCamera(true));
   };
 
   return (
@@ -39,7 +42,7 @@ const Form3 = ({OpenCamera}) => {
         </View>
         <TouchableOpacity
           // onPress={launchImageLibrary}
-          onPress={OpenCamera}
+          onPress={handleCam}
           style={{
             marginTop: 20,
             overflow: 'hidden',

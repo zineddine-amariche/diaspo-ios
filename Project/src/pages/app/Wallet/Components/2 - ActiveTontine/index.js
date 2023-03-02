@@ -58,6 +58,7 @@ const ActiveTontine = ({navigation}) => {
               </View>
             );
           })}
+          <Space/>
         </>
         : <View style={{flex:1, padding:20,justifyContent:"center" , alignItems:"center"}}>
           <Txt fontSize={13} color={COLORS.silver}>no active tontine</Txt>

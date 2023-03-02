@@ -41,6 +41,10 @@ export const PrimaryButton = ({
     },
   ];
   return (
+    <>
+    
+    
+    
     <TouchableOpacity
       ref={hoverRef}
       onPress={onPress}
@@ -82,6 +86,9 @@ export const PrimaryButton = ({
         )}
       </LinearGradient>
     </TouchableOpacity>
+    {Platform.OS !== 'ios' ? <Space space={20} /> : null}
+
+    </>
   );
 };
 
