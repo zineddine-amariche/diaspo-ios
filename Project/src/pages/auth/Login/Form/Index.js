@@ -20,6 +20,7 @@ import { resetCode } from '../../../../redux/Features/ConfirmAccount/CodeSlice';
 import { resetRegister } from '../../../../redux/Features/authentification/Register/Slice';
 import { getkycUserId } from '../../../../redux/Features/kyc/identityVerefication/slice';
 import { getUserInformations } from '../../../../redux/Features/authentification/User_informations/slice';
+import { resetToken } from '../../../../redux/Features/AppToken/GetToken';
 
 const Form = ({navigation}) => {
   const dispatch = useDispatch();
@@ -54,11 +55,12 @@ const Form = ({navigation}) => {
 
   };
   const onErrorAction = async () => {
+    dispatch(resetToken())
     dispatch(resetCode());
     dispatch(Logout());
     dispatch(resetRegister());
-    await AsyncStorage.clear();
     navigation.navigate('SplashScreen');
+    await AsyncStorage.clear();
   };
 
   return (

@@ -19,13 +19,12 @@ export const login = createAsyncThunk(
         if (data.data.UserKycDetails?.kycStatus == 'NO_KYC') {
           navtokyc(data.data.userId);
         } else if (data.data.UserKycDetails?.kycStatus == 'PENDING_REVIEW') {
-          //  navtoReview('PENDING_REVIEW',data.data.userId);
+          navtoReview('PENDING_REVIEW', data.data.userId);
           Toast.show(`account is under review `);
           //  navtoHomePage(data.data.userId);
-           navtokyc(data.data.userId);//for Test
-
+          //  navtokyc(data.data.userId);//for Test
         } else if (data.data.UserKycDetails?.kycStatus == 'FAILED') {
-          navtoReview('FAILED',data.data.userId);
+          navtoReview('FAILED', data.data.userId);
           Toast.show(`We failed to
           verify your information`);
         } else if (data.data.UserKycDetails?.kycStatus == 'VALIDATED') {
@@ -44,36 +43,32 @@ export const login = createAsyncThunk(
         error.message ||
         error.toString();
 
-      // console.log('message', message);
+      console.log('message', message);
 
-      if (message.status == 'error' &&message.status ) {
-        message.statusDescription || message.StatusDescription
+      if (
+        message.status == 'error' &&
+        message.status &&
+        message.statusDescription !== ''
+      ) {
+        message.statusDescription
           ? Toast.show(
               `${message.status} , ${
-                message.statusDescription
-                  ? message.statusDescription
-                  : message.StatusDescription
+                message.statusDescription == ''
+                  ? 'something went wrong'
+                  : message.statusDescription
               }`,
             )
-          : Toast.show(`${message} `);
+          : Toast.show(`${message},something went wrong `);
+      } else if (!message.status) {
+        Toast.show(`${message}`);
       } else {
-        if (
-          message.StatusDescription
-            ? message.StatusDescription
-            : message.statusDescription == 'Expired token'
-        ) {
-          onError(
-            message.status,
-            message.StatusDescription
-              ? message.StatusDescription
-              : message.statusDescription,
-            onErrorAction,
-          );
+        if (message.statusDescription == 'Expired token') {
+          onError(message.status, message.statusDescription, onErrorAction);
         } else {
           onError(
             message.status,
-            message.StatusDescription
-              ? message.StatusDescription
+            message.statusDescription == ''
+              ? 'something went wrong'
               : message.statusDescription,
             null,
           );

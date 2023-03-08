@@ -42,9 +42,9 @@ const SplashScreen = () => {
           color={COLORS.white}
         ></ActivityIndicator>
       </View>
-      <View style={{position:"absolute", bottom:10}}>
+      {/* <View style={{position:"absolute", bottom:10}}>
         <Line />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };

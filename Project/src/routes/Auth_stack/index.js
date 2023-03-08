@@ -20,6 +20,8 @@ function SwitchHome({navigation}) {
   const dispatch = useDispatch();
 
   const {token} = useSelector(state => ({...state.token}));
+
+  // console.log('token', token)
   useEffect(() => {
 
     dispatch(getToken());
