@@ -1,56 +1,67 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import registerService from '../Service';
 import {onError} from '../../../../../hooks';
+import Toast from 'react-native-simple-toast';
 
 export const register = createAsyncThunk(
   'register/user',
   async (data, thunkAPI) => {
     try {
       const token = thunkAPI.getState().token.token;
-      const {onSuccess, obj} = data;
+      const {onSuccess,onUserExist, obj} = data;
       let res = await registerService.api(obj, token);
-      console.log('res', res?.data?.walletAccountUser?.email);
+      // console.log('res', res?.data?.walletAccountUser?.email);
 
       let userName = res?.data?.walletAccountUser?.email;
       if (res.status == 'success') {
-        onSuccess(userName,res?.data?.walletAccountUser?.userId);
+        onSuccess(userName, res?.data?.walletAccountUser?.userId);
+      }else{
+        console.log('error',res)
+      onUserExist()
+
       }
       return res;
     } catch (error) {
-      const {onErrorAction} = data;
+      // onUserExist()
+
+      const {onErrorAction,onUserExist} = data;
       const message =
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
 
-        console.log('register message', message)
-
-        if (message.status == 'error' &&message.status ) {
-          Toast.show(`${message.status} , ${message.statusDescription}`);
+        console.log('message', message);
+ 
+     
+      if (
+        message.status == 'error' &&
+        message.status &&
+        message.statusDescription !== ''
+      ) {
+        Toast.show(`${message.status} , ${message.statusDescription}`);
+        //
+         if(message.statusDescription =="User already exists"   ){
+        //
+           onUserExist()
+        //
+       }
+      
+      } else if (!message.status) {
+        Toast.show(`${message}`);
+      } else {
+        if (message.statusDescription == 'Expired token') {
+          onError(message.status, message.statusDescription, onErrorAction);
         } else {
-          if (
-            message.StatusDescription
-              ? message.StatusDescription
-              : message.statusDescription == 'Expired token'
-          ) {
-            onError(
-              message.status,
-              message.StatusDescription
-                ? message.StatusDescription
-                : message.statusDescription,
-              onErrorAction,
-            );
-          } else {
-            onError(
-              message.status,
-              message.StatusDescription
-                ? message.StatusDescription
-                : message.statusDescription,
-              null,
-            );
-          }
+          onError(
+            message.status,
+            message.statusDescription == ''
+              ? 'something went wrong'
+              : message.statusDescription,
+            null,
+          );
         }
-        return thunkAPI.rejectWithValue(message);
+      }
+      return thunkAPI.rejectWithValue(message);
     }
   },
 );
@@ -105,9 +116,9 @@ const registerSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload.StatusDescription;
+        state.message = action.payload;
         state.user = null;
-        state.status = action.payload.StatusCode;
+        state.status = action.payload;
       });
   },
 });
@@ -115,3 +126,41 @@ const registerSlice = createSlice({
 export const {resetRegister, ClearRegister, dispatchToken, dispatchDeviceOS} =
   registerSlice.actions;
 export default registerSlice.reducer;
+
+
+
+
+      // const {onErrorAction} = data;
+      // const message =
+      //   (error.response && error.response.data) ||
+      //   error.message ||
+      //   error.toString();
+
+      //   console.log('register message', message)
+
+      //   if (message.status == 'error' &&message.status ) {
+      //     Toast.show(`${message.status} , ${message.statusDescription}`);
+      //   } else {
+      //     if (
+      //       message.StatusDescription
+      //         ? message.StatusDescription
+      //         : message.statusDescription == 'Expired token'
+      //     ) {
+      //       onError(
+      //         message.status,
+      //         message.StatusDescription
+      //           ? message.StatusDescription
+      //           : message.statusDescription,
+      //         onErrorAction,
+      //       );
+      //     } else {
+      //       onError(
+      //         message.status,
+      //         message.StatusDescription
+      //           ? message.StatusDescription
+      //           : message.statusDescription,
+      //         null,
+      //       );
+      //     }
+      //   }
+      //   return thunkAPI.rejectWithValue(message);

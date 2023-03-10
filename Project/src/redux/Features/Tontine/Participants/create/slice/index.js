@@ -89,7 +89,7 @@ const sliceParticipants = createSlice({
       })
       .addCase(createParticipants.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.status = action.payload.status;
+        state.status = action.payload;
         state.isError = false;
         state.data = action.payload.data;
         state.nonAppUserParticipants =
@@ -98,8 +98,8 @@ const sliceParticipants = createSlice({
       })
       .addCase(createParticipants.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = action.payload.status;
-        state.message = action.payload.StatusDescription;
+        state.isError = action.payload;
+        state.message = action.payload;
         state.data = null;
         state.nonAppUserParticipants = null;
         state.participants = null;

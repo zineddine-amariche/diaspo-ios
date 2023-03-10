@@ -117,7 +117,8 @@ export const MultiStep = ({
   IsTouchedNationality,
   setIsTouchedNationality,
   onSuccess,
-  onErrorAction
+  onErrorAction,
+  onUserExist
 }) => {
   const {isLoading} = useSelector(state => state.register);
   const {
@@ -405,7 +406,8 @@ export const MultiStep = ({
                         let object = {
                           obj,
                           onSuccess,
-                          onErrorAction
+                          onErrorAction,
+                          onUserExist
                         }
                         // console.log('obj', obj);
                         dispatch(register(object, navigation));

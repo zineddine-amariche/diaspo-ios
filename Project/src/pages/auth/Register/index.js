@@ -51,6 +51,16 @@ const Register = ({navigation, navigation: {goBack}}) => {
     navigation.navigate('SplashScreen');
   };
 
+  const onUserExist =  ()=>{
+    dispatch(resetRegister());
+    clearItem('step1FormData');
+    clearItem('step2FormData');
+    clearItem('step3FormData');
+    clearItem('step4FormData');
+    setStep(1);
+
+  }
+
   const [IsTouched, setIsTouched] = useState(false);
   const [IsTouchedNationality, setIsTouchedNationality] = useState(false);
 
@@ -99,6 +109,7 @@ const Register = ({navigation, navigation: {goBack}}) => {
                 IsTouchedNationality={IsTouchedNationality}
                 setIsTouchedNationality={setIsTouchedNationality}
                 onSuccess={onSuccess}
+                onUserExist={onUserExist}
                 onErrorAction={onErrorAction}
               />
             </KeyboardAwareScrollView>

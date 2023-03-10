@@ -6,6 +6,7 @@ const API_URL =
 //  !register user api
 
 const api = async (dataUser, token) => {
+  console.log('dataUser', dataUser)
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,

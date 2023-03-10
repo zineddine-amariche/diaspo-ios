@@ -122,8 +122,8 @@ export function useRegister() {
       .required('Confirm Password is required'),
   });
 
-  function clearItem(itemKey) {
-    AsyncStorage.removeItem(itemKey)
+  async function clearItem(itemKey) {
+   await AsyncStorage.removeItem(itemKey)
       .then(() => {
         // console.log(`Successfully removed ${itemKey} from AsyncStorage`);
       })
