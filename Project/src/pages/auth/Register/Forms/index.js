@@ -13,7 +13,8 @@ const Form = ({
   setIsTouchedNationality,
   onSuccess,
   onErrorAction,
-  onUserExist
+  onUserExist,
+  refSubmit
 }) => {
   return (
     <View
@@ -34,6 +35,7 @@ const Form = ({
         onSuccess={onSuccess}
         onErrorAction={onErrorAction}
         onUserExist={onUserExist}
+        refSubmit={refSubmit}
       />
     </View>
   );

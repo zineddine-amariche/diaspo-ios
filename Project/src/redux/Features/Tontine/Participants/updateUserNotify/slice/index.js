@@ -47,13 +47,13 @@ const sliceUpdateNotify = createSlice({
       })
       .addCase(updateNotify.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = action.payload.status;
+        state.isSuccess = action.payload;
         state.isError = false;
         state.result = action.payload;
       })
       .addCase(updateNotify.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = action.payload.status;
+        state.isError = action.payload;
         state.message = action.payload;
         state.result = null;
       });

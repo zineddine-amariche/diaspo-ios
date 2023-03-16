@@ -146,14 +146,14 @@ const tontineSlice = createSlice({
       })
       .addCase(createTontine.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = action.payload.status;
+        state.isSuccess = action.payload;
         state.isError = false;
         state.isTontineCreated = true;
         state.TontineCreated = action.payload;
       })
       .addCase(createTontine.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = action.payload.status;
+        state.isError = action.payload;
         state.message = action.payload;
         state.isSuccess = null;
         state.isTontineCreated = false;

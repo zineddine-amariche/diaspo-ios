@@ -1,4 +1,5 @@
 import {
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,6 +13,7 @@ import * as Animatable from 'react-native-animatable';
 import {COLORS} from '../../theme';
 import {useSelector} from 'react-redux';
 import {useState} from 'react';
+import Space from '../Space';
 
 const InputPhone = ({
   Label,
@@ -79,29 +81,30 @@ const InputPhone = ({
                 paddingHorizontal: 10,
                 marginTop: 10,
                 borderBottomWidth: 1,
+                paddingVertical: Platform.OS =='ios' ? 20 : 20
+
               }}>
               <Text
                 style={{
                   fontSize: 17,
                   fontWeight: '700',
                   color: colorScheme == 'dark' ? COLORS.dark : COLORS.black,
+
                 }}>
                 {formattedValue}
               </Text>
             </TouchableOpacity>
           ) : (
+
+            <>
+            
+            <Space/>
             <PhoneInput
               ref={phoneInputRef}
-              // value={value}
               defaultCode="DZ"
               layout="second"
               onChangeFormattedText={onChangeFormattedText}
-              // onChange={(number, countryCode) => {
-              //   console.log(':::::::::: number', number);
-              //   console.log(':::::::::: countryCode', countryCode);
-              // }}
               withDarkTheme
-              withShadow
               containerStyle={{
                 alignSelf: 'center',
                 elevation: 0,
@@ -116,9 +119,9 @@ const InputPhone = ({
               }}
               textInputStyle={{
                 color: colorScheme == 'dark' ? COLORS.dark : COLORS.silver,
-                marginTop: -13,
+                marginTop: Platform.OS == 'ios' ? -15 : -13,
                 flex: 1,
-                paddingTop: 15,
+                paddingVertical:Platform.OS == 'ios' ? 18:10
               }}
               inputStyle={{
                 backgroundColor: '#fff',
@@ -131,12 +134,9 @@ const InputPhone = ({
                   color: colorScheme == 'dark' ? COLORS.dark : COLORS.black,
                 },
               }}
-              // textProps={{ style: { color: 'red' }}}
-              //    onChangePhoneNumber={(number, countryCode) => {
-              //    console.log(':::::::::: number', number);
-              //    console.log(':::::::::: countryCode', countryCode);
-              //  }}
+       
             />
+            </>
           )}
         </View>
       </View>

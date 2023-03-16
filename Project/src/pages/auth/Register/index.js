@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import AuthLayout from '../../../components/views/Layouts/AuthLayout';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import Forms from './Forms';
@@ -51,15 +51,14 @@ const Register = ({navigation, navigation: {goBack}}) => {
     navigation.navigate('SplashScreen');
   };
 
-  const onUserExist =  ()=>{
+  const onUserExist = () => {
     dispatch(resetRegister());
     clearItem('step1FormData');
     clearItem('step2FormData');
     clearItem('step3FormData');
     clearItem('step4FormData');
     setStep(1);
-
-  }
+  };
 
   const [IsTouched, setIsTouched] = useState(false);
   const [IsTouchedNationality, setIsTouchedNationality] = useState(false);
@@ -78,6 +77,12 @@ const Register = ({navigation, navigation: {goBack}}) => {
       dispatch(activateReturn(step - 1));
       setIsTouched(false);
     }
+  };
+  const scrollViewRef = useRef(null);
+
+  const refSubmit = values => {
+    // handle form submission
+    scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
   };
 
   return (
@@ -99,7 +104,10 @@ const Register = ({navigation, navigation: {goBack}}) => {
               marginHorizontal: 20,
               borderRadius: 8,
             }}>
-            <KeyboardAwareScrollView extraHeight={180} enabledOnAndroid>
+            <KeyboardAwareScrollView
+              extraHeight={180}
+              enabledOnAndroid
+              innerRef={scrollViewRef}>
               <Forms
                 navigation={navigation}
                 step={step}
@@ -111,6 +119,7 @@ const Register = ({navigation, navigation: {goBack}}) => {
                 onSuccess={onSuccess}
                 onUserExist={onUserExist}
                 onErrorAction={onErrorAction}
+                refSubmit={refSubmit}
               />
             </KeyboardAwareScrollView>
           </View>

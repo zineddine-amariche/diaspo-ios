@@ -41,7 +41,7 @@ const Form = ({navigation}) => {
     // dispatch(setUserInfoOnLogin(payload));
   };
   const navtoReview = (obj,id) => {
-    navigation.navigate('KycStatusPage',{obj});
+    navigation.navigate('KycStatusPage',{obj,id:id});
     dispatch(setLoader());
     dispatch(getkycUserId(id))
     dispatch(getUserInformations(id));

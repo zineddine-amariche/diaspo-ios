@@ -14,14 +14,14 @@ export const login = createAsyncThunk(
       const token = thunkAPI.getState().token.token;
 
       let data = await loginService.api(user, token);
-      // console.log('data', data.data.userId);
+      // console.log('00ta', data.data);
       if (data.status === 'success') {
         if (data.data.UserKycDetails?.kycStatus == 'NO_KYC') {
           navtokyc(data.data.userId);
         } else if (data.data.UserKycDetails?.kycStatus == 'PENDING_REVIEW') {
-          navtoReview('PENDING_REVIEW', data.data.userId);
+          navtoReview('PENDING_REVIEW', data.data);
           Toast.show(`account is under review `);
-          //  navtoHomePage(data.data.userId);
+          // navtoHomePage(data.data.userId);
           //  navtokyc(data.data.userId);//for Test
         } else if (data.data.UserKycDetails?.kycStatus == 'FAILED') {
           navtoReview('FAILED', data.data.userId);
@@ -120,6 +120,10 @@ const loginSlice = createSlice({
     setUserInfoOnLogin: (state, action) => {
       state.user = action.payload;
     },
+    stopLoader: (state, action) => {
+      state.isLoading = false;
+
+    },
   },
 
   extraReducers: builder => {
@@ -130,6 +134,7 @@ const loginSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload.data;
+        state.isLoading = false;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -147,5 +152,6 @@ export const {
   getPermission,
   setLoader,
   setUserInfoOnLogin,
+  stopLoader
 } = loginSlice.actions;
 export default loginSlice.reducer;

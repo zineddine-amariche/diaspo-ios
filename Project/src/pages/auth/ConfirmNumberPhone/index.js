@@ -48,7 +48,6 @@ const ConfirmPhoneNum = ({navigation, navigation: {goBack}, route}) => {
         dispatch(resetRegister());
       }}
       width={'76%'}
-      // Visible={true}
       Visible={ShowSucces}
       onDissmis={() => {
         onDissmis();
@@ -103,8 +102,7 @@ const BodyModel = ({top, onDissmis}) => {
             textAlign: 'center',
             // fontFamily: 'Poppins-SemiBold',
           }}>
-          There are still some more information that needs to be confirmed in
-          your profile before you can make any transaction.
+          More information needs to be confirmed in your profile before you can make any transactions.
         </Txt>
         <View style={{height: 20}}></View>
 

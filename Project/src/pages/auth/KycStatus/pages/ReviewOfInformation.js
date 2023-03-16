@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import ScreensLayout from '../../../../components/views/Layouts/AppLayout/ScreenLayout/screenLayout';
 import {Txt} from '../../../../components/utils';
 import Space from '../../../../components/Space';
@@ -13,16 +13,45 @@ import icon2 from '../../../../Assets/Img/user-square.png';
 import checkedIcon from '../../../../Assets/Img/tick-square.png';
 import arrowLeft from '../../../../Assets/Img/chevron_left.png';
 import {TouchableOpacity} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {requestReviewInfomations} from '../../../../redux/Features/authentification/ReviewInformations/slice';
+import {useDispatch, useSelector} from 'react-redux';
+import {onExpiredToken} from '../../../../hooks';
 
-const ReviewOfInformation = () => {
-const navigator = useNavigation()
-  const onPress=()=>{
-    navigator.goBack()
-  }
+const ReviewOfInformation = ({route}) => {
+  const navigator = useNavigation();
+  const dispatch = useDispatch();
+  const data = route.params;
+  // console.log('alpha', data.data.userId)
+
+  const onPress = () => {
+    navigator.goBack();
+  };
+
+  const onErrorAction = () => {
+    onExpiredToken(navigator, dispatch);
+  };
+  const onSuccesAction = () => {};
+
+  let obj = {
+    onSuccesAction,
+    userId: data.data.userId,
+    onErrorAction,
+  };
+
+  useEffect(() => {
+    if (data.data.userId) {
+      dispatch(requestReviewInfomations(obj));
+    }
+  }, [data.data.userId]);
+
+  const {isLoading, result} = useSelector(state => state.reviewInfomations);
 
   return (
-    <ScreensLayout onPress={onPress}>
+    <ScreensLayout
+      Loading={isLoading}
+      onPress={onPress}
+      existData={result?.Documents.length == 0 ? false : true}>
       <Space space={20} />
       <View style={{width: '100%', alignItems: 'center'}}>
         <Txt lineHeight={25} color={COLORS.TextBody}>
@@ -36,7 +65,8 @@ const navigator = useNavigation()
           information and documents bellow to proceed.
         </Txt>
       </View>
-      <RenderListItems />
+
+      <RenderListItems result={result?.Documents} />
     </ScreensLayout>
   );
 };
@@ -47,7 +77,7 @@ const styles = StyleSheet.create({});
 
 let data = [
   {
-    name: 'personal infromation ',
+    name: 'Personal infromation ',
     status: 'Good',
     image: <Image source={icon1} />,
     isChecked: true,
@@ -72,88 +102,107 @@ let data = [
   },
 ];
 
-const RenderListItems = () => {
+const RenderListItems = ({result}) => {
+  const navigator = useNavigation();
+
+  const Views = () => {
+    return result?.map((i, index) => {
+      const linkContent = data[index];
+
+      return (
+        <TouchableOpacity
+        onPress={()=>{
+          if(i.status == 'FAILED'){
+            navigator.navigate('KycForm')
+          }
+        }}
+          key={index}
+          disabled={i.status == 'FAILED'  ? false : true}
+          style={{
+            backgroundColor: COLORS.white,
+            width: '90%',
+            marginTop: 10,
+            paddingHorizontal: 20,
+            paddingVertical: 16,
+            borderRadius: 8,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View
+                style={{
+                  marginRight: 10,
+                  backgroundColor: COLORS.blueIcon,
+                  padding: 10,
+                  borderRadius: 8,
+                }}>
+                {linkContent.image}
+              </View>
+              <View style={{flexDirection: 'column'}}>
+                <View>
+                  <Txt Bold={'700'} color={COLORS.BlackModal}>
+                    {linkContent.name}
+                  </Txt>
+                </View>
+
+                <View
+                  style={{
+                    backgroundColor:
+                      i.status === 'VALIDATED'
+                        ? COLORS.lightSage
+                        : i.status === 'PENDING_REVIEW'
+                        ? COLORS.darkSkyBlue02
+                        : i.status === 'FAILED'
+                        ? COLORS.veryLightPink
+                        : COLORS.finished,
+                    paddingVertical: 2,
+                    alignItems: 'center',
+                    marginTop: 9,
+                    borderRadius: 20,
+                    paddingHorizontal: 10,
+                  }}>
+                  <Txt
+                    color={
+                      i.status === 'VALIDATED'
+                        ? COLORS.greenishTeal
+                        : i.status === 'PENDING_REVIEW'
+                        ? COLORS.darkSkyBlue
+                        : i.status === 'FAILED'
+                        ? COLORS.coral
+                        : COLORS.silver
+                    }
+                    fontSize={12}>
+                    {i.status == 'PENDING_REVIEW'
+                      ? 'Verifying'
+                      : i.status == 'FAILED'
+                      ? 'Failed to verify'
+                      : i.status == 'VALIDATED'
+                      ? 'Good'
+                      : ''}
+                  </Txt>
+                </View>
+              </View>
+            </View>
+
+            <View>
+              {i.status == 'FAILED' ? <Image source={arrowLeft} /> : null}
+              {i.status == 'VALIDATED' ? <Image source={checkedIcon} /> : null}
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    });
+  };
+
+  // console.log('merger', merger)
   return (
     <View style={{alignItems: 'center'}}>
       <Space space={20} />
-      {data.map((i, index) => {
-        return (
-          <TouchableOpacity
-            key={index}
-            disabled={i.isChecked ? true : false}
-            style={{
-              backgroundColor: COLORS.white,
-              width: '90%',
-              marginTop: 10,
-              paddingHorizontal: 20,
-              paddingVertical: 16,
-              borderRadius: 8,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View
-                  style={{
-                    marginRight: 10,
-                    backgroundColor: COLORS.blueIcon,
-                    padding: 10,
-                    borderRadius: 8,
-                  }}>
-                  {i.image}
-                </View>
-                <View style={{flexDirection: 'column'}}>
-                  <View>
-                    <Txt>{i.name}</Txt>
-                  </View>
-
-                  <View
-                    style={{
-                      backgroundColor:
-                        i.status === 'Good'
-                          ? COLORS.lightSage
-                          : i.status === 'Verifying'
-                          ? COLORS.offWhite
-                          : i.status === 'Failed to verify'
-                          ? COLORS.veryLightPink
-                          : COLORS.finished,
-                      paddingVertical: 2,
-                      alignItems: 'center',
-                      marginTop: 9,
-                      borderRadius: 20,
-                    }}>
-                    <Txt
-                      color={
-                        i.status === 'Good'
-                          ? COLORS.greenishTeal
-                          : i.status === 'Verifying'
-                          ? COLORS.orangeYellow
-                          : i.status === 'Failed to verify'
-                          ? COLORS.coral
-                          : COLORS.silver
-                      }
-                      fontSize={12}>
-                      {' '}
-                      {i.status}
-                    </Txt>
-                  </View>
-                </View>
-              </View>
-
-              <View>
-                {i.isChecked == false ? (
-                  <Image source={arrowLeft} />
-                ) : (
-                  <Image source={checkedIcon} />
-                )}
-              </View>
-            </View>
-          </TouchableOpacity>
-        );
-      })}
+      <Views />
     </View>
   );
 };

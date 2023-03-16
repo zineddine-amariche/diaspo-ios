@@ -36,12 +36,12 @@ const data2 = [
     value: 'CARD_ID',
     icon: 'minus',
   },
-  {
-    color: COLORS.grayIcon,
-    label: 'NATIONAL_ID',
-    value: 'NATIONAL_ID',
-    icon: 'minus',
-  },
+  // {
+  //   color: COLORS.grayIcon,
+  //   label: 'NATIONAL_ID',
+  //   value: 'NATIONAL_ID',
+  //   icon: 'minus',
+  // },
 ];
 
 const Form2 = ({  TypeFileToSend, onSelectType}) => {

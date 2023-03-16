@@ -1,11 +1,10 @@
 import * as Yup from 'yup';
 import {fr} from 'yup-locales';
 import {setLocale} from 'yup';
-import {useSelector} from 'react-redux';
 import {useState} from 'react';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import AsyncStorage from '@react-native-community/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 setLocale(fr);
 
@@ -25,6 +24,8 @@ export function useRegister() {
   };
 
   const {devicetoken, deviceOS} = useSelector(state => ({...state.register}));
+  const {exists,error,status} = useSelector(state => ({...state.existingEmail}));
+
 
   const IdentityState = {
     firstName: '',
@@ -65,7 +66,6 @@ export function useRegister() {
     confirmPassword: '',
   };
 
-  const {token} = useSelector(state => ({...state.token}));
 
   let validationSchemaIdentity = Yup.object().shape({
     firstName: Yup.string().required('first name is required'),
@@ -74,6 +74,9 @@ export function useRegister() {
     birthDay: Yup.string().required('Date of birth  is required'),
     nationality: Yup.string().required('nationality  is required'),
     email: Yup.string()
+    .test('email-exists', 'Email already exists', async (value) => {
+      return !exists;
+    })
       .required('email  is required')
       .min(8, 'email is too short - must be at least 4 characters.')
       .matches(emailRegex, 'Must be a valid email!'),

@@ -1,4 +1,4 @@
-import {StyleSheet, useColorScheme} from 'react-native';
+import {Platform, StyleSheet, useColorScheme} from 'react-native';
 import React from 'react';
 import PrimaryInput from '../../../../../components/Input';
 import {COLORS} from '../../../../../theme';
@@ -26,8 +26,12 @@ const key = 'AIzaSyCVMEeau_kXYIENxFDuzrKtHFJExe0qcrQ';
 const PlacesInput = ({apiKey, onSelect}) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
+  const [resultsId, setResultsId] = useState([]);
   const [selected, setSelected] = useState('');
   const [loading, setLoading] = useState(false);
+
+
+  // console.log('resultsId', resultsId)
 
   useEffect(() => {
     AsyncStorage.getItem('step3FormData').then(data => {
@@ -76,6 +80,7 @@ const PlacesInput = ({apiKey, onSelect}) => {
       onSelect(result);
       setSelected(result.description);
       setResults([]);
+      setResultsId(result?.description)
     }
   };
 
@@ -94,6 +99,7 @@ const PlacesInput = ({apiKey, onSelect}) => {
           color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
           borderBottomWidth: 1,
           borderBottomColor: COLORS.silver,
+          paddingVertical: Platform.OS == 'ios' ? 20 : 15,
         }}
       />
 
@@ -102,19 +108,19 @@ const PlacesInput = ({apiKey, onSelect}) => {
         <View
           style={{
             flex: 1,
-            padding:20
+            padding: 20,
           }}>
           <ActivityIndicator size="small" color={COLORS.blueGreen} />
         </View>
       )) ||
         null}
       {!loading ? (
-        <ScrollView horizontal contentContainerStyle={{width:"100%"}}>
+        <ScrollView horizontal contentContainerStyle={{width: '100%'}}>
           <FlatList
             data={results}
-            key={results.id}
+            key={item => item.id}
             keyExtractor={item => item.id}
-            renderItem={({item}) => (
+            renderItem={({item , index}) => (
               <TouchableOpacity
                 onPress={() => handleSelect(item)}
                 style={{
@@ -122,10 +128,12 @@ const PlacesInput = ({apiKey, onSelect}) => {
                   borderBottomWidth: 1,
                   borderBottomColor: COLORS.silver,
                   backgroundColor: COLORS.lightBlueGrey30,
-                  borderRadius:2
-                }}>
+                  borderRadius: 2,
+                }}
+                key={index}
+              >
                 <Txt
-                style={{paddingLeft:10}}
+                  style={{paddingLeft: 10}}
                   fontSize={14}
                   numberOfLines={1}
                   color={colorScheme == 'dark' ? COLORS.black : COLORS.dark}>
@@ -173,7 +181,7 @@ const Step3 = ({
   }));
 
   return (
-    <View style={{flex: 1, }}>
+    <View style={{flex: 1}}>
       <FormInputs
         setFieldValue={setFieldValue}
         handleChange={handleChange}
@@ -233,7 +241,7 @@ const FormInputs = ({
     <>
       <Space space={20} />
       <Head>Address</Head>
-      <View style={{flex: 1,  }}>
+      <View style={{flex: 1}}>
         <PlacesInput
           apiKey={key}
           onSelect={handleSelect}

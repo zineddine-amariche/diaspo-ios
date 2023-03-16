@@ -22,7 +22,7 @@ export const register = createAsyncThunk(
       }
       return res;
     } catch (error) {
-      // onUserExist()
+       onUserExist()
 
       const {onErrorAction,onUserExist} = data;
       const message =
@@ -40,11 +40,11 @@ export const register = createAsyncThunk(
       ) {
         Toast.show(`${message.status} , ${message.statusDescription}`);
         //
-         if(message.statusDescription =="User already exists"   ){
+        //  if(message.statusDescription =="User already exists"   ){
         //
-           onUserExist()
+          //  onUserExist()
         //
-       }
+      //  }
       
       } else if (!message.status) {
         Toast.show(`${message}`);

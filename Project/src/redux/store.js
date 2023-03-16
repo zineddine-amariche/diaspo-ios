@@ -35,6 +35,9 @@ import sliceUserInformations from "./Features/authentification/User_informations
 import registerPerssisteSlice from "./Features/authentification/Register/perssistingRegisterInputs"
 import tontineTypesSlice from './Features/Tontine/TontinesTypes'
 import uploadPhotoSlice from './Features/kyc/identityVerefication/slice'
+import reviewInfomations from './Features/authentification/ReviewInformations/slice'
+
+import emailExistsSlice from "./Features/authentification/Register/emailExistsSlice"
 const reducers = combineReducers({
   token: TokenSlice,
   auth: loginSlice,
@@ -67,7 +70,9 @@ const reducers = combineReducers({
   userInformations:sliceUserInformations,
   registerPerssisteSlice,
   tontineTypesSlice,
-  uploadPhotoSlice
+  uploadPhotoSlice,
+  existingEmail:emailExistsSlice,
+  reviewInfomations
 });
 
 const persistConfig = {

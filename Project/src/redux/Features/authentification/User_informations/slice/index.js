@@ -16,8 +16,6 @@ export const getUserInformations = createAsyncThunk(
         error.message ||
         error.toString();
 
-        console.log('register message', message)
-
         if (message.status == 'error' &&message.status ) {
           message.statusDescription || message.StatusDescription
           ? Toast.show(
@@ -82,13 +80,13 @@ const sliceUserInformations = createSlice({
       })
       .addCase(getUserInformations.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = action.payload.status;
+        state.isSuccess = action.payload;
         state.isError = false;
         state.informationsUser = action.payload;
       })
       .addCase(getUserInformations.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = action.payload.status;
+        state.isError = action.payload;
         state.message = action.payload;
         state.informationsUser = null;
       });

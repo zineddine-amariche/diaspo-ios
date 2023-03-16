@@ -43,13 +43,13 @@ const sliceUpdateStatusParticipant = createSlice({
       })
       .addCase(updateStatusParticipant.fulfilled, (state, action) => {
         state.Loading = false;
-        state.isSuccess = action.payload.status;
+        state.isSuccess = action.payload;
         state.isError = false;
         state.result = action.payload;
       })
       .addCase(updateStatusParticipant.rejected, (state, action) => {
         state.Loading = false;
-        state.isError = action.payload.status;
+        state.isError = action.payload;
         state.message = action.payload;
         state.result = null;
       });

@@ -11,7 +11,7 @@ import review from '../../../../Assets/Kyc/review.png';
 import {PaleGreyButton, PrimaryButton} from '../../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
 
-const UseStatusPage = ({onClose}) => {
+const UseStatusPage = ({onClose,data}) => {
   const nav =useNavigation()
   return (
     <SafeAreaView
@@ -26,6 +26,8 @@ const UseStatusPage = ({onClose}) => {
         title="Review of information"
         isClose={false}
       />
+
+
       <View style={{alignItems: 'center'}}>
         <Space space={60} />
         <View style={{padding: 25}}>
@@ -62,7 +64,9 @@ const UseStatusPage = ({onClose}) => {
         <PaleGreyButton width={'90%'} 
         
         onPress={()=>{
-          nav.navigate('ReviewOfInformation')
+          nav.navigate('ReviewOfInformation',{data})
+
+      
         }}
         >Review information</PaleGreyButton>
         <Space />
@@ -70,6 +74,8 @@ const UseStatusPage = ({onClose}) => {
           Close
         </PrimaryButton>
       </View>
+
+      
     </SafeAreaView>
   );
 };

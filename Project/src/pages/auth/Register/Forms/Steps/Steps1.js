@@ -17,7 +17,11 @@ import * as ImagePicker from 'react-native-image-picker';
 import avatar from '../../../../../Assets/Img/avatar.png';
 import icon16CameraPlus from '../../../../../Assets/Img/icon16CameraPlus.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  checkEmailExists,
+  selectEmailExistsStatus,
+} from '../../../../../redux/Features/authentification/Register/emailExistsSlice';
 
 const Step1 = ({
   step,
@@ -81,17 +85,6 @@ const FormInputs = ({
   const [fileUri, setFileUri] = useState('');
 
   const launchImageLibrary = async () => {
-    // let options = {
-    //   storageOptions: {
-    //     skipBackup: true,
-    //     path: "images",
-    //     mediaType: "photo",
-    //     includeBase64: false,
-    //     maxHeight: 200,
-    //     maxWidth: 200,
-    //   },
-    // };
-
     let result = await ImagePicker.launchImageLibrary({
       mediaTypes: 'photo',
       allowsEditing: true,
@@ -110,10 +103,7 @@ const FormInputs = ({
   const isReturns = useSelector(
     state => state.registerPerssisteSlice.isReturns,
   );
-  //  console.log('isReturns', isReturns)
 
-  // create new values of birthday & nationalty
-  // console.log('values', values)
   useEffect(() => {
     if (step == 1 && isReturns === 1) {
       AsyncStorage.getItem('step1FormData').then(data => {
@@ -199,23 +189,22 @@ const FormInputs = ({
 
         <Space space={20} />
 
-
-          <CustomDatePiker
-            label={'Date of birth'}
-            setFieldValue={setFieldValue}
-            name={'birthDay'}
-            errors={errors.birthDay}
-            touched={touched.birthDay}
-            placeholder={'Select your date of birth'}
-            onBlur={handleBlur('birthDay')}
-            selectedValue={selected}
-            placeholderTextColor={COLORS.darkBlueGrey}
-            fontSize={18}
-            IsTouched={IsBirthDay}
-            setIsTouched={setIsBirthDay}
-            minimumDate={minimumDate}
-            maximumDate={maximumDate}
-          />
+        <CustomDatePiker
+          label={'Date of birth'}
+          setFieldValue={setFieldValue}
+          name={'birthDay'}
+          errors={errors.birthDay}
+          touched={touched.birthDay}
+          placeholder={'Select your date of birth'}
+          onBlur={handleBlur('birthDay')}
+          selectedValue={selected}
+          placeholderTextColor={COLORS.darkBlueGrey}
+          fontSize={18}
+          IsTouched={IsBirthDay}
+          setIsTouched={setIsBirthDay}
+          minimumDate={minimumDate}
+          maximumDate={maximumDate}
+        />
 
         <Space space={20} />
 

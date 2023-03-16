@@ -5,13 +5,18 @@ import {Txt} from '../../../components/utils';
 import Form from './Form/Index';
 import AuthLayout from '../../../components/views/Layouts/AuthLayout';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Spiner from '../../../components/spiner';
+import { stopLoader } from '../../../redux/Features/authentification/Login/Slice';
 
 const Login = ({navigation, navigation: {goBack}}) => {
   const {isLoading, message} = useSelector(state => state.auth);
+  const dispatch = useDispatch()
   return (
-    <AuthLayout Title={'Login'} goBack={goBack}>
+    <AuthLayout Title={'Login'} goBack={()=>{goBack()
+    
+      dispatch(stopLoader())
+    }}>
       <View style={styles.space}>
         {isLoading ? (
           <Spiner />

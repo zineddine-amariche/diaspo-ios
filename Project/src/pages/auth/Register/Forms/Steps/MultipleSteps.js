@@ -19,6 +19,8 @@ import {
   get_step_C,
 } from '../../../../../redux/Features/authentification/Register/perssistingRegisterInputs';
 import {register} from '../../../../../redux/Features/authentification/Register/Slice';
+import {checkEmailExists} from '../../../../../redux/Features/authentification/Register/emailExistsSlice';
+import { checkPhoneNumberExists } from '../../../../../redux/Features/authentification/Register/phoneNumberExistSlice';
 
 const renderStep = (
   step,
@@ -118,7 +120,8 @@ export const MultiStep = ({
   setIsTouchedNationality,
   onSuccess,
   onErrorAction,
-  onUserExist
+  onUserExist,
+  refSubmit,
 }) => {
   const {isLoading} = useSelector(state => state.register);
   const {
@@ -134,8 +137,6 @@ export const MultiStep = ({
     HandlehidePass,
     ToRegister,
   } = useRegister();
-
-  const [ObjectRegister, setObjectRegister] = useState([]);
 
   const handleSubmits = values => {
     // setObjectRegister([...ObjectRegister, values]);
@@ -225,27 +226,27 @@ export const MultiStep = ({
         },
       ];
 
-  // console.log('ObjectRegister', obj)
-
-  // useEffect(() => {
-  //   if (ObjectRegister[3]?.password && ObjectRegister[3]?.startAt) {
-  //     dispatch(register(obj, navigation));
-  //   }
-  // }, [step, ObjectRegister]);
-
-  // useEffect(() => {
-  // if (registerPerssisteSlice) {
-  // console.log('registerPerssisteSlice', registerPerssisteSlice);
-  // }
-  // }, [registerPerssisteSlice,dispatch]);
-
-  // console.log('registerPerssisteSlice', registerPerssisteSlice?.step_A);
-
   const [IsBirthDay, setIsBirthDay] = useState(false);
-
-  // set Language isTouched !
   const [IsTouchedLanguage, setIsTouchedLanguage] = useState(false);
-  // console.log('step', step)
+  const {status} = useSelector(state => ({...state.existingEmail}));
+
+  const onEmailSuccessAction = async values => {
+    await AsyncStorage.setItem('step1FormData', JSON.stringify(values));
+    setIsTouched(true);
+    dispatch(get_step_A(values));
+    dispatch(activateReturn(isReturns == 1 ? 2 : 1));
+  };
+
+  const onEmailErrorAction = () => {};
+  const onFailedAction = () => {};
+
+  const onPhoneNumberSuccessAction = async values => {
+    await AsyncStorage.setItem('step2FormData', JSON.stringify(values));
+    dispatch(get_step_B(values));
+    dispatch(activateReturn(isReturns == 2 ? 3 : 2));
+    setIsTouchedLanguage(true);
+  };
+
   return (
     <>
       <Formik
@@ -268,13 +269,6 @@ export const MultiStep = ({
           setValues,
           dirty,
         }) => {
-          // if(step==4){
-          //   AsyncStorage.setItem(
-          //     'step4FormData',
-          //     JSON.stringify(values),
-          //   );
-          //   console.log('values', values)
-          // }
           return (
             <>
               <View style={styles.Form}>
@@ -305,27 +299,32 @@ export const MultiStep = ({
                       step={step}
                       width={'100%'}
                       onPress={() => {
-                        handleSubmit();
-                        setIsBirthDay(true);
-                        // setIsTouchedNationality(true);
                         if (step == 1) {
-                          AsyncStorage.setItem(
-                            'step1FormData',
-                            JSON.stringify(values),
-                          );
-                          setIsTouched(true);
-
-                          dispatch(get_step_A(values));
-                          dispatch(activateReturn(isReturns == 1 ? 2 : 1));
+                          setIsBirthDay(true);
+                          let obj = {
+                            onEmailSuccessAction,
+                            email: values.email,
+                            onFailedAction,
+                            handleSubmit,
+                            onEmailErrorAction,
+                            values,
+                            onErrorAction,
+                          };
+                          dispatch(checkEmailExists(obj));
                         } else if (step == 2) {
-                          AsyncStorage.setItem(
-                            'step2FormData',
-                            JSON.stringify(values),
-                          );
-                          dispatch(get_step_B(values));
-                          dispatch(activateReturn(isReturns == 2 ? 3 : 2));
-                          setIsTouchedLanguage(true);
+                          let obj = {
+                            onPhoneNumberSuccessAction,
+                            values,
+                            handleSubmit,
+                            onErrorAction,
+                            mobileNumber: values.mobileNumber,
+
+                          };
+                          // console.log('values.mobileNumber', values.mobileNumber)
+                           dispatch(checkPhoneNumberExists(obj));
                         } else if (step == 3) {
+                          handleSubmit(),
+
                           AsyncStorage.setItem(
                             'step3FormData',
                             JSON.stringify(values),
@@ -337,14 +336,12 @@ export const MultiStep = ({
                           return;
                         }
                       }}
-                      // loading={isSubmitting}
+                      loading={status == 'loading'}
                       disabled={
                         (isValid || isSubmitting) &&
                         ((dirty && values.firstName && values.email) ||
                           (dirty && values.mobileNumber && values.language) ||
-                          (dirty &&
-                            values.streetName &&
-                            values.postCode))
+                          (dirty && values.streetName && values.postCode))
                       }>
                       {'Next'}
                     </PrimaryButtonLinear>
@@ -361,17 +358,8 @@ export const MultiStep = ({
                           'step4FormData',
                           JSON.stringify(values),
                         );
-                      
-                        let {
-                          group,
-                          password,
-                          confirmPassword,
-                          profAdress,
-                          profAdressData,
-                          profIdentity,
-                          profIdentityData,
-                          startAt,
-                        } = values
+
+                        let {password} = values
                           ? values
                           : [
                               {
@@ -398,7 +386,7 @@ export const MultiStep = ({
                           nationality,
                           address: {
                             streetName,
-                            postCode,         
+                            postCode,
                           },
                           group: 'USER',
                         };
@@ -407,16 +395,16 @@ export const MultiStep = ({
                           obj,
                           onSuccess,
                           onErrorAction,
-                          onUserExist
-                        }
+                          onUserExist,
+                        };
                         // console.log('obj', obj);
                         dispatch(register(object, navigation));
                       }}
                       loading={isLoading}
                       disabled={
-                        (!errors.password &&  !errors.confirmPassword &&
-                          values.password
-                          ) ||
+                        (!errors.password &&
+                          !errors.confirmPassword &&
+                          values.password) ||
                         isSubmitting
                       }>
                       {'Register'}

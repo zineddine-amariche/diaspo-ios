@@ -17,7 +17,8 @@ const api = async (mobileNumbers, token) => {
 
   // console.log('data.mobileNumbers______________________________________', data.mobileNumbers)
   const res = await axios.post(API_URL, data, config);
-  // console.log('res.data', res.data.data.walletAccountUserMobile)
+   console.log('res.data', res.data.data.walletAccountUserMobile)
+   console.log('res.data', res.data.data)
   return res.data.data.walletAccountUserMobile;
 };
 const connectedService = {

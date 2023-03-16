@@ -9,10 +9,11 @@ const KycStatusPage = ({navigation, route}) => {
   const onClose = () => {
     navigation.navigate('login');
   };
+  
   return (
     <>
       {data.obj === 'PENDING_REVIEW' ? (
-        <UseStatusPage onClose={onClose} />
+        <UseStatusPage onClose={onClose} data={data.id} />
       ) : (
         <UseStatusPageFailed onClose={onClose} />
       )}

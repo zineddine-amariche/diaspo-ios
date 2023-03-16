@@ -43,13 +43,13 @@ const slicePayers = createSlice({
       })
       .addCase(getPayers.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = action.payload.status;
+        state.isSuccess = action.payload;
         state.isError = false;
         state.data = action.payload;
       })
       .addCase(getPayers.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = action.payload.status;
+        state.isError = action.payload;
         state.message = action.payload;
         state.data = null;
       });

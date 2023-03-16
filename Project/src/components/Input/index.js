@@ -85,7 +85,7 @@ const PrimaryInput = ({
               {...style}
               style={{
                 color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
-                padding: Platform.OS =='ios' ? 13 : 7
+                paddingVertical: Platform.OS =='ios' ? 18 : 7
               }}
               secureTextEntry={hidePass ? true : false}
               editable={editable}

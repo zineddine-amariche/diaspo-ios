@@ -30,9 +30,6 @@ const AuthLayout = ({
       </AuthHead>
 
       {children}
-      {/* <View style={styles.lineBox}>  */}
-        {/* <Line /> */}
-      {/* </View> */}
 
       <CreatedSuccess Visible={Visible} onDissmis={onDissmis} >
         {BodyModel ? <BodyModel   onDissmis={onDissmis} /> : null}
