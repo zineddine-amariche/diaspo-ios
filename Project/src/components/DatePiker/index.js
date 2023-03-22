@@ -19,6 +19,7 @@ import {Head, Txt} from '../utils';
 import {COLORS} from '../../theme';
 // import * as Animatable from "react-native-animatable";
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
+import * as Animatable from 'react-native-animatable';
 
 const DateHandler = ({
   setFieldValue,
@@ -28,6 +29,9 @@ const DateHandler = ({
   selectedValue,
   minimumDate,
   maximumDate,
+  touched,
+  errors
+
 }) => {
   const [date, setDate] = useState(new Date());
   const [Mode, setMode] = useState('date');
@@ -159,6 +163,13 @@ const DateHandler = ({
       </TouchableOpacity>
       </View>
 
+      {errors && touched ? (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.error}>{errors} </Text>
+          </Animatable.View>
+        ) : null}
+
+
       {/* {show && ( */}
       {/* <DateTimePicker
           testID="dateTimePiker"
@@ -211,6 +222,11 @@ const styles = StyleSheet.create({
     // fontFamily: 'Roboto-Bold',
     flex: 1,
     paddingLeft: 2,
+  },
+  error: {
+    color: COLORS.coral,
+    paddingVertical: 5,
+    fontSize: 13,
   },
 });
 

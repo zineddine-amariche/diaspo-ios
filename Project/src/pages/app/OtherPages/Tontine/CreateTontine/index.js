@@ -42,6 +42,7 @@ import HView from '../../../../../components/views/HView/HView';
 import {useDispatch, useSelector} from 'react-redux';
 import CustomDatePiker from '../../../../../components/DatePiker';
 import {resetSelectTontine} from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
+import ReturnHeader from '../../../../../components/Headers/root/ReturnHeader';
 
 const CreateTontine = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -109,31 +110,17 @@ const CreateTontine = ({navigation, route}) => {
     setChecked(!checked);
   };
 
-
   const {selectedTontine} = useSelector(state => ({
     ...state.tontines,
   }));
 
-
-  // console.log('selectedTontine', selectedTontine)
-  // console.log('checked', checked)
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
-      <Image
-        style={styles.ImageBackground}
-        source={ImgBack}
-        resizeMode="stretch"
-      />
-      <SecondaryHeader
-        goBack={() => {
-          navigation.navigate('Tontine');
-          dispatch(resetSelectTontine());
-        }}
-        title={'Create A New Tontine'}
-        Cancel="retrun"
-      />
-
+    <ReturnHeader
+      title={'Create A New Tontine'}
+      goBack={() => {
+        navigation.navigate('Tontine');
+        dispatch(resetSelectTontine());
+      }}>
       <Formik
         enableReinitialize
         initialValues={state}
@@ -141,8 +128,8 @@ const CreateTontine = ({navigation, route}) => {
         onSubmit={(values, formikAction) => {
           // formikAction.setValues("");
           // formikAction.setErrors(null)
-          formikAction.resetForm()
-          formikAction.setErrors('')
+          formikAction.resetForm();
+          formikAction.setErrors('');
           navigation.navigate('PoliciesInstructions', {data: values});
         }}>
         {({
@@ -157,7 +144,9 @@ const CreateTontine = ({navigation, route}) => {
           isValid,
         }) => {
           const {name, amount, startAt, retentionRate} = values;
-            // console.log('values', values)
+          // console.log('values', values)
+
+          console.log('errors', errors)
           return (
             <>
               <ScrollView
@@ -267,7 +256,7 @@ const CreateTontine = ({navigation, route}) => {
                       />
                       <Space space={20} />
 
-                  {/* {    selectedTontine == 'TONTINE_CUSTOM_TONTINE' &&selectedTontine ? <SquareCheckBox
+                      {/* {    selectedTontine == 'TONTINE_CUSTOM_TONTINE' &&selectedTontine ? <SquareCheckBox
                         title={'Include you as a payer'}
                         checked={checked}
                         onPress={() => {
@@ -304,8 +293,8 @@ const CreateTontine = ({navigation, route}) => {
                   loading={isLoading}>
                   next
                 </PrimaryButtonLinear>
-                <Space space={25} />
-                <Line color={COLORS.black} />
+                {/* <Space space={25} /> */}
+                {/* <Line color={COLORS.black} /> */}
               </View>
             </>
           );
@@ -325,7 +314,7 @@ const CreateTontine = ({navigation, route}) => {
       <CreatedSuccess Visible={error} onDissmis={onDissmisError} top={90}>
         {BodyModel ? <BodyModelErr onDissmis={onDissmisError} /> : null}
       </CreatedSuccess>
-    </SafeAreaView>
+    </ReturnHeader>
   );
 };
 export default CreateTontine;
@@ -376,7 +365,7 @@ const BodyModelErr = ({onDissmis}) => {
         <Image source={illusphone} style={{width: '100%'}} />
 
         <Head
-         fontFamily={'Poppins-Bold'}
+          fontFamily={'Poppins-Bold'}
           style={{padding: 20, textAlign: 'center'}}>
           Transfered successfully
         </Head>
@@ -426,8 +415,11 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
     backgroundColor: COLORS.white,
-    height: 110,
-    paddingTop: 15,
+    // height: 110,
+    // paddingTop: 15,
+    position: 'absolute',
+    bottom: 0,
+    paddingVertical:10
   },
   BoxInfoTextYellow: {
     justifyContent: 'center',
@@ -465,7 +457,6 @@ const AdvancedSettings = ({
     setVisible(true);
   }, []);
 
-
   // console.log('v', value);
   return AdvancedSettings ? (
     <>
@@ -490,7 +481,6 @@ const AdvancedSettings = ({
         onSuccess={onSuccess}
         advancedSettings={AdvancedSettings}
       />
- 
     </>
   ) : (
     <>
@@ -501,10 +491,12 @@ const AdvancedSettings = ({
         <Space space={10} />
 
         <HView>
-          <Txt color={COLORS.orangeYellow} style={{textDecorationLine:'underline '}} fontSize={14}>
+          <Txt
+            color={COLORS.orangeYellow}
+            style={{textDecorationLine: 'underline '}}
+            fontSize={14}>
             Advanced Settings
           </Txt>
-    
         </HView>
       </TouchableOpacity>
 
@@ -514,5 +506,3 @@ const AdvancedSettings = ({
     </>
   );
 };
-
-

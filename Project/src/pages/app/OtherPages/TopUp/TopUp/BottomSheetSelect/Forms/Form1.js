@@ -37,7 +37,6 @@ const Form1 = ({ ShowCodeForm }) => {
 
   return data.map((i, ind) => {
     return (
-      <>
         <TouchableOpacity
           key={ind}
           onPress={() => {
@@ -59,7 +58,6 @@ const Form1 = ({ ShowCodeForm }) => {
         </TouchableOpacity>
 
 
-      </>
     );
   });
 };

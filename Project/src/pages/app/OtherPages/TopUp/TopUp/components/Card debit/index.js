@@ -4,7 +4,6 @@ import ViewT1 from '../../../../../../../components/views/CardViewType1';
 import HView from '../../../../../../../components/views/HView/HView';
 import { Txt } from '../../../../../../../components/utils';
 import { COLORS } from '../../../../../../../theme';
-import UseCheckBoxElements from '../../../../../../../components/checkBox/useCheckBoxElements';
 
 const CreditDebit  = ({title,data,onSelect}) => {
   return (
@@ -22,7 +21,7 @@ const CreditDebit  = ({title,data,onSelect}) => {
                   // console.log("item", i);
                   // onPress();
                   // navigation.navigate("TopUp", { data: i });
-                  // onSelect(i)
+                  onSelect(i)
                 }}
               >
                 <HView spaceBetween style={styles.item}>

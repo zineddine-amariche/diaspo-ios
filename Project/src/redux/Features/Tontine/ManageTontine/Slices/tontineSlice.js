@@ -8,19 +8,57 @@ export const createTontine = createAsyncThunk(
   'tontine/create',
   async (object, thunkAPI) => {
     try {
-      let {token, userId, data} = object;
+      let {token, userId,onSuccess, data} = object;
 
-      return await CreateTontineService.api(userId, data, token);
+      let res = await CreateTontineService.api(userId, data, token);
+      // console.log('00ta', data.data);
+      if (res.status === 'success') {
+        console.log('data', res.data);
+        console.log('res.data.project.projectId', res.data.project.projectId)
+         onSuccess(res.data.project.projectId,token)
+        return res;
+      } else {
+        console.log('data.status ', res )
+        console.log('error', 'Somthing went wrong.');
+      }
     } catch (error) {
-      // console.log('error', error.response)
-      // console.log('response.data', error.response.data)
-      // && error.response.data.status
+      const {onErrorAction} = object;
       const message =
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
 
       console.log('message', message);
+
+      if (
+        message.status == 'error' &&
+        message.status &&
+        message.statusDescription !== ''
+      ) {
+        message.statusDescription
+          ? Toast.show(
+              `${message.status} , ${
+                message.statusDescription == ''
+                  ? 'something went wrong'
+                  : message.statusDescription
+              }`,
+            )
+          : Toast.show(`${message},something went wrong `);
+      } else if (!message.status) {
+        Toast.show(`${message}`);
+      } else {
+        if (message.statusDescription == 'Expired token') {
+          onError(message.status, message.statusDescription, onErrorAction);
+        } else {
+          onError(
+            message.status,
+            message.statusDescription == ''
+              ? 'something went wrong'
+              : message.statusDescription,
+            null,
+          );
+        }
+      }
       return thunkAPI.rejectWithValue(message);
     }
   },
@@ -48,9 +86,9 @@ export const getTontines = createAsyncThunk(
         error.message ||
         error.toString();
 
-       console.log('message', message);
+      console.log('message', message);
 
-      if (message.status == 'error' &&message.status ) {
+      if (message.status == 'error' && message.status) {
         message.statusDescription || message.StatusDescription
           ? Toast.show(
               `${message.status} , ${

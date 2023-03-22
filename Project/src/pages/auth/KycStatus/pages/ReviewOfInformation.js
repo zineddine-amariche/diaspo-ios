@@ -102,11 +102,18 @@ let data = [
   },
 ];
 
+
+
 const RenderListItems = ({result}) => {
   const navigator = useNavigation();
 
+
+
+
+  const firstFour = result?.slice(0, 4);
+
   const Views = () => {
-    return result?.map((i, index) => {
+    return firstFour?.map((i, index) => {
       const linkContent = data[index];
 
       return (
@@ -140,12 +147,12 @@ const RenderListItems = ({result}) => {
                   padding: 10,
                   borderRadius: 8,
                 }}>
-                {linkContent.image}
+                {linkContent?.image}
               </View>
               <View style={{flexDirection: 'column'}}>
                 <View>
                   <Txt Bold={'700'} color={COLORS.BlackModal}>
-                    {linkContent.name}
+                    {linkContent?.name}
                   </Txt>
                 </View>
 

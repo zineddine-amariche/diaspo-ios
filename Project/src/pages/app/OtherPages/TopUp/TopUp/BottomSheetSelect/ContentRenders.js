@@ -56,7 +56,7 @@ const ContentRenders = ({ onPress, ChangeAccount }) => {
         <ScrollView>
           {selected === 0 ? <Form1 ShowCodeForm={ShowCodeForm} /> : <Form2 />}
         </ScrollView>
-        <Space />
+        <Space space={30} />
         {selected === 1 && (
           <>
             <PrimaryButton

@@ -57,6 +57,8 @@ import ConfirmedListBéneféciare from "../../../pages/app/OtherPages/Tontine/Be
 import messaging from "@react-native-firebase/messaging";
 import { useNavigation } from "@react-navigation/native";
 import Identity from "../../../pages/auth/Identity";
+import ReturnHeader from "../../../components/Headers/root/ReturnHeader";
+import AmountTopup from "../../../pages/app/OtherPages/TopUp/TopUp/pages/AmountTopup/AmountTopup";
 
 const Drawer = createDrawerNavigator();
 const DrawerScreen = (props) => {
@@ -120,6 +122,7 @@ const DrawerScreen = (props) => {
       <Drawer.Screen name="BankAccounts" component={BankAccounts} {...props} />
       <Drawer.Screen name="CreditsCards" component={CreditsCards} {...props} />
       <Drawer.Screen name="CardFormInfo" component={CardFormInfo} {...props} />
+      <Drawer.Screen name="AmountTopup" component={AmountTopup} {...props} />
 
 
       

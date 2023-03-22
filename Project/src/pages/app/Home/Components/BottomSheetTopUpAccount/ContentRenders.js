@@ -4,36 +4,41 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import React from "react";
-import HView from "../../../../../components/views/HView/HView";
-import { Head, Txt } from "../../../../../components/utils";
-import { COLORS } from "../../../../../theme";
-import Space from "../../../../../components/Space";
-import { PaleGreyButton, WhiteButton } from "../../../../../components/Buttons";
-import { useSelector } from "react-redux";
+} from 'react-native';
+import React from 'react';
+import HView from '../../../../../components/views/HView/HView';
+import {Head, Txt} from '../../../../../components/utils';
+import {COLORS} from '../../../../../theme';
+import Space from '../../../../../components/Space';
+import {PaleGreyButton, WhiteButton} from '../../../../../components/Buttons';
+import {useSelector} from 'react-redux';
 
 const data = [
   {
     id: 0,
-    label: "DIASPO ACCOUNT",
-    value: "Main Account",
-    price: "32,589.50",
-    currency: "euro",
+    label: 'DIASPO ACCOUNT',
+    value: 'Main Account',
+    price: '32,589.50',
+    currency: 'euro',
   },
   {
     id: 1,
-    label: "TONTINE ACCOUNT",
-    value: "2nd FX",
-    price: "12,089.50",
-    currency: "USD",
+    label: 'TONTINE ACCOUNT',
+    value: '2nd FX',
+    price: '12,089.50',
+    currency: 'USD',
   },
-
 ];
 
-const ContentRenders = ({onPress2,navigation,closeBottomUp1,closeBottomUp2,closeAll}) => {
-  
-
+const ContentRenders = ({
+  onPress2,
+  navigation,
+  closeBottomUp1,
+  closeBottomUp2,
+  closeAll,
+}) => {
+  const {walletAccount} = useSelector(state => state.walletAccounts);
+console.log('walletAccount', walletAccount)
   return (
     <>
       <View
@@ -41,51 +46,53 @@ const ContentRenders = ({onPress2,navigation,closeBottomUp1,closeBottomUp2,close
           backgroundColor: COLORS.white,
           padding: 16,
           // height: SIZES.height / 4,
-        }}
-      >
+        }}>
         <Head style={styles.Head}>Select a account to top up</Head>
         <ScrollView>
-          {data.map((i, ind) => {
+          {walletAccount?.walletAccounts?.map((i, ind) => {
             return (
-              <TouchableOpacity key={ind} 
-              onPress={()=>{
-                closeAll()
-                navigation.navigate('TopUp' , {data:i})
-              }}
-              >
+              <TouchableOpacity
+                key={ind}
+                onPress={() => {
+                  closeAll();
+                  navigation.navigate('TopUp', {data: i});
+                }}>
                 <HView spaceBetween style={styles.item}>
-                  
-                    <HView >
-                      <View style={styles.Point}></View>
-                      <Txt fontSize={17} color={COLORS.orangeYellow}>
-                        {i.label}
-                      </Txt>
-                    </HView>
-                    <View >
-                      <Txt
-                        color={COLORS.blueGreen}
-                        style={{ lineHeight: 40, fontSize: 17 }}
-                      >
-                        {i.price}{" "}
-                      </Txt>
-                      <Txt
-                        color={COLORS.greyblue}
-                        style={{ lineHeight: 24, fontSize: 16 , alignSelf:"flex-end" }}
-                      >
-                        {i.currency}
-                      </Txt>
-                    </View>
+                  <HView>
+                    <View style={styles.Point}></View>
+                    <Txt fontSize={17} color={COLORS.orangeYellow}>
+                      {i.name}
+                    </Txt>
                   </HView>
-             
+                  <View>
+                    <Txt
+                      color={COLORS.blueGreen}
+                      style={{lineHeight: 40, fontSize: 17}}>
+                      {i.price}{' '}
+                    </Txt>
+                    <Txt
+                      color={COLORS.greyblue}
+                      style={{
+                        lineHeight: 24,
+                        fontSize: 16,
+                        alignSelf: 'flex-end',
+                      }}>
+                      {i.balance}
+                    </Txt>
+                  </View>
+                </HView>
               </TouchableOpacity>
             );
           })}
         </ScrollView>
-        <WhiteButton onPress={()=>{
-          // closeBottomUp2()
-          // closeBottomUp1()
-          closeAll()
-        }}>cancel</WhiteButton>
+        <WhiteButton
+          onPress={() => {
+            // closeBottomUp2()
+            // closeBottomUp1()
+            closeAll();
+          }}>
+          cancel
+        </WhiteButton>
         <Space space={90} />
       </View>
     </>
@@ -100,8 +107,8 @@ const styles = StyleSheet.create({
     width: 7,
     borderRadius: 8,
     backgroundColor: COLORS.orangeYellow,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 5,
     marginTop: 3,
   },
@@ -112,11 +119,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginVertical: 10,
     height: 80,
-    justifyContent:"space-between",
-    width:"100%"
+    justifyContent: 'space-between',
+    width: '100%',
   },
   Head: {
-    alignSelf: "center",
+    alignSelf: 'center',
     paddingVertical: 10,
   },
 });

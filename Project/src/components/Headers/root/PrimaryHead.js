@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import notification from "../../../Assets/Img/icon24BellDefault.png";
 import search from "../../../Assets/Img/icon24SearchDefault.png";
@@ -93,7 +93,7 @@ const Notif = () => {
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop: 40,
+    paddingTop: Platform.OS === "ios" ?0: 50,
     paddingLeft: 25,
     paddingRight: 20,
     flexDirection: "row",

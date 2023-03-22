@@ -34,7 +34,7 @@ const ActivityButton = ({
       );
     }
   } else {
-    if (numberOfPayers > 0) {
+    if (numberOfPayers > 1) {
       null;
     } else {
       return (
