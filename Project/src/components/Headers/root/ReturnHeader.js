@@ -4,8 +4,9 @@ import { COLORS, SIZES } from '../../../theme';
 import { StatusBar } from 'react-native';
 import SecondaryHeader from './SecondaryHeader';
 import ImgBack from '../../../Assets/headerImg/background.png';
+import Spiner from '../../spiner';
 
-const ReturnHeader = ({children,goBack,title}) => {
+const ReturnHeader = ({children,goBack,title,Loading}) => {
   return (
     <SafeAreaView style={styles.container}>
     <StatusBar translucent={true} backgroundColor={'transparent'} />
@@ -19,7 +20,7 @@ const ReturnHeader = ({children,goBack,title}) => {
       goBack={goBack}
       title={title}
     />
-    {children}
+    {Loading ? <Spiner /> :    children }
     </SafeAreaView>
 
   )

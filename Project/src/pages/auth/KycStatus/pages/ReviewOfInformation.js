@@ -55,15 +55,15 @@ const ReviewOfInformation = ({route}) => {
       <Space space={20} />
       <View style={{width: '100%', alignItems: 'center'}}>
         <Txt lineHeight={25} color={COLORS.TextBody}>
-          We need to verify your information.
+          Your documents are under verification.
         </Txt>
-        <Txt lineHeight={25} color={COLORS.TextBody}>
+        {/* <Txt lineHeight={25} color={COLORS.TextBody}>
           {' '}
           Please submit these required
         </Txt>
         <Txt lineHeight={25} color={COLORS.TextBody}>
           information and documents bellow to proceed.
-        </Txt>
+        </Txt> */}
       </View>
 
       <RenderListItems result={result?.Documents} />
@@ -102,13 +102,8 @@ let data = [
   },
 ];
 
-
-
 const RenderListItems = ({result}) => {
   const navigator = useNavigation();
-
-
-
 
   const firstFour = result?.slice(0, 4);
 
@@ -118,13 +113,13 @@ const RenderListItems = ({result}) => {
 
       return (
         <TouchableOpacity
-        onPress={()=>{
-          if(i.status == 'FAILED'){
-            navigator.navigate('KycForm')
-          }
-        }}
+          onPress={() => {
+            if (i.status == 'FAILED') {
+              navigator.navigate('KycForm');
+            }
+          }}
           key={index}
-          disabled={i.status == 'FAILED'  ? false : true}
+          disabled={i.status == 'FAILED' ? false : true}
           style={{
             backgroundColor: COLORS.white,
             width: '90%',

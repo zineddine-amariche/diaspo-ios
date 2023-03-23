@@ -3,27 +3,32 @@
 import axios from "axios";
 
 const API_URL =
-  "https://wallet-gateway-svc-x6fr3lwlgq-nw.a.run.app/v1/registration/users";
+  "https://mobile-payment-svc-x6fr3lwlgq-ew.a.run.app/v1/mtn/payments/accounts";
 
 //  !register user api
 
-const api = async (dataUser, token) => {
-  console.log('dataUser', dataUser)
+const api = async (info, token) => {
+
+  console.log('data', info)
+
+let {obj,accountId} = info
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const res = await axios.post(API_URL, dataUser, config);
-   console.log("register", res.data);
+  let uri = `${API_URL}/${accountId}/cash-in`
+
+  const res = await axios.post(uri, obj, config);
+   console.log("transactionService", res.data);
 
   return res.data;
 };
-const registerService = {
+const transactionService = {
   api,
 };
-export default registerService;
+export default transactionService;
 
 
  

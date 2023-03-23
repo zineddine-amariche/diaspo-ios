@@ -27,7 +27,7 @@ const Home = ({navigation}) => {
   const bottomSheetModalRef2 = useRef(null);
   const bottomSheetModalRef3 = useRef(null);
   const KycRef = useRef(null);
-  const {object, objectUpdate,objectWallet} = UseHome();
+  const {object, objectUpdate, objectWallet} = UseHome();
 
   const [Change, setChange] = useState();
   const [price, setPrice] = useState();
@@ -63,9 +63,19 @@ const Home = ({navigation}) => {
     closeBottomUp3();
   };
 
+  const {user} = useSelector(state => ({
+    ...state.auth,
+  }));
+
+  let token = user?.AccessToken;
+  let userId = user?.userId;
+
   useEffect(() => {
-    dispatch(walletAccounts(objectWallet));
-  }, []);
+    if (userId && token) {
+      dispatch(walletAccounts(objectWallet));
+    }
+    setTimeout(() => {}, 5000);
+  }, [token, userId]);
 
   useEffect(() => {
     dispatch(updateNotify(objectUpdate));
@@ -78,8 +88,6 @@ const Home = ({navigation}) => {
   }, [isFocused]);
 
   const {isLoading} = useSelector(state => state.walletAccounts);
-
-
 
   return (
     <>
@@ -103,7 +111,7 @@ const Home = ({navigation}) => {
               Change={Change}
               price={price}
             />
-
+            <Space space={17} />
             <Recent
               onPress={() => {
                 navigation.navigate('Categories');
@@ -183,59 +191,58 @@ const styles = StyleSheet.create({});
 //   console.log("res", res);
 // };
 
+// const clearAsyncStorage = async () => {
+//   dispatch(Logout());
+//   AsyncStorage.clear();
+//   dispatch(resetwalletAccount());
+// };
 
-  // const clearAsyncStorage = async () => {
-  //   dispatch(Logout());
-  //   AsyncStorage.clear();
-  //   dispatch(resetwalletAccount());
-  // };
+// console.log('message', message)
 
-  // console.log('message', message)
+// useEffect(() => {
+//   if (message) {
+//     Alert.alert(
+//       message?.status,
+//       message?.statusDescription
+//         ? message?.statusDescription
+//         : 'Error getting information',
+//       [
+//         {
+//           text: 'Cancel',
+//           onPress: () => {
+//             if (
+//               message?.statusDescription == 'Expired token' ||
+//               message?.statusDescription == 'Wrong number of segments'
+//             ) {
+//               clearAsyncStorage();
+//             } else {
+//               dispatch(resetwalletAccount());
+//             }
+//           },
 
-  // useEffect(() => {
-  //   if (message) {
-  //     Alert.alert(
-  //       message?.status,
-  //       message?.statusDescription
-  //         ? message?.statusDescription
-  //         : 'Error getting information',
-  //       [
-  //         {
-  //           text: 'Cancel',
-  //           onPress: () => {
-  //             if (
-  //               message?.statusDescription == 'Expired token' ||
-  //               message?.statusDescription == 'Wrong number of segments'
-  //             ) {
-  //               clearAsyncStorage();
-  //             } else {
-  //               dispatch(resetwalletAccount());
-  //             }
-  //           },
+//           style: 'cancel',
+//         },
+//         {
+//           text: 'OK',
+//           onPress: () => {
+//             if (message?.statusDescription == 'Expired token') {
+//               clearAsyncStorage();
+//             } else {
+//               dispatch(resetwalletAccount());
+//             }
+//           },
+//         },
+//       ],
+//     );
+//   }
+// }, [message]);
+// const route = useRoute();
+// console.log('route.name', route.name);
 
-  //           style: 'cancel',
-  //         },
-  //         {
-  //           text: 'OK',
-  //           onPress: () => {
-  //             if (message?.statusDescription == 'Expired token') {
-  //               clearAsyncStorage();
-  //             } else {
-  //               dispatch(resetwalletAccount());
-  //             }
-  //           },
-  //         },
-  //       ],
-  //     );
-  //   }
-  // }, [message]);
-  // const route = useRoute();
-  // console.log('route.name', route.name);
-
-  // useEffect(() => {
-  //   if (route.name === 'Home') {
-  //     setTimeout(() => {
-  //       // KycRef.current?.present();
-  //     }, 5000);
-  //   }
-  // }, [isFocused]);
+// useEffect(() => {
+//   if (route.name === 'Home') {
+//     setTimeout(() => {
+//       // KycRef.current?.present();
+//     }, 5000);
+//   }
+// }, [isFocused]);

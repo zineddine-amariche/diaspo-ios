@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { onError } from "../../../../hooks";
 import getListwalletAccounts from "../Service";
 
 
@@ -7,14 +8,52 @@ export const walletAccounts = createAsyncThunk("wallet/account", async (user, th
   // console.log('user', user)
   try {
     const token = thunkAPI.getState().token.token;
-    let res =await getListwalletAccounts.api(user, token)
-    console.log('res.data--walletAccounts', res.data)
+    let res = await getListwalletAccounts.api(user, token)
+
+// console.log('res.data--walletAccounts', res)
+    if(res.data){
+
+    }
+    
     return res
   } catch (error) {
+    const {onErrorAction} = object;
     const message =
       (error.response && error.response.data) ||
       error.message ||
       error.toString();
+
+    // console.log('message', message);
+
+    if (
+      message.status == 'error' &&
+      message.status &&
+      message.statusDescription !== ''
+    ) {
+      message.statusDescription
+        ? Toast.show(
+            `${message.status} , ${
+              message.statusDescription == ''
+                ? 'something went wrong'
+                : message.statusDescription
+            }`,
+          )
+        : Toast.show(`${message},something went wrong `);
+    } else if (!message.status) {
+      Toast.show(`${message}`);
+    } else {
+      if (message.statusDescription == 'Expired token') {
+        onError(message.status, message.statusDescription, onErrorAction);
+      } else {
+        onError(
+          message.status,
+          message.statusDescription == ''
+            ? 'something went wrong'
+            : message.statusDescription,
+          null,
+        );
+      }
+    }
     return thunkAPI.rejectWithValue(message);
   }
 });

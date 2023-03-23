@@ -1,7 +1,6 @@
 import {
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -10,42 +9,17 @@ import HView from '../../../../../components/views/HView/HView';
 import {Head, Txt} from '../../../../../components/utils';
 import {COLORS} from '../../../../../theme';
 import Space from '../../../../../components/Space';
-import {PaleGreyButton, WhiteButton} from '../../../../../components/Buttons';
+import {WhiteButton} from '../../../../../components/Buttons';
 import {useSelector} from 'react-redux';
 
-const data = [
-  {
-    id: 0,
-    label: 'DIASPO ACCOUNT',
-    value: 'Main Account',
-    price: '32,589.50',
-    currency: 'euro',
-  },
-  {
-    id: 1,
-    label: 'TONTINE ACCOUNT',
-    value: '2nd FX',
-    price: '12,089.50',
-    currency: 'USD',
-  },
-];
-
-const ContentRenders = ({
-  onPress2,
-  navigation,
-  closeBottomUp1,
-  closeBottomUp2,
-  closeAll,
-}) => {
+const ContentRenders = ({navigation, closeAll}) => {
   const {walletAccount} = useSelector(state => state.walletAccounts);
-console.log('walletAccount', walletAccount)
   return (
     <>
       <View
         style={{
           backgroundColor: COLORS.white,
           padding: 16,
-          // height: SIZES.height / 4,
         }}>
         <Head style={styles.Head}>Select a account to top up</Head>
         <ScrollView>
@@ -68,7 +42,7 @@ console.log('walletAccount', walletAccount)
                     <Txt
                       color={COLORS.blueGreen}
                       style={{lineHeight: 40, fontSize: 17}}>
-                      {i.price}{' '}
+                      {i.price}
                     </Txt>
                     <Txt
                       color={COLORS.greyblue}
@@ -87,8 +61,6 @@ console.log('walletAccount', walletAccount)
         </ScrollView>
         <WhiteButton
           onPress={() => {
-            // closeBottomUp2()
-            // closeBottomUp1()
             closeAll();
           }}>
           cancel

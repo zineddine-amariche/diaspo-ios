@@ -2,8 +2,6 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableHighlight,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -12,21 +10,24 @@ import HView from '../HView/HView';
 import {COLORS, SIZES} from '../../../theme';
 import {Txt} from '../../utils';
 import icon24MoreDefault from '../../../Assets/Img/icon24MoreDefault.png';
-import Space from '../../Space';
 import {useTranslation} from 'react-i18next';
 import {useSelector} from 'react-redux';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {id} from 'yup-locales';
 
 const AccountsBox = ({title, onPress, Change, price, item}) => {
   const {walletAccount} = useSelector(state => state.walletAccounts);
+
   return (
     <>
       <MyTooltip />
       <ScrollView
         horizontal
-        contentContainerStyle={{flexDirection: 'row', paddingRight: 20}}
+        contentContainerStyle={{
+          flexDirection: 'row',
+          paddingRight: 20,
+          marginBottom:3
+        }}
         showsHorizontalScrollIndicator={false}>
         {walletAccount?.walletAccounts.map((i, ind) => {
           return (
@@ -134,20 +135,17 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: COLORS.white,
     borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 10,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
     elevation: 3,
-    marginBottom: 20,
     zIndex: -1,
     alignSelf: 'center',
     width: SIZES.width - 70,
     zIndex: -1,
     marginLeft: 15,
+    shadowColor: '#171717',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
   Box: {
     height: 40,

@@ -1,52 +1,40 @@
-
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import registerService from '../Service';
-import {onError} from '../../../../../hooks';
 import Toast from 'react-native-simple-toast';
+import {onError} from '../../../hooks';
+import transactionService from './service';
 
 export const transaction = createAsyncThunk(
-  'register/user',
-  async (data, thunkAPI) => {
+  'transaction/post',
+  async (object, thunkAPI) => {
     try {
       const token = thunkAPI.getState().token.token;
-      const {onSuccess,onUserExist, obj} = data;
-      let res = await registerService.api(obj, token);
-      // console.log('res', res?.data?.walletAccountUser?.email);
+      const {onErrorAction, onSuccessAction, info} = object;
 
-      let userName = res?.data?.walletAccountUser?.email;
+      let res = await transactionService.api(info, token);
+
       if (res.status == 'success') {
-        onSuccess(userName, res?.data?.walletAccountUser?.userId);
-      }else{
-        console.log('error',res)
-      onUserExist()
-
+        onSuccessAction();
+      } else {
+        onErrorAction();
       }
       return res;
     } catch (error) {
-       onUserExist()
 
-      const {onErrorAction,onUserExist} = data;
+      const {onErrorAction} = data;
       const message =
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
 
-        console.log('message', message);
- 
-     
+      console.log('message', message);
+
       if (
         message.status == 'error' &&
         message.status &&
         message.statusDescription !== ''
       ) {
         Toast.show(`${message.status} , ${message.statusDescription}`);
-        //
-        //  if(message.statusDescription =="User already exists"   ){
-        //
-          //  onUserExist()
-        //
-      //  }
-      
+     
       } else if (!message.status) {
         Toast.show(`${message}`);
       } else {
@@ -67,8 +55,8 @@ export const transaction = createAsyncThunk(
   },
 );
 
-const registerSlice = createSlice({
-  name: 'register',
+const transactionSlice = createSlice({
+  name: 'transaction',
   initialState: {
     isError: false,
     status: false,
@@ -77,10 +65,12 @@ const registerSlice = createSlice({
     result: null,
   },
   reducers: {
- 
-   
-    dispatchDeviceOS: (state, action) => {
-      state.deviceOS = action.payload;
+    clearTransactions: (state, action) => {
+      state.isError = false;
+      state.status = false;
+      state.message = '';
+      state.isLoading = false;
+      state.result = null;
     },
   },
 
@@ -102,6 +92,5 @@ const registerSlice = createSlice({
   },
 });
 
-export const {resetRegister, ClearRegister, dispatchToken, dispatchDeviceOS} =
-  registerSlice.actions;
-export default registerSlice.reducer;
+export const {clearTransactions} = transactionSlice.actions;
+export default transactionSlice.reducer;

@@ -43,7 +43,7 @@ export const login = createAsyncThunk(
         error.message ||
         error.toString();
 
-      console.log('message', message);
+      // console.log('message', message);
 
       if (
         message.status == 'error' &&

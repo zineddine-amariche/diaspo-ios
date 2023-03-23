@@ -10,6 +10,7 @@ import imgRow from "../../../../../Assets/Img/categories/defaultIMG.png";
 import { ScrollView } from "react-native";
 import { Image } from "react-native";
 import { Txt } from "../../../../../components/utils";
+import ReturnHeader from "../../../../../components/Headers/root/ReturnHeader";
 
 const Data = [
   {
@@ -72,17 +73,24 @@ const Data = [
 
 const Categories = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={"transparent"} />
-      <ImageBackground style={styles.ImageBackground} source={ImgBack} />
+    // <SafeAreaView style={styles.container}>
+    //   <StatusBar translucent={true} backgroundColor={"transparent"} />
+    //   <ImageBackground style={styles.ImageBackground} source={ImgBack} />
 
-      <SecondaryHeader
-        goBack={() => {
-          navigation.goBack();
-        }}
-        title={"Categories"}
-        Cancel="Return"
-      />
+    //   <SecondaryHeader
+    //     goBack={() => {
+    //       navigation.goBack();
+    //     }}
+    //     title={"Categories"}
+    //     Cancel="Return"
+    //   />
+
+
+<ReturnHeader
+         title={"Categories"}
+      goBack={() => {
+        navigation.goBack();
+      }}>
       <Space space={10} />
       <ScrollView
         contentContainerStyle={{}}
@@ -100,7 +108,7 @@ const Categories = ({ navigation }) => {
         </View>
         <Space space={120} />
       </ScrollView>
-    </SafeAreaView>
+    </ReturnHeader>
   );
 };
 

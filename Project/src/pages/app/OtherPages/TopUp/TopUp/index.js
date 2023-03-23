@@ -1,25 +1,13 @@
-import React, {useCallback, useRef, useState} from 'react';
-import {View, StyleSheet, ScrollView, Image, Platform} from 'react-native';
-
-import {
-  PaleGreyButton,
-  PrimaryButtonLinear,
-} from '../../../../../components/Buttons';
+import React, {useCallback, useRef} from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
+import Toast from 'react-native-simple-toast';
 import Space from '../../../../../components/Space';
-import {Head, Txt} from '../../../../../components/utils';
-import CreatedSuccess from '../../../../../components/views/Layouts/AuthLayout/Model';
+import {Txt} from '../../../../../components/utils';
 import {COLORS, SIZES} from '../../../../../theme';
 import BankAcccounts from './components/Bank Acounts';
 import CreditDebit from './components/Card debit';
 import PrepaidCard from './components/PrepaidCard';
-import ViewT1 from '../../../../../components/views/CardViewType1';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
-import {Formik} from 'formik';
-import {useAmount} from './Hooks';
-import PrimaryInput from '../../../../../components/Input';
 
-import illusphone from '../../../../../Assets/Img/illusphone.png';
-import illusErr from '../../../../../Assets/Img/illusErr.png';
 import BottomSheetSelect from './BottomSheetSelect';
 import ReturnHeader from '../../../../../components/Headers/root/ReturnHeader';
 
@@ -27,21 +15,6 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
   const bottomSheetModalRef3 = useRef(null);
 
   const {data} = route.params;
-  // console.log("data", data);
-  const [success, setsuccess] = useState(false);
-  const [error, setError] = useState(false);
-
-  const onDissmis = useCallback(() => {
-    setsuccess(false);
-  }, []);
-
-
-  const onDissmisError = useCallback(() => {
-    setError(false);
-  }, []);
-  const onError = useCallback(() => {
-    setError(true);
-  }, []);
 
   const data1 = [
     {
@@ -143,7 +116,11 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
   ];
 
   const onSelect = item => {
-    navigation.navigate('AmountTopup', {item,data});
+    if (item.value == 'MTN') {
+      navigation.navigate('AmountTopup', {item, data});
+    } else {
+      Toast.show(`Unavailable method`);
+    }
   };
 
   const closeBottomUp3 = useCallback(() => {
@@ -180,7 +157,11 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
             <Space space={20} />
             {/* <BankAcccounts title={"Bank Accounts"} data={data2} /> */}
             {/* <Space space={20} /> */}
-            <BankAcccounts title={'Mobile payements'} data={data4} onSelect={onSelect}/>
+            <BankAcccounts
+              title={'Mobile payements'}
+              data={data4}
+              onSelect={onSelect}
+            />
             <Space space={20} />
             <CreditDebit title={'Wallets'} data={data3} onSelect={onSelect} />
             <Space space={20} />
@@ -195,98 +176,18 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
         </ScrollView>
       </>
 
-   
-
       <BottomSheetSelect
         bottomSheetModalRef={bottomSheetModalRef3}
         onPress={handlePresentModalSelect}
         closeBottomUp2={closeBottomUp3}
       />
-
-      <CreatedSuccess Visible={success} onDissmis={onDissmis} top={90}>
-        {BodyModel ? <BodyModel onDissmis={onDissmis} /> : null}
-      </CreatedSuccess>
-
-      <CreatedSuccess Visible={error} onDissmis={onDissmisError} top={90}>
-        {BodyModel ? <BodyModelErr onDissmis={onDissmisError} /> : null}
-      </CreatedSuccess>
     </ReturnHeader>
   );
 };
 export default TopUp;
 
-const BodyModel = ({onDissmis}) => {
-  return (
-    <>
-      <View style={styles.ModelContainer}>
-        <Image source={illusphone} style={{width: '100%'}} />
-
-        <Head
-          //  fontFamily={"Poppins-Bold"}
-          style={{padding: 20, textAlign: 'center'}}>
-          Transfered successfully
-        </Head>
-        <Txt
-          color={COLORS.slateGrey}
-          style={{
-            paddingHorizontal: 10,
-            textAlign: 'center',
-            //fontFamily: "Poppins-SemiBold",
-          }}>
-          <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
-            12,000 euro
-          </Txt>{' '}
-          has been transfered successfully to
-          <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
-            {' '}
-            Faith Felicity (+44 7538 110953).
-          </Txt>
-          You can check in your account
-          <Txt Bold={'400'} color={COLORS.orangeYellow} fontSize={17}>
-            {' '}
-            transaction histopy.
-          </Txt>
-          .
-        </Txt>
-
-        <PaleGreyButton onPress={onDissmis}>close</PaleGreyButton>
-      </View>
-    </>
-  );
-};
-const BodyModelErr = ({onDissmis}) => {
-  return (
-    <>
-      <View style={styles.ModelContainer}>
-        <Image source={illusErr} style={{width: '100%'}} />
-
-        <Head
-          //  fontFamily={"Poppins-Bold"}
-          style={{padding: 20, textAlign: 'center'}}
-          color={COLORS.coral}>
-          Topped up unsuccessfully
-        </Head>
-        <Txt
-          color={COLORS.slateGrey}
-          style={{
-            paddingHorizontal: 10,
-            textAlign: 'center',
-            //fontFamily: "Poppins-SemiBold",
-          }}>
-          Sorry, something went wrong. Please try agian.
-        </Txt>
-
-        <PaleGreyButton onPress={onDissmis}>close</PaleGreyButton>
-      </View>
-    </>
-  );
-};
 const styles = StyleSheet.create({
   topinuptxt: {
     padding: 20,
   },
- 
 });
-
-
- 

@@ -19,11 +19,6 @@ export function UseHome() {
   let token = user?.AccessToken;
   let userId = user?.userId;
 
-  let objectWallet = {
-    userId,
-    token,
-  };
-
   const onSuccessAction = () => {};
 
   const clearAsyncStorage = async () => {
@@ -48,6 +43,14 @@ export function UseHome() {
   const {devicetoken, deviceOS} = useSelector(state => ({
     ...state.register,
   }));
+
+  let objectWallet = {
+    userId,
+    token,
+    onErrorAction,
+    onSuccessAction,
+
+  };
 
   let objectUpdate = {
     token,

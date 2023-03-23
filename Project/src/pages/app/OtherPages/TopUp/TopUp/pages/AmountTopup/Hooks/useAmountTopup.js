@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
+import { transaction } from "../../../../../../../../redux/Features/Payements/slice";
 
 export function useAmoutTopup() {
   const dispatch = useDispatch();
@@ -10,7 +11,9 @@ export function useAmoutTopup() {
   };
 
   const onSubmit = async (data) => {
-     console.log("data", data);
+  // console.log("data", data);
+  // console.log("data", data.info.obj);
+     dispatch(transaction(data))
   };
 
   const numericRegEx = /(?=.*[0-9])/;
