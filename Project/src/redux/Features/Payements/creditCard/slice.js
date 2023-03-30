@@ -1,25 +1,26 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import Toast from 'react-native-simple-toast';
-import {onError} from '../../../hooks';
-import transactionService from './service';
+import {onError} from '../../../../hooks';
+import creditCardService from './service';
 
-export const transaction = createAsyncThunk(
-  'transaction/post',
+export const CrediteCard = createAsyncThunk(
+  'creditCard/post',
   async (object, thunkAPI) => {
     try {
       const token = thunkAPI.getState().token.token;
       const {onErrorAction, onSuccessAction, info} = object;
+      const {amount} = info;
+      let res = await creditCardService.api(info, token);
 
-      let res = await transactionService.api(info, token);
 
-      if (res.status == 'success') {
-        onSuccessAction();
+      console.log('res.status', res.status)
+      if (res.status == 200) {
+        onSuccessAction(amount);
       } else {
         onErrorAction();
       }
       return res;
     } catch (error) {
-
       const {onErrorAction} = data;
       const message =
         (error.response && error.response.data) ||
@@ -34,7 +35,6 @@ export const transaction = createAsyncThunk(
         message.statusDescription !== ''
       ) {
         Toast.show(`${message.status} , ${message.statusDescription}`);
-     
       } else if (!message.status) {
         Toast.show(`${message}`);
       } else {
@@ -55,42 +55,46 @@ export const transaction = createAsyncThunk(
   },
 );
 
-const transactionSlice = createSlice({
-  name: 'transaction',
+const creditcCardSlice = createSlice({
+  name: 'creditCard',
   initialState: {
     isError: false,
     status: false,
-    isLoading: false,
+    isCreditCardLoading: false,
     message: '',
     result: null,
+    amount: '',
   },
   reducers: {
-    clearTransactions: (state, action) => {
+    clearCreditCard: (state, action) => {
       state.isError = false;
       state.status = false;
       state.message = '';
-      state.isLoading = false;
+      state.isCreditCardLoading = false;
       state.result = null;
+    },
+    handlAmountCreditCrad: (state, action) => {
+      state.amount = action.payload;
     },
   },
 
   extraReducers: builder => {
     builder
-      .addCase(transaction.pending, state => {
-        state.isLoading = true;
+      .addCase(CrediteCard.pending, state => {
+        state.isCreditCardLoading = true;
       })
-      .addCase(transaction.fulfilled, (state, action) => {
-        state.isLoading = false;
+      .addCase(CrediteCard.fulfilled, (state, action) => {
+        state.isCreditCardLoading = false;
         state.status = true;
         state.result = action.payload;
       })
-      .addCase(transaction.rejected, (state, action) => {
-        state.isLoading = false;
+      .addCase(CrediteCard.rejected, (state, action) => {
+        state.isCreditCardLoading = false;
         state.isError = true;
         state.message = action.payload;
       });
   },
 });
 
-export const {clearTransactions} = transactionSlice.actions;
-export default transactionSlice.reducer;
+export const {clearCreditCard, handlAmountCreditCrad} = creditcCardSlice.actions;
+export default creditcCardSlice.reducer;

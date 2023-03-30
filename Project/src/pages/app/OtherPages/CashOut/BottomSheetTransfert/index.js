@@ -23,7 +23,6 @@ import {
   PaleGreyButton,
   PrimaryButtonLinear,
 } from "../../../../../components/Buttons";
-import { useEffect } from "react";
 import Contacts from "react-native-contacts";
 import CreatedSuccess from "../../../../../components/views/Layouts/AuthLayout/Model";
 import { Head, Txt } from "../../../../../components/utils";
@@ -31,8 +30,11 @@ import illusphone from "../../../../../Assets/Img/illusphone.png";
 import { Formik } from "formik";
 import { useTransfers } from "../Hooks";
 import Note from "../../../../../components/views/Note";
+ 
 const BottomSheetTransfert = ({ goBack, navigation }) => {
+
   const bottomSheetModalRef = useRef(null);
+  // const bottomSheetModalRef = useRef(null);
   const bottomSheetModalRef2 = useRef(null);
   const bottomSheetModalRef3 = useRef(null);
   const bottomSheetModalRef4 = useRef(null);
@@ -189,7 +191,7 @@ const BottomSheetTransfert = ({ goBack, navigation }) => {
           isValid,
         }) => {
           {
-          console.log('errors' , errors)
+          // console.log('errors' , errors)
           }
           return (
             <>

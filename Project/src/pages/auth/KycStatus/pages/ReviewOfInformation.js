@@ -22,7 +22,7 @@ const ReviewOfInformation = ({route}) => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
   const data = route.params;
-  // console.log('alpha', data.data.userId)
+   console.log('alpha', data?.data?.userId)
 
   const onPress = () => {
     navigator.goBack();
@@ -35,15 +35,18 @@ const ReviewOfInformation = ({route}) => {
 
   let obj = {
     onSuccesAction,
-    userId: data.data.userId,
+    userId: data?.data?.userId,
     onErrorAction,
   };
 
   useEffect(() => {
-    if (data.data.userId) {
+    // if (data?.data?.userId) {
+
+
+    console.log('obj', obj)
       dispatch(requestReviewInfomations(obj));
-    }
-  }, [data.data.userId]);
+    // }
+  }, [data?.data?.userId]);
 
   const {isLoading, result} = useSelector(state => state.reviewInfomations);
 

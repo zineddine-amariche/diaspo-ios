@@ -1,15 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useRef } from "react";
-import { useMemo } from "react";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
-import { useCallback } from "react";
-import CustomBackdrop from "./CustomBackdrop";
-import ContentRenders from "./ContentRenders";
-import { COLORS } from "../../../../../../theme";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useRef} from 'react';
+import {useMemo} from 'react';
+import {BottomSheetModal, BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import {useCallback} from 'react';
+import CustomBackdrop from './CustomBackdrop';
+import ContentRenders from './ContentRenders';
+import {COLORS} from '../../../../../../theme';
 
 const BottomSheetSelect = ({
   bottomSheetModalRef,
@@ -17,10 +13,10 @@ const BottomSheetSelect = ({
   navigation,
   closeBottomUp2,
   closeBottomUp1,
-  ChangeAccount
+  ChangeAccount,
 }) => {
-  const snapPoints = useMemo(() => ["55%"]);
-  const handleSheetChanges = useCallback((index) => {
+  const snapPoints = useMemo(() => ['55%']);
+  const handleSheetChanges = useCallback(index => {
     // console.log("handleSheetChanges", index);
   }, []);
   const handleClosePress = () => {
@@ -44,7 +40,8 @@ const BottomSheetSelect = ({
           width: 50,
           height: 5,
         }}
-      >
+        animateOnMount={true}
+        enablePanDownToClose={true}>
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>
           <ContentRenders
             onPress={handleClosePress}
@@ -53,7 +50,6 @@ const BottomSheetSelect = ({
             closeBottomUp1={closeBottomUp1}
             onPress2={onPress2}
             ChangeAccount={ChangeAccount}
-
           />
         </BottomSheetScrollView>
       </BottomSheetModal>

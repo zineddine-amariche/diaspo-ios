@@ -15,7 +15,7 @@ import {useSelector} from 'react-redux';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AccountsBox = ({title, onPress, Change, price, item}) => {
+const AccountsBox = ({title, onPress, item}) => {
   const {walletAccount} = useSelector(state => state.walletAccounts);
 
   return (
@@ -29,12 +29,10 @@ const AccountsBox = ({title, onPress, Change, price, item}) => {
           marginBottom:3
         }}
         showsHorizontalScrollIndicator={false}>
-        {walletAccount?.walletAccounts.map((i, ind) => {
+        {walletAccount?.walletAccounts?.map((i, ind) => {
           return (
             <View key={ind}>
               <RenderItems
-                price={price}
-                Change={Change}
                 onPress={onPress}
                 item={i}
               />
@@ -48,7 +46,7 @@ const AccountsBox = ({title, onPress, Change, price, item}) => {
 
 export default AccountsBox;
 
-const RenderItems = ({Change, price, onPress, item}) => {
+const RenderItems = ({  onPress, item}) => {
   const {t, i18n} = useTranslation();
 
   return (
@@ -59,8 +57,6 @@ const RenderItems = ({Change, price, onPress, item}) => {
             <HView>
               <View style={styles.Point}></View>
               <Txt fontSize={17} color={COLORS.orangeYellow}>
-                {/* {Change ? Change : t('Home.price_account_box.title')} */}
-
                 {item.name}
               </Txt>
             </HView>
@@ -68,7 +64,7 @@ const RenderItems = ({Change, price, onPress, item}) => {
               <Txt
                 color={COLORS.blueGreen}
                 style={{lineHeight: 40, fontSize: 32, marginTop: 10}}>
-                {price ? price : '0'}{' '}
+                {item.balance}{' '}
               </Txt>
               <Txt
                 color={COLORS.greyblue}

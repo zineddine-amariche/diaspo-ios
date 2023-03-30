@@ -1,21 +1,22 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import Toast from 'react-native-simple-toast';
-import {onError, onExpiredToken} from '../../../../hooks';
-import creditCardService from '../../Payements/creditCard/service';
-import ReviewInfomationsService from './service';
+import {onError} from '../../../../hooks';
+import transactionService from './service';
 
-export const requestReviewInfomations = createAsyncThunk(
-  'ReviewInfomations/request',
+export const transaction = createAsyncThunk(
+  'transaction/post',
   async (object, thunkAPI) => {
-    // console.log('user', user)
-    console.log('object', object)
-
-    const {onSuccesAction, userId, onErrorAction} = object;
     try {
       const token = thunkAPI.getState().token.token;
-      let data = await ReviewInfomationsService.api(userId, token);
-       console.log('data', data)
-      return data
+      const {onErrorAction, onSuccessAction, info} = object;
+      const {amount} = info;
+      let res = await transactionService.api(info, token);
+      if (res.status == 'success') {
+        onSuccessAction(amount);
+      } else {
+        onErrorAction();
+      }
+      return res;
     } catch (error) {
       const {onErrorAction} = object;
       const message =
@@ -30,22 +31,12 @@ export const requestReviewInfomations = createAsyncThunk(
         message.status &&
         message.statusDescription !== ''
       ) {
-        message.statusDescription
-          ? Toast.show(
-              `${message.status} , ${
-                message.statusDescription == ''
-                  ? 'something went wrong'
-                  : message.statusDescription
-              }`,
-            )
-          : Toast.show(`${message},something went wrong `);
+        Toast.show(`${message.status} , ${message.statusDescription}`);
       } else if (!message.status) {
         Toast.show(`${message}`);
       } else {
         if (message.statusDescription == 'Expired token') {
           onError(message.status, message.statusDescription, onErrorAction);
-          // onExpiredToken()
-        
         } else {
           onError(
             message.status,
@@ -61,43 +52,46 @@ export const requestReviewInfomations = createAsyncThunk(
   },
 );
 
-const ReviewInfomations = createSlice({
-  name: 'ReviewInfomations',
+const transactionSlice = createSlice({
+  name: 'transaction',
   initialState: {
     isError: false,
-    isSuccess: false,
+    status: false,
     isLoading: false,
     message: '',
     result: null,
+    amount: '',
   },
   reducers: {
-    resetLogin: state => {
-      state.isLoading = false;
-      state.isSuccess = false;
+    clearTransactions: (state, action) => {
       state.isError = false;
+      state.status = false;
       state.message = '';
+      state.isLoading = false;
+      state.result = null;
+    },
+    handlAmount: (state, action) => {
+      state.amount = action.payload;
     },
   },
 
   extraReducers: builder => {
     builder
-
-      .addCase(requestReviewInfomations.pending, state => {
+      .addCase(transaction.pending, state => {
         state.isLoading = true;
       })
-      .addCase(requestReviewInfomations.fulfilled, (state, action) => {
-        state.result = action.payload.data;
+      .addCase(transaction.fulfilled, (state, action) => {
         state.isLoading = false;
-
+        state.status = true;
+        state.result = action.payload;
       })
-      .addCase(requestReviewInfomations.rejected, (state, action) => {
+      .addCase(transaction.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.result = null;
       });
   },
 });
 
-export const {resetLogin} = ReviewInfomations.actions;
-export default ReviewInfomations.reducer;
+export const {clearTransactions, handlAmount} = transactionSlice.actions;
+export default transactionSlice.reducer;

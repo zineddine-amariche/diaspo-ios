@@ -146,7 +146,7 @@ const CreateTontine = ({navigation, route}) => {
           const {name, amount, startAt, retentionRate} = values;
           // console.log('values', values)
 
-          console.log('errors', errors)
+          // console.log('errors', errors)
           return (
             <>
               <ScrollView

@@ -12,8 +12,8 @@ const api = async (obj) => {
     },
   };
   const res = await axios.get(url, config);
-  // console.log('res.data get list payers', res.data)
-  return res.data;
+  // console.log('res.data get list payers', res)
+  return res.data
 };
 const getListwalletAccounts = {
   api,

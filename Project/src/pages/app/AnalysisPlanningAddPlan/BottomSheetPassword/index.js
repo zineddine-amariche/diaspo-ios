@@ -59,7 +59,7 @@ const Bottom4 = ({
   }, [isKeyboardVisible]);
 
   return (
-    <BottomSheetModalProvider>
+    // <BottomSheetModalProvider>
       <View style={styles.containerBottom}>
         <BottomSheetModal
           ref={bottomSheetModalRef}
@@ -85,7 +85,7 @@ const Bottom4 = ({
         </BottomSheetScrollView>
         </BottomSheetModal>
       </View>
-    </BottomSheetModalProvider>
+    // </BottomSheetModalProvider>
   );
 };
 

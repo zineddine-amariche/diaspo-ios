@@ -24,7 +24,6 @@ const RootStack = createNativeStackNavigator();
 const Root = () => {
   const { user ,isAuth} = useSelector((state) => ({ ...state.auth }));
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const channelId = () => {
     PushNotification.createChannel({
@@ -37,17 +36,7 @@ const Root = () => {
     channelId();
   }, []);
 
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-  //     PushNotification.localNotification({
-  //       channelId: "notificationId",
-  //       message: remoteMessage.data.bodyText,
-  //       title: remoteMessage.data.title,
-  //       vibrate: true,
-  //     });
-  //   });
-  //   return unsubscribe;
-  // }, []);
+ 
 
   useEffect(() => {
     FcmService.CheckPermission();
@@ -80,14 +69,9 @@ const Root = () => {
 
   const onOpenNotification = async (notify) => {
     dispatch(updateInvitations(...invitations ,notify))
-    // console.log("onOpenNotification", notify);
-    // navigation.navigate("InvitationTontine", { data: notify.data ,isBackground:false});
     Toast.show("new invitation", Toast.LONG, Toast.TOP);
   };
-
-
-
-  // console.log('invitations', invitations) 
+ 
   if (isAuth) {
     return (
       <RootStack.Navigator
@@ -125,106 +109,4 @@ const Root = () => {
 // };
 export default Root;
 
-// useEffect(() => {
-// Assume a message-notification contains a "type" property in the data payload of the screen to open
-// messaging().onNotificationOpenedApp((remoteMessage) => {
-//   // console.log(
-//   //   'Notification caused app to open from background state:',
-//   //   remoteMessage.notification,
-//   // );
-//   navigation.navigate(remoteMessage.data.type);
-//   console.log("onNotificationOpened", remoteMessage);
-// });
-// messaging()
-// .getInitialNotification()
-// .then((remoteMessage) => {
-//   if (remoteMessage) {
-//     console.log(
-//       "Notification caused app to open from quit state:",
-//       remoteMessage.notification
-//     );
-//     // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
-//     // console.log("remoteMessage--------------------", remoteMessage);
-//     navigation.navigate("InvitationTontine");
-//   }
-// });
-// }, []);
-
-// if (notify.data) {
-// if (focus) {
-// navigation.navigate("InvitationTontine", { data: notify.data });
-// }
-// console.log("enetr");
-// }
-
-// const handleDynamicLink = link => {
-//   // Handle dynamic link inside your own application
-
-//   console.log('link', link)
-//   if (link.url === 'https://invertase.io/offer') {
-//     // ...navigate to your offers screen
-//   }
-// };
-
-// const onOpenNotification = async (notify) => {
-//   console.log("onOpenNotification", notify);
-// };
-
-// let Platforms = Platform.OS;
-
-// const get = async () => {
-//   await messaging().registerDeviceForRemoteMessages();
-//   const token = await messaging().getToken();
-
-//   if (token) {
-//     dispatch(dispatchToken(token));
-//     dispatch(dispatchDeviceOS(Platforms.toUpperCase()));
-//   }
-// };
-
-// useEffect(() => {
-//   get();
-// }, []);
-
-// const getDeviceToken = () => {
-//   PushNotification.configure({
-//     onRegister: function (token) {
-//       if (token) {
-//         dispatch(dispatchToken(token.token))
-//         dispatch(dispatchDeviceOS(Platforms.toUpperCase()))
-
-//       }
-//     },
-//     // onNotification: function (notification) {
-//       // console.log("NOTIFICATION   )):", notification);
-//       // navigation.navigate(remoteMessage.data.type);
-//       // navigation.navigate(remoteMessage.data.type);
-
-//       // notification.finish(PushNotificationIOS.FetchResult.NoData);
-//     // },
-
-//     // onAction: function (notification) {
-//     //   console.log("ACTION:", notification.action);
-//     //   console.log("NOTIFICATION --:", notification);
-
-//     // },
-
-//     // onRegistrationError: function(err) {
-//     //   console.error(err.message, err);
-//     // },
-
-//     // permissions: {
-//     //   alert: true,
-//     //   badge: true,
-//     //   sound: true,
-//     // },
-
-//     // popInitialNotification: true,
-
-//     // requestPermissions:  Platform.OS === "ios",
-//   });
-// };
-// useEffect(() => {
-//   getDeviceToken();
-
-// }, []);
+ 

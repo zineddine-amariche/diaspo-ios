@@ -20,9 +20,11 @@ const BottomSheetSelect = ({
   ChangeAccount
 }) => {
   const snapPoints = useMemo(() => ["55%"]);
+
   const handleSheetChanges = useCallback((index) => {
     // console.log("handleSheetChanges", index);
   }, []);
+  
   const handleClosePress = () => {
     bottomSheetModalRef.current.close();
   };

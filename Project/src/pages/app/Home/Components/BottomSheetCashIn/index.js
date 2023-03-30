@@ -18,22 +18,23 @@ const BottomSheetCashIn = ({
   closeBottomUp2,
   closeBottomUp1
 }) => {
-  const snapPoints = useMemo(() => ["45%"]);
+  // const snapPoints = useMemo(() => ["45%"]);
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
   const handleSheetChanges = useCallback((index) => {
     // console.log("handleSheetChanges", index);
   }, []);
   const handleClosePress = () => {
-    bottomSheetModalRef.current.close();
+    bottomSheetModalRef.current.forceClose();
     // closeDrawer();
     // closeAccount();
   };
 
   return (
-    // <BottomSheetModalProvider>
+    //  <BottomSheetModalProvider>
     <View style={styles.containerBottom}>
       <BottomSheetModal
         ref={bottomSheetModalRef}
-        index={0}
+        index={1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backdropComponent={CustomBackdrop}
@@ -43,6 +44,8 @@ const BottomSheetCashIn = ({
           width: 50,
           height: 5,
         }}
+        animateOnMount={true}
+        enablePanDownToClose={true}
       >
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>
           <ContentRenders
@@ -56,7 +59,7 @@ const BottomSheetCashIn = ({
         </BottomSheetScrollView>
       </BottomSheetModal>
     </View>
-    // </BottomSheetModalProvider>
+    //  </BottomSheetModalProvider>
   );
 };
 

@@ -1,84 +1,83 @@
-import React, { useEffect, useState } from "react";
-import { DrawerContent } from "./CustomDrawer";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import React, {useEffect, useState} from 'react';
+import {DrawerContent} from './CustomDrawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import BottomTabOrange from "../OrangeBottom";
-import Home from "../../../pages/app/Home";
-import Scann from "../../../pages/app/Scann";
-import Wallet from "../../../pages/app/Wallet";
-import MyCode from "../../../pages/app/MyCode";
-import Analysis from "../../../pages/app/Analysis";
-import Discount from "../../../pages/app/Discount";
-import ContactUs from "../../../pages/app/Contact";
-import AboutDiaspora from "../../../pages/app/About";
-import TermsConditions from "../../../pages/app/Terms";
-import PrivaciPolicy from "../../../pages/app/Privacy";
-import Planning from "../../../pages/app/AnalysisPlanning";
-import Settings from "../../../pages/app/Settings/settings";
-import Language from "../../../pages/app/Settings/languages";
-import CashOut from "../../../pages/app/OtherPages/CashOut";
-import Notifications from "../../../pages/app/Notification/Hooks/Notifications";
-import AddPlan from "../../../pages/app/AnalysisPlanningAddPlan";
-import Transfers from "../../../pages/app/OtherPages/Transfert";
-import Categories from "../../../pages/app/Home/pages/Categories";
-import TopUp from "../../../pages/app/OtherPages/TopUp/TopUp";
-import HistoryTransaction from "../../../pages/app/HistoryTransaction";
-import Request from "../../../pages/app/OtherPages/TopUp/Request";
-import Entertainment from "../../../pages/app/Home/pages/Entertainment";
-import CreditsCards from "../../../pages/app/Wallet/Pages/CreditsCards";
-import BankAccounts from "../../../pages/app/Wallet/Pages/BankAccounts";
-import Promotion from "../../../pages/app/Notification/Pages/Promotion";
-import DetailsEntertainment from "../../../pages/app/Home/pages/Details";
-import CreateAccount from "../../../pages/app/Wallet/Pages/CreateAccount";
-import EWalletAccounts from "../../../pages/app/Wallet/Pages/EWalletAccounts";
-import SearchNotifications from "../../../pages/app/Notification/Pages/Search";
-import Tontine from "../../../pages/app/OtherPages/Tontine/TontineListing";
-import CreateCard from "../../../pages/app/Wallet/Pages/CreateCard/ChooseType";
-import CreateTontine from "../../../pages/app/OtherPages/Tontine/CreateTontine";
-import CardFormInfo from "../../../pages/app/Wallet/Pages/CreateCard/CardFormInfo";
-import Payer from "../../../pages/app/OtherPages/Tontine/Payers/SelectPayers";
-import InvitationTontine from "../../../pages/app/Notification/Pages/InvitationTontine";
-import InfoScreenTontine from "../../../pages/app/OtherPages/Tontine/DetailsTontine";
-import ListPayer from "../../../pages/app/OtherPages/Tontine/Payers/SelectedPayers";
-import TransactionHistory from "../../../pages/app/OtherPages/Tontine/TransactionHistory";
-import PoliciesInstructions from "../../../pages/app/OtherPages/Tontine/Policies&Instructions";
-import Béneféciare from "../../../pages/app/OtherPages/Tontine/Benefeciare/SelectBenefeciare";
-import ConfirmedList from "../../../pages/app/OtherPages/Tontine/Payers/PayerList/ConfirmedList";
-import ListBéneféciare from "../../../pages/app/OtherPages/Tontine/Benefeciare/SelectedBenefeciare";
-import BenefeciareListReorder from "../../../pages/app/OtherPages/Tontine/Benefeciare/BenefeciareListReorder/BenefeciareListReorder";
-import PageForTest from "../../../pages/app/PageForTest";
-import PageForTest2 from "../../../pages/app/PageForTest/Page2";
-import TontineRecap from "../../../pages/app/OtherPages/Tontine/TontineRecap";
-import AccountInfo from "../../../pages/app/AccountInfo";
-import EditAccount from "../../../pages/app/AccountInfo/EditAccount";
-import ViewPayersList from "../../../pages/app/OtherPages/Tontine/Payers/ViewPayersList";
-import ViewBenefeciareList from "../../../pages/app/OtherPages/Tontine/Benefeciare/ViewBeneficiariesList";
-import ConfirmedListBéneféciare from "../../../pages/app/OtherPages/Tontine/Benefeciare/BenefeciareList/ConfirmedList";
-import messaging from "@react-native-firebase/messaging";
-import { useNavigation } from "@react-navigation/native";
-import Identity from "../../../pages/auth/Identity";
-import ReturnHeader from "../../../components/Headers/root/ReturnHeader";
-import AmountTopup from "../../../pages/app/OtherPages/TopUp/TopUp/pages/AmountTopup/AmountTopup";
+import BottomTabOrange from '../BottomTabNav';
+import Home from '../../../pages/app/Home';
+import Scann from '../../../pages/app/Scann';
+import Wallet from '../../../pages/app/Wallet';
+import MyCode from '../../../pages/app/MyCode';
+import Analysis from '../../../pages/app/Analysis';
+import Discount from '../../../pages/app/Discount';
+import ContactUs from '../../../pages/app/Contact';
+import AboutDiaspora from '../../../pages/app/About';
+import TermsConditions from '../../../pages/app/Terms';
+import PrivaciPolicy from '../../../pages/app/Privacy';
+import Planning from '../../../pages/app/AnalysisPlanning';
+import Settings from '../../../pages/app/Settings/settings';
+import Language from '../../../pages/app/Settings/languages';
+import CashOut from '../../../pages/app/OtherPages/CashOut';
+import Notifications from '../../../pages/app/Notification/Hooks/Notifications';
+import AddPlan from '../../../pages/app/AnalysisPlanningAddPlan';
+import Transfers from '../../../pages/app/OtherPages/Transfert';
+import Categories from '../../../pages/app/Home/pages/Categories';
+import TopUp from '../../../pages/app/OtherPages/TopUp/TopUp';
+import HistoryTransaction from '../../../pages/app/HistoryTransaction';
+import Request from '../../../pages/app/OtherPages/TopUp/Request';
+import Entertainment from '../../../pages/app/Home/pages/Entertainment';
+import CreditsCards from '../../../pages/app/Wallet/Pages/CreditsCards';
+import BankAccounts from '../../../pages/app/Wallet/Pages/BankAccounts';
+import Promotion from '../../../pages/app/Notification/Pages/Promotion';
+import DetailsEntertainment from '../../../pages/app/Home/pages/Details';
+import CreateAccount from '../../../pages/app/Wallet/Pages/CreateAccount';
+import EWalletAccounts from '../../../pages/app/Wallet/Pages/EWalletAccounts';
+import SearchNotifications from '../../../pages/app/Notification/Pages/Search';
+import Tontine from '../../../pages/app/OtherPages/Tontine/TontineListing';
+import CreateCard from '../../../pages/app/Wallet/Pages/CreateCard/ChooseType';
+import CreateTontine from '../../../pages/app/OtherPages/Tontine/CreateTontine';
+import CardFormInfo from '../../../pages/app/Wallet/Pages/CreateCard/CardFormInfo';
+import Payer from '../../../pages/app/OtherPages/Tontine/Payers/SelectPayers';
+import InvitationTontine from '../../../pages/app/Notification/Pages/InvitationTontine';
+import InfoScreenTontine from '../../../pages/app/OtherPages/Tontine/DetailsTontine';
+import ListPayer from '../../../pages/app/OtherPages/Tontine/Payers/SelectedPayers';
+import TransactionHistory from '../../../pages/app/OtherPages/Tontine/TransactionHistory';
+import PoliciesInstructions from '../../../pages/app/OtherPages/Tontine/Policies&Instructions';
+import Béneféciare from '../../../pages/app/OtherPages/Tontine/Benefeciare/SelectBenefeciare';
+import ConfirmedList from '../../../pages/app/OtherPages/Tontine/Payers/PayerList/ConfirmedList';
+import ListBéneféciare from '../../../pages/app/OtherPages/Tontine/Benefeciare/SelectedBenefeciare';
+import BenefeciareListReorder from '../../../pages/app/OtherPages/Tontine/Benefeciare/BenefeciareListReorder/BenefeciareListReorder';
+import PageForTest from '../../../pages/app/PageForTest';
+import PageForTest2 from '../../../pages/app/PageForTest/Page2';
+import TontineRecap from '../../../pages/app/OtherPages/Tontine/TontineRecap';
+import AccountInfo from '../../../pages/app/AccountInfo';
+import EditAccount from '../../../pages/app/AccountInfo/EditAccount';
+import ViewPayersList from '../../../pages/app/OtherPages/Tontine/Payers/ViewPayersList';
+import ViewBenefeciareList from '../../../pages/app/OtherPages/Tontine/Benefeciare/ViewBeneficiariesList';
+import ConfirmedListBéneféciare from '../../../pages/app/OtherPages/Tontine/Benefeciare/BenefeciareList/ConfirmedList';
+import messaging from '@react-native-firebase/messaging';
+import {useNavigation} from '@react-navigation/native';
+import AmountTopup from '../../../pages/app/OtherPages/TopUp/TopUp/pages/AmountTopup/AmountTopup';
 
 const Drawer = createDrawerNavigator();
-const DrawerScreen = (props) => {
+const DrawerScreen = props => {
   const navigation = useNavigation();
 
   // OnGetNotfication In Background
   useEffect(() => {
     messaging()
       .getInitialNotification()
-      .then((remoteMessage) => {
-
-        // console.log('Message handled in the background!', remoteMessage) 
+      .then(remoteMessage => {
+        // console.log('Message handled in the background!', remoteMessage)
         if (remoteMessage) {
-         
-          navigation.navigate(remoteMessage?.data?.navigate,{data:remoteMessage,isBackground:true});
+          navigation.navigate(remoteMessage?.data?.navigate, {
+            data: remoteMessage,
+            isBackground: true,
+          });
         }
       });
-      messaging().setBackgroundMessageHandler(async remoteMessage => {
-        // console.log('Message handled in the background!', remoteMessage);
-       });
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      // console.log('Message handled in the background!', remoteMessage);
+    });
   }, []);
 
   return (
@@ -87,10 +86,9 @@ const DrawerScreen = (props) => {
         headerShown: false,
       }}
       drawerStyle={{
-        width: "85%",
+        width: '85%',
       }}
-      drawerContent={(props) => <DrawerContent {...props} />}
-    >
+      drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="DiaspoBottomTab" component={BottomTabOrange} />
       <Drawer.Screen name="Home" component={Home} {...props} />
       <Drawer.Screen name="Scann" component={Scann} {...props} />
@@ -124,8 +122,6 @@ const DrawerScreen = (props) => {
       <Drawer.Screen name="CardFormInfo" component={CardFormInfo} {...props} />
       <Drawer.Screen name="AmountTopup" component={AmountTopup} {...props} />
 
-
-      
       <Drawer.Screen
         name="CreateTontine"
         component={CreateTontine}

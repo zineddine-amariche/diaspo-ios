@@ -48,7 +48,7 @@ const ContentRenders = ({ onPress,ChangeAccount }) => {
       >
         <Head style={styles.Head}>Select Account</Head>
         <ScrollView>
-          {walletAccount?.walletAccounts.map((i, ind) => {
+          {walletAccount?.walletAccounts?.map((i, ind) => {
             return (
               <TouchableOpacity key={ind} onPress={()=>{
                 // console.log('item' , i) 

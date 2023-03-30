@@ -6,7 +6,10 @@ import Space from '../../../../../../../components/Space';
 import ViewT1 from '../../../../../../../components/views/CardViewType1';
 import {Head, Txt} from '../../../../../../../components/utils';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
-import {PaleGreyButton, PrimaryButtonLinear} from '../../../../../../../components/Buttons';
+import {
+  PaleGreyButton,
+  PrimaryButtonLinear,
+} from '../../../../../../../components/Buttons';
 import {COLORS} from '../../../../../../../theme';
 import PrimaryInput from '../../../../../../../components/Input';
 import ReturnHeader from '../../../../../../../components/Headers/root/ReturnHeader';
@@ -15,30 +18,35 @@ import CreatedSuccess from '../../../../../../../components/views/Layouts/AuthLa
 import illusphone from '../../../../../../../Assets/Img/illusphone.png';
 import illusErr from '../../../../../../../Assets/Img/illusErr.png';
 import {Image} from 'react-native';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {handlAmount} from '../../../../../../../redux/Features/Payements/MTN/slice';
 
 const AmountTopup = ({navigation, route}) => {
   const {onSubmit, state, schema} = useAmoutTopup();
   const {data, item} = route.params;
+
   const {isLoading} = useSelector(state => state.transaction);
+  const {isCreditCardLoading} = useSelector(state => state.creditCard);
+  const dispatch = useDispatch();
 
   const [success, setsuccess] = useState(false);
   const [error, setError] = useState(false);
 
   const onDissmis = useCallback(() => {
     setsuccess(false);
-    navigation.navigate('TopUp',{data})
+    navigation.navigate('TopUp', {data});
   }, []);
 
   const onDissmisError = useCallback(() => {
     setError(false);
-    navigation.navigate('TopUp',{data})
-
+    navigation.navigate('TopUp', {data});
   }, []);
 
-  const onSuccessAction = useCallback(() => {
+  const onSuccessAction = useCallback(value => {
     setsuccess(true);
+    dispatch(handlAmount(value));
   }, []);
+
   const onErrorAction = useCallback(() => {
     setError(true);
   }, []);
@@ -49,8 +57,7 @@ const AmountTopup = ({navigation, route}) => {
       goBack={() => {
         navigation.navigate('TopUp', {data});
       }}
-      Loading={isLoading}
-      >
+      Loading={isLoading || isCreditCardLoading}>
       <>
         <Formik
           initialValues={state}
@@ -72,7 +79,9 @@ const AmountTopup = ({navigation, route}) => {
             };
             let info = {
               accountId: data.accountId,
+              userId: data?.userId,
               obj,
+              amount: values.amount,
             };
             let object = {
               info,
@@ -158,6 +167,7 @@ const AmountTopup = ({navigation, route}) => {
 export default AmountTopup;
 
 const BodyModel = ({onDissmis}) => {
+  const {amount} = useSelector(state => state.transaction);
   return (
     <>
       <View style={styles.ModelContainer}>
@@ -176,9 +186,10 @@ const BodyModel = ({onDissmis}) => {
             //fontFamily: "Poppins-SemiBold",
           }}>
           <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
-            12,000 euro
+            {amount} euro
           </Txt>{' '}
-          has been transfered successfully to
+          has been transfered successfully
+          {/* to
           <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
             {' '}
             Faith Felicity (+44 7538 110953).
@@ -188,7 +199,7 @@ const BodyModel = ({onDissmis}) => {
             {' '}
             transaction history.
           </Txt>
-          .
+          . */}
         </Txt>
 
         <PaleGreyButton onPress={onDissmis}>close</PaleGreyButton>

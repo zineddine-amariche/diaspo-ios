@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,34 +7,35 @@ import {
   ImageBackground,
   ScrollView,
   Image,
-} from "react-native";
+  Platform,
+} from 'react-native';
 
-import ImgBack from "../../../../../Assets/Img/HomeBack.png";
-import { COLORS, SIZES } from "../../../../../theme";
-import SecondaryHeader from "../../../../../components/Headers/root/SecondaryHeader";
-import MainAccount from "../Components/MainAccount";
-import Rectangle from "../../../../../components/views/Rectangle";
-import Form0 from "../Components/Forms/Form0";
-import Form1 from "../Components/Forms/Form1";
-import Space from "../../../../../components/Space";
-import Bottom1 from "./BottomSheetAccount";
-import Bottom4 from "./BottomSheetPassword";
-import Bottom2 from "./BottomSheetReceiversPhoneEmail";
-import Bottom3 from "./BottomSheetReceiversFullName";
+import ImgBack from '../../../../../Assets/Img/HomeBack.png';
+import {COLORS, SIZES} from '../../../../../theme';
+import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHeader';
+import MainAccount from '../Components/MainAccount';
+import Rectangle from '../../../../../components/views/Rectangle';
+import Form0 from '../Components/Forms/Form0';
+import Form1 from '../Components/Forms/Form1';
+import Space from '../../../../../components/Space';
+import Bottom1 from './BottomSheetAccount';
+import Bottom4 from './BottomSheetPassword';
+import Bottom2 from './BottomSheetReceiversPhoneEmail';
+import Bottom3 from './BottomSheetReceiversFullName';
 import {
   PaleGreyButton,
   PrimaryButtonLinear,
-} from "../../../../../components/Buttons";
-import Line from "../../../../../components/views/line";
-import CreatedSuccess from "../../../../../components/views/Layouts/AuthLayout/Model";
-import { Head, Txt } from "../../../../../components/utils";
-import illusphone from "../../../../../Assets/Img/illusphone.png";
-import { Formik } from "formik";
-import { useTransfers } from "../Hooks";
-import { useSelector } from "react-redux";
-import BottomSheetSelect from "./BottomSheetSelect";
+} from '../../../../../components/Buttons';
+import Line from '../../../../../components/views/line';
+import CreatedSuccess from '../../../../../components/views/Layouts/AuthLayout/Model';
+import {Head, Txt} from '../../../../../components/utils';
+import illusphone from '../../../../../Assets/Img/illusphone.png';
+import {Formik} from 'formik';
+import {useTransfers} from '../Hooks';
+import {useSelector} from 'react-redux';
+import BottomSheetSelect from './BottomSheetSelect';
 
-const BottomSheetTransfertSelectCountry = ({ goBack }) => {
+const BottomSheetTransfertSelectCountry = ({goBack}) => {
   const bottomSheetModalRef = useRef(null);
   const bottomSheetModalRef2 = useRef(null);
   const bottomSheetModalRef3 = useRef(null);
@@ -105,20 +100,20 @@ const BottomSheetTransfertSelectCountry = ({ goBack }) => {
 
   // MAIN ACOUNT
   const [selected, setSelected] = useState(0);
-  const onSelect = (item) => {
+  const onSelect = item => {
     setSelected(item);
   };
-  const contacts = useSelector((state) => ({ ...state.contacts }));
+  const contacts = useSelector(state => ({...state.contacts}));
   // console.log('contacts', contacts)
 
-  const { validationSchema1, State1, Transfers } = useTransfers();
-  const { validationSchema, State0 } = useTransfers();
+  const {validationSchema1, State1, Transfers} = useTransfers();
+  const {validationSchema, State0} = useTransfers();
 
   let schema = selected === 0 ? validationSchema : validationSchema1;
   let state = selected === 0 ? State0 : State1;
   // console.log('schema',schema)
 
-  const ChangeAccount = (Item) => {
+  const ChangeAccount = Item => {
     setChange(Item.name);
     setPrice(Item.balance);
     // closeBottomUp3()
@@ -128,24 +123,22 @@ const BottomSheetTransfertSelectCountry = ({ goBack }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={"transparent"} />
+      <StatusBar translucent={true} backgroundColor={'transparent'} />
       <ImageBackground
         style={styles.ImageBackground}
         source={ImgBack}
         resizeMode="stretch"
       />
-      <SecondaryHeader goBack={goBack} Cancel="Return" title={"Transfer"} />
-
+      {isOpen ? null : (
+        <SecondaryHeader goBack={goBack} Cancel="Return" title={'Transfer'} />
+      )}
+      <Space space={30} />
       <Formik
         initialValues={state}
         validationSchema={schema}
         onSubmit={(values, formikAction) => {
-          // console.log("values", values);
-          // formikAction.setSubmitting(false);
-          // formikAction.resetForm();
           Transfers(values);
-        }}
-      >
+        }}>
         {({
           values,
           errors,
@@ -167,9 +160,8 @@ const BottomSheetTransfertSelectCountry = ({ goBack }) => {
           return (
             <>
               <ScrollView
-                contentContainerStyle={{ width: SIZES.width }}
-                showsVerticalScrollIndicator={false}
-              >
+                contentContainerStyle={{width: SIZES.width}}
+                showsVerticalScrollIndicator={false}>
                 <MainAccount
                   onSelect={onSelect}
                   selected={selected}
@@ -187,8 +179,7 @@ const BottomSheetTransfertSelectCountry = ({ goBack }) => {
                       paddingTop: 20,
                       backgroundColor: COLORS.white,
                       padding: 20,
-                    }}
-                  >
+                    }}>
                     {selected === 0 ? (
                       <Form0
                         handlePresentModalPress3={handlePresentModalPress3}
@@ -216,7 +207,8 @@ const BottomSheetTransfertSelectCountry = ({ goBack }) => {
                     )}
                   </Rectangle>
                 }
-                <Space space={20}></Space>
+                <Space space={85} />
+
               </ScrollView>
               <Bottom1
                 bottomSheetModalRef={bottomSheetModalRef}
@@ -244,8 +236,8 @@ const BottomSheetTransfertSelectCountry = ({ goBack }) => {
                 bottomSheetModalRef={bottomSheetModalRef5}
                 onPress={handlePresentModalSelect}
                 closeSelect={closeSelect}
-                setFieldValue={(val) => {
-                  setFieldValue("bankName", val);
+                setFieldValue={val => {
+                  setFieldValue('bankName', val);
                 }}
               />
 
@@ -261,8 +253,11 @@ const BottomSheetTransfertSelectCountry = ({ goBack }) => {
                   >
                     CONFIRM
                   </PrimaryButtonLinear>
-                  <Space space={25} />
-                  <Line color={COLORS.black} />
+                  {Platform.OS == 'ios' ? (
+                    <Space space={15} />
+                  ) : (
+                    <Space space={25} />
+                  )}
                 </View>
               )}
 
@@ -277,37 +272,35 @@ const BottomSheetTransfertSelectCountry = ({ goBack }) => {
   );
 };
 
-const BodyModel = ({ onDissmis }) => {
+const BodyModel = ({onDissmis}) => {
   return (
     <>
       <View style={styles.ModelContainer}>
-        <Image source={illusphone} style={{ width: "100%" }} />
+        <Image source={illusphone} style={{width: '100%'}} />
 
         <Head
-        //  fontFamily={"Poppins-Bold"}
-          style={{ padding: 20, textAlign: "center" }}
-        >
+          //  fontFamily={"Poppins-Bold"}
+          style={{padding: 20, textAlign: 'center'}}>
           Transfered successfully
         </Head>
         <Txt
           color={COLORS.slateGrey}
           style={{
             paddingHorizontal: 10,
-            textAlign: "center",
+            textAlign: 'center',
             //fontFamily: "Poppins-SemiBold",
-          }}
-        >
-          <Txt Bold={"700"} color={COLORS.black} fontSize={17}>
+          }}>
+          <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
             12,000 euro
-          </Txt>{" "}
+          </Txt>{' '}
           has been transfered successfully to
-          <Txt Bold={"700"} color={COLORS.black} fontSize={17}>
-            {" "}
+          <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
+            {' '}
             Faith Felicity (+44 7538 110953).
           </Txt>
           You can check in your account
-          <Txt Bold={"400"} color={COLORS.orangeYellow} fontSize={17}>
-            {" "}
+          <Txt Bold={'400'} color={COLORS.orangeYellow} fontSize={17}>
+            {' '}
             transaction histopy.
           </Txt>
           .
@@ -322,7 +315,7 @@ const BodyModel = ({ onDissmis }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.paleGrey,
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
   },
   ImageBackground: {
@@ -330,14 +323,15 @@ const styles = StyleSheet.create({
     top: -107,
     width: SIZES.width,
     height: 264,
-    position: "absolute",
+    position: 'absolute',
   },
   buttonsConatiner: {
-    width: "100%",
+    width: '100%',
     paddingHorizontal: 20,
     backgroundColor: COLORS.white,
-    height: 110,
     paddingTop: 15,
+    position: 'absolute',
+    bottom: 0,
   },
 });
 

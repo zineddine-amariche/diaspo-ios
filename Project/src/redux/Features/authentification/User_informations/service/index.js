@@ -13,7 +13,6 @@ const api = async (userId, token) => {
   };
 
   const res = await axios.get(url, config);
-  //  console.log("userInfo", res.data);
   return res.data;
 };
 const userInformationsService = {

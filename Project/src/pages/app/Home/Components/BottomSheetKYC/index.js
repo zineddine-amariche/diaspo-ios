@@ -29,7 +29,7 @@ const BottomSheetKyc= ({
   };
 
   return (
-    // <BottomSheetModalProvider>
+    <BottomSheetModalProvider>
     <View style={styles.containerBottom}>
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -60,7 +60,7 @@ const BottomSheetKyc= ({
         </BottomSheetScrollView>
       </BottomSheetModal>
     </View>
-    // </BottomSheetModalProvider>
+   </BottomSheetModalProvider>
   );
 };
 

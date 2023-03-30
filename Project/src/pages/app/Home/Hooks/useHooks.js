@@ -30,7 +30,7 @@ export function UseHome() {
   };
 
   const onErrorAction = () => {
-    clearAsyncStorage();
+     clearAsyncStorage();
   };
 
   let object = {

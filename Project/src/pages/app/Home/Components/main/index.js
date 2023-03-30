@@ -9,6 +9,7 @@ import cashOut from "../../../../../Assets/Img/cashOut.png";
 import { COLORS } from "../../../../../theme";
 import Tontine from '../../../../../Assets/Img/Tontine3.png';
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const MainTypes = ({ navigation,onPress }) => {
 
@@ -17,6 +18,12 @@ const MainTypes = ({ navigation,onPress }) => {
   const navtopage = (path) => {
     navigation.navigate(path);
   };
+
+  const {walletAccount} = useSelector(state => state.walletAccounts);
+
+  const Filter = walletAccount?.walletAccounts?.filter(item =>{ return item.accountType.includes("personal")});
+
+
   return (
     <View style={styles.Types}>
 
@@ -42,9 +49,18 @@ const MainTypes = ({ navigation,onPress }) => {
         onPress={() => {
           // navtopage("TopUp")
           onPress()
+          // navigation.navigate('TopUp', {data: Filter[0]});
         }}
         style={styles.Box}
-
+        // onPressOut={()=>{
+        //   onPress()
+  
+        // }}
+        // onPressIn={()=>{
+        //   onPress()
+  
+        // }}
+        
       >
         <Image source={ctangleCustom} style={{height:56,width:56}} />
         <Txt fontSize={14} color={COLORS.lightBlueGrey} style={{ paddingTop: 10 }}>

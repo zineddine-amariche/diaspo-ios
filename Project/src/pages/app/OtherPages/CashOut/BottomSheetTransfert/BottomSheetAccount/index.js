@@ -22,7 +22,7 @@ const Bottom1 = ({ bottomSheetModalRef, closeDrawer, closeAccount,ChangeAccount 
   };
 
   return (
-    <BottomSheetModalProvider>
+     <BottomSheetModalProvider>
       <View style={styles.containerBottom}>
         <BottomSheetModal
           ref={bottomSheetModalRef}
@@ -38,7 +38,7 @@ const Bottom1 = ({ bottomSheetModalRef, closeDrawer, closeAccount,ChangeAccount 
           </View>
         </BottomSheetModal>
       </View>
-    </BottomSheetModalProvider>
+     </BottomSheetModalProvider>
   );
 };
 

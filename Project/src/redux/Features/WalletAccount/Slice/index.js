@@ -5,25 +5,23 @@ import getListwalletAccounts from "../Service";
 
 
 export const walletAccounts = createAsyncThunk("wallet/account", async (user, thunkAPI) => {
-  // console.log('user', user)
+  //  console.log('user', user)
   try {
     const token = thunkAPI.getState().token.token;
+
     let res = await getListwalletAccounts.api(user, token)
 
-// console.log('res.data--walletAccounts', res)
-    if(res.data){
+    // if(res.data){
 
-    }
-    
+    // }
     return res
   } catch (error) {
-    const {onErrorAction} = object;
+   const {onErrorAction} = user;
     const message =
       (error.response && error.response.data) ||
       error.message ||
       error.toString();
-
-    // console.log('message', message);
+     console.log('message', message);
 
     if (
       message.status == 'error' &&
@@ -43,7 +41,7 @@ export const walletAccounts = createAsyncThunk("wallet/account", async (user, th
       Toast.show(`${message}`);
     } else {
       if (message.statusDescription == 'Expired token') {
-        onError(message.status, message.statusDescription, onErrorAction);
+        onError(message.status, message.statusDescription,onErrorAction );
       } else {
         onError(
           message.status,

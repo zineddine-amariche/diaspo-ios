@@ -10,6 +10,8 @@ const SimpleSpiner = ({visible}) => {
     if (visible) {
       Toast.show(
         "You will be redirected to the tontine's details page ",
+        Toast.SHORT,
+        Toast.CENTER,
       );
     }
   }, [visible]);

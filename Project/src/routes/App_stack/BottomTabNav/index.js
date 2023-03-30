@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import LinearGradient from "react-native-linear-gradient";
@@ -52,6 +52,8 @@ const BottomTab = ({ type, color, size = 34, isFocused, index }) => {
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
   return (
+
+    // false ?
     <View
       style={{
         height: 94,
@@ -113,13 +115,18 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
               />
               <View style={{width:60 ,alignItems:'center',}}>
 
-              <Txt  color = {isFocused ? COLORS.blueGreen : COLORS.coolGrey} textTransform={"none"} fontSize={12}>{route.name}</Txt>
+              <Txt  color = {isFocused ? COLORS.blueGreen : COLORS.coolGrey} textTransform={"none"} fontSize={12}>{route.name == "." ?'':route.name}</Txt>
               </View>
             </TouchableOpacity>
           );
         })}
       </View>
     </View>
+
+    // : null 
+  
+  
+  
   );
 };
 
@@ -128,6 +135,7 @@ const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
+    
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -142,11 +150,12 @@ const TabNavigator = () => {
           overflow: "visible",
         },
       }}
-      tabBar={(props) => <MyTabBar {...props} />}
+      tabBar={(props) => <MyTabBar {...props}  />}
+      
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Wallet" component={Wallet} />
-      <Tab.Screen name="MyCode" component={MyCode} />
+      <Tab.Screen name="." component={MyCode} />
       <Tab.Screen name="Discount" component={Categories} />
       <Tab.Screen name="Analysis" component={Analysis} />
     </Tab.Navigator>
@@ -159,7 +168,7 @@ const BottomTabOrange = () => {
 
 const styles = StyleSheet.create({
   bottomBar: {
-    height: 60,
+    height:Platform.OS == "ios"?85: 60,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-around",
@@ -167,7 +176,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     backgroundColor: COLORS.white,
-    paddingTop: -20,
+    paddingTop:Platform.OS == "ios"?-10:  -20,
   },
   middleIcon: {
     bottom: 18,

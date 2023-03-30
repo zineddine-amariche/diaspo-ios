@@ -9,8 +9,6 @@ const API_URL =
 
 const api = async (info, token) => {
 
-  console.log('data', info)
-
 let {obj,accountId} = info
   const config = {
     headers: {

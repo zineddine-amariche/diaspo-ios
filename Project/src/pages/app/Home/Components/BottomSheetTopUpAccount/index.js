@@ -26,12 +26,12 @@ const BottomSheetTopUpAccount = ({
   };
   const handleAll = () => {
     bottomSheetModalRef.current.close();
-    setTimeout(() => {
-      bottomSheetModalRef2.current.close();
-    }, 300);
+    // setTimeout(() => {
+    //   bottomSheetModalRef2.current.close();
+    // }, 300);
   };
   return (
-    // <BottomSheetModalProvider>
+    //  <BottomSheetModalProvider>
     <View style={styles.containerBottom}>
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -48,16 +48,13 @@ const BottomSheetTopUpAccount = ({
       >
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>
           <ContentRenders
-            onPress={onPress}
             navigation={navigation}
-            closeBottomUp1={closeBottomUp1}
-            closeBottomUp2={closeBottomUp2}
-            closeAll={handleAll}
+            closeAll={handleClosePress}
           />
         </BottomSheetScrollView>
       </BottomSheetModal>
     </View>
-    // </BottomSheetModalProvider>
+    //  </BottomSheetModalProvider>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import Space from '../../../../../components/Space';
@@ -16,17 +16,26 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
 
   const {data} = route.params;
 
+
   const data1 = [
     {
       id: 0,
       label: 'Main Account',
       value: 'Main Account',
+      price: '**** **** **** 3952',
+      currency: '11 / 2022',
+      url: require('../../../../../Assets/cartecredit.png'),
+    },
+    {
+      id: 1,
+      label: 'Main ',
+      value: 'Main ',
       price: '**** **** **** 3651',
       currency: '11 / 2020',
       url: require('../../../../../Assets/Img/cardLogo2-removebg-preview.png'),
     },
     {
-      id: 1,
+      id: 2,
       label: '2nd FX',
       value: '2nd FX',
       price: '**** **** **** 9251',
@@ -60,7 +69,6 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
       url: require('../../../../../Assets/Img/ALIPAye.png'),
     },
   ];
-
   const data4 = [
     {
       id: 1,
@@ -115,8 +123,10 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
     },
   ];
 
+ 
+
   const onSelect = item => {
-    if (item.value == 'MTN') {
+    if (item.value == 'MTN' || item.value == "Main Account") {
       navigation.navigate('AmountTopup', {item, data});
     } else {
       Toast.show(`Unavailable method`);
@@ -144,8 +154,8 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
           <View style={{padding: 20}}>
             <View style={styles.topinuptxt}>
               <Txt lineHeight={20} color={COLORS.slateGrey} fontSize={14}>
-                You are topping up your {data.label} account in euro. Choose a
-                top up moethod below:
+                You are topping up your {data?.label} account in euro. Choose a
+                top up method below:
               </Txt>
             </View>
 

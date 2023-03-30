@@ -25,9 +25,9 @@ const BottomSheetTopUpAccount = ({
   };
   const handleAll = () => {
     bottomSheetModalRef.current.close();
-    setTimeout(() => {
-      bottomSheetModalRef.current.close();
-    }, 300);
+    // setTimeout(() => {
+    //   bottomSheetModalRef.current.close();
+    // }, 300);
   };
   return (
     // <BottomSheetModalProvider>
