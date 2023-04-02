@@ -5,10 +5,9 @@ import {Txt} from '../../../../../../../../components/utils';
 import Space from '../../../../../../../../components/Space';
 import {PrimaryButtonLinear} from '../../../../../../../../components/Buttons';
 import Loader from './Loader';
+import { useSelector } from 'react-redux';
 
 const BottomConfirmButton = ({
-  ARR,
-  laoder,
   GlobalBen,
   projectId,
   GlobalBen2,
@@ -22,6 +21,15 @@ const BottomConfirmButton = ({
   showPopUp,
 }) => {
 
+  const {selectedconnectUser, selectedconnectUserContacts, laoder} =
+  useSelector(state => ({
+    ...state.beneficaire,
+  }));
+
+  let ARR =
+  !selectedconnectUser || !selectedconnectUserContacts
+    ? []
+    : [...selectedconnectUser, ...selectedconnectUserContacts];
   return (
     <>
       {ARR?.length ? (

@@ -3,7 +3,6 @@ import {View, useWindowDimensions} from 'react-native';
 
 import Space from '../../../../../../components/Space';
 import {TabView} from 'react-native-tab-view';
-import Toast from 'react-native-simple-toast';
 
 import Form0 from './Components/Forms/Form0';
 import Form1 from './Components/Forms/Form1';
@@ -21,13 +20,11 @@ import {
 import ModelRemove from '../components/Models/Model.Remove';
 import TabItems from './Components/RenderItems/Tab.Items';
 import BottomConfirmButton from './Components/RenderItems/Bottom.ConfirmButton';
-import {createParticipants} from '../../../../../../redux/Features/Tontine/Participants/create/slice';
-import {createNotification} from '../../../../../../redux/Features/Tontine/Participants/SendNotify/slice';
 
-import {resetBeneficiaries} from '../../../../../../redux/Features/Tontine/Participants/getBeneficiaires/slice';
 import styles from './styles';
 import ModelConfirmCreateParticipants from '../components/Models/Model.ConfirmCreateParticipants';
 import SearchLayout from '../../../../../../components/views/Layouts/AppLayout/ScreenLayout/SearchLayout';
+import {UseBenef} from '../Hooks/useBenef';
 
 const durationMs = 350;
 
@@ -35,18 +32,14 @@ const Benefeciare = ({navigation, route}) => {
   const dispatch = useDispatch();
   const layout = useWindowDimensions();
 
+  const {onSubmit} = UseBenef();
+
   const {projectId, type, routeData, title} = route.params;
   const {token} = useSelector(state => ({...state.token}));
- 
 
-  const {isLoading, TypeOfParticipant} = useSelector(state => ({
+  const {isLoading} = useSelector(state => ({
     ...state.createParticipants,
   }));
-
-  const {selectedconnectUser, selectedconnectUserContacts, laoder} =
-    useSelector(state => ({
-      ...state.beneficaire,
-    }));
 
   const [success, setsuccess] = useState(false);
 
@@ -93,116 +86,6 @@ const Benefeciare = ({navigation, route}) => {
     }
   };
 
-  let ARR =
-    !selectedconnectUser || !selectedconnectUserContacts
-      ? []
-      : [...selectedconnectUser, ...selectedconnectUserContacts];
-
-  const deviceTokenFromConnectedUsers = selectedconnectUser?.map(i => {
-    return i?.device?.deviceToken
-      ? i?.device?.deviceToken
-      : i?.device[0]?.deviceToken;
-  });
-
-  let titree =
-    TypeOfParticipant === 'PAYER_AND_BENEFICIARY'
-      ? 'Participants List'
-      : 'Beneficiaries List';
-
-  const onSuccesAction = DATA => {
-    let ids = DATA?.map(el => {
-      return el.participantId;
-    });
-    let object = {};
-
-    if (ids && ids.length > 0) {
-      ids?.forEach(element => {
-        object = {
-          registration_ids: deviceTokenFromConnectedUsers,
-          notification: {
-            body: `You has been invited to join “${routeData?.name}” as a beneficiary`,
-            OrganizationId: '2',
-            content_available: true,
-            priority: 'high',
-            subtitle: 'Dipaso Invitation',
-            title: 'Dipaso - Tontine Invitation ',
-            participantsId: element,
-            projectId,
-          },
-          data: {
-            priority: 'high',
-            sound: 'app_sound.wav',
-            content_available: true,
-            bodyText: `You has been invited to join “${routeData?.name}” as a beneficiary`,
-            organization: 'Dipaso',
-            participantsId: element,
-            projectId,
-            timer: new Date(),
-            for: 'invitation',
-            navigate: 'InvitationTontine',
-            forgroundView: 'Notifications',
-            title: 'Dipaso - Tontine Invitation ',
-          },
-        };
-      });
-    }
-
-    const onNotifySuccess = () => {
-      navigation.navigate('ViewBenefeciareList', {
-        projectId,
-        routeData, // i get this value from : server
-        title: titree,
-      });
-      dispatch(resetBeneficiaries());
-      dispatch(deleteSelectedList());
-    };
-
-    const onNotifyError = () => {
-      Toast.show('send notification failed.');
-    };
-
-    let dataObject = {
-      object,
-      onNotifySuccess,
-      onNotifyError,
-    };
-
-    dispatch(createNotification(dataObject));
-  };
-
-  const onErrorAction = () => {
-    dispatch(resetBeneficiaries());
-    dispatch(deleteSelectedList());
-  };
-
-  const confirmCreaton = () => {
-    if (selectedconnectUser.length == 0) {
-      Toast.show('choose connected users');
-    } else {
-      let ARR = [];
-      GlobalBen.map(i => {
-        return ARR.push(i.userId);
-      });
-
-      let obj = {
-        appUsers: ARR,
-        noneAppUsers: [],
-        projectId,
-        token,
-        type,
-     
-      };
- 
-       let object = {
-        onSuccesAction,
-        onErrorAction,
-        obj,
-      };
-      console.log('object', object)
-      //  dispatch(createParticipants(object));
-    }
-  };
-
   return (
     <SearchLayout
       title={title}
@@ -233,8 +116,6 @@ const Benefeciare = ({navigation, route}) => {
       </View>
 
       <BottomConfirmButton
-        ARR={ARR}
-        laoder={laoder}
         GlobalBen={GlobalBen}
         projectId={projectId}
         GlobalBen2={GlobalBen2}
@@ -253,7 +134,15 @@ const Benefeciare = ({navigation, route}) => {
         success={success2}
         onDissmis={onDissmis2}
         pressNo={onDissmis2}
-        pressYes={confirmCreaton}
+        pressYes={ ()=>{
+            let props = {
+              GlobalBen,
+              type,
+              projectId,
+            };
+          onSubmit(props)
+        
+        }}
       />
     </SearchLayout>
   );

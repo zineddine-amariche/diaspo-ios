@@ -10,7 +10,6 @@ import { Txt } from "../utils";
 import LinearGradient from "react-native-linear-gradient";
 import { COLORS } from "../../theme";
 import newButton from "../../Assets/Img/newButton.png";
-import { View } from "react-native";
 import Space from "../Space";
 
 export const PrimaryButton = ({
@@ -178,14 +177,11 @@ export const WhiteButton = ({
 
   const stylep = [
     {
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 10,
-        height: 1,
-      },
-      shadowOpacity: 0.22,
-      shadowRadius: 2.22,
-      elevation: 3,
+      shadowColor: '#171717',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+      elevation: 2,
     },
   ];
   return (
@@ -292,14 +288,11 @@ export const PrimaryLinearOption = ({
 
   const stylep = [
     {
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 10,
-        height: 1,
-      },
-      shadowOpacity: 0.22,
-      shadowRadius: 2.22,
-      elevation: 3,
+      shadowColor: '#171717',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+      elevation: 2,
     },
   ];
   return (
@@ -361,14 +354,11 @@ export const CircleButton = ({
 
   const stylep = [
     {
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 10,
-        height: 1,
-      },
-      shadowOpacity: 0.22,
-      shadowRadius: 2.22,
-      elevation: 3,
+      shadowColor: '#171717',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+      elevation: 2,
     },
   ];
   return (

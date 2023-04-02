@@ -30,7 +30,6 @@ import Space from '../../../../../components/Space';
 import HView from '../../../../../components/views/HView/HView';
 import CreatedSuccess from '../../../../../components/views/Layouts/AuthLayout/Model';
 import {updateTontine} from '../../../../../redux/Features/Tontine/Participants/updateTontine/slice';
-import BottomSheetSelect from './BottomSheetSelect';
 import {getTontinesProjectInfo} from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
 import Spiner from '../../../../../components/spiner';
 import {useIsFocused} from '@react-navigation/native';
@@ -158,6 +157,7 @@ const InfoScreenTontine = ({navigation, route}) => {
     }
   };
 
+  console.log('tontineProjectInfo.numberOfBeneficiaries', tontineProjectInfo.numberOfBeneficiaries)
   return isLoading ? (
     <Spiner />
   ) : (
@@ -197,6 +197,7 @@ const InfoScreenTontine = ({navigation, route}) => {
             <Activity
               asAPayer={tontineProjectInfo?.project?.asAPayer}
               numberOfPayers={tontineProjectInfo?.numberOfPayers}
+              numberOfBenef={tontineProjectInfo?.numberOfBeneficiaries}
               projectId={tontineProjectInfo?.project?.projectId}
               consult={consult}
               onSuccess={onOpenInfomationDetails}
@@ -208,10 +209,13 @@ const InfoScreenTontine = ({navigation, route}) => {
               tontineProjectInfo={tontineProjectInfo}
             />
           </>
+          <Space space={40}/>
         </ScrollView>
         <ActivityButton
           asAPayer={tontineProjectInfo?.project.asAPayer}
           numberOfPayers={tontineProjectInfo?.numberOfPayers}
+          numberOfBenef={tontineProjectInfo?.numberOfBeneficiaries}
+
           tontineProjectInfo={tontineProjectInfo}
           handlePresentModalPress={handlePresentModalPress}
           projectId={tontineProjectInfo?.project?.projectId}

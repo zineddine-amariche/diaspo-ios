@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, {useCallback, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,37 +6,39 @@ import {
   StatusBar,
   ScrollView,
   Image,
-} from "react-native";
+  Platform,
+} from 'react-native';
 import Toast from 'react-native-simple-toast';
 
-import ImgBack from "../../../../../../Assets/Img/HomeBack.png";
+import ImgBack from '../../../../../../Assets/Img/HomeBack.png';
 import {
   PaleGreyButton,
   PrimaryButtonLinear,
-} from "../../../../../../components/Buttons";
-import SecondaryHeader from "../../../../../../components/Headers/root/SecondaryHeader";
-import Space from "../../../../../../components/Space";
-import * as _ from "../../../../../../components/utils";
-import { COLORS, SIZES } from "../../../../../../theme";
-import HView from "../../../../../../components/views/HView/HView";
-import thumbnailPath from "../../../../../../Assets/Img/ContactsUser.png";
-import Rectangle from "../../../../../../components/views/Rectangle";
-import Line from "../../../../../../components/views/line";
-import { TouchableOpacity } from "react-native";
-import UseCheckBoxElements from "../../../../../../components/checkBox/useCheckBoxElements";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+} from '../../../../../../components/Buttons';
+import SecondaryHeader from '../../../../../../components/Headers/root/SecondaryHeader';
+import Space from '../../../../../../components/Space';
+import * as _ from '../../../../../../components/utils';
+import {COLORS, SIZES} from '../../../../../../theme';
+import HView from '../../../../../../components/views/HView/HView';
+import thumbnailPath from '../../../../../../Assets/Img/ContactsUser.png';
+import Rectangle from '../../../../../../components/views/Rectangle';
+import Line from '../../../../../../components/views/line';
+import {TouchableOpacity} from 'react-native';
+import UseCheckBoxElements from '../../../../../../components/checkBox/useCheckBoxElements';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   createParticipants,
   resetSuccesParticipants,
-} from "../../../../../../redux/Features/Tontine/Participants/create/slice";
-import { resetBeneficiaries } from "../../../../../../redux/Features/Tontine/Participants/getBeneficiaires/slice";
-import { deleteSelectedList } from "../../../../../../redux/Features/Tontine/ManageBenefeciare/ManageStatesBeneficiare";
-import { createNotification } from "../../../../../../redux/Features/Tontine/Participants/SendNotify/slice";
-import { useIsFocused } from "@react-navigation/native";
-import ModelConfirmCreateParticipants from "../components/Models/Model.ConfirmCreateParticipants";
+} from '../../../../../../redux/Features/Tontine/Participants/create/slice';
+import {resetBeneficiaries} from '../../../../../../redux/Features/Tontine/Participants/getBeneficiaires/slice';
+import {deleteSelectedList} from '../../../../../../redux/Features/Tontine/ManageBenefeciare/ManageStatesBeneficiare';
+import {createNotification} from '../../../../../../redux/Features/Tontine/Participants/SendNotify/slice';
+import {useIsFocused} from '@react-navigation/native';
+import ModelConfirmCreateParticipants from '../components/Models/Model.ConfirmCreateParticipants';
+import {UseBenef} from '../Hooks/useBenef';
 
-const ListBéneféciare = ({ navigation, route }) => {
+const ListBéneféciare = ({navigation, route}) => {
   const {
     GlobalBen,
     GlobalBen2,
@@ -47,14 +49,14 @@ const ListBéneféciare = ({ navigation, route }) => {
     type,
     routeData,
     title,
-    showPopUp
+    showPopUp,
   } = route.params;
-  const { token } = useSelector((state) => ({ ...state.token }));
+  const {token} = useSelector(state => ({...state.token}));
 
- 
+  const {onSubmit} = UseBenef();
 
   const NavToCnfPayer = () => {
-    navigation.navigate("ConfirmedListBéneféciare", { PayerId: projectId });
+    navigation.navigate('ConfirmedListBéneféciare', {PayerId: projectId});
     // navigation.navigate("ConfirmedListBéneféciare", {
     //   GlobalBen,
     //   GlobalBen2,
@@ -64,11 +66,11 @@ const ListBéneféciare = ({ navigation, route }) => {
     //   projectId
     // });
   };
-  const { loadingBeneficiaries, result, isSuccess } = useSelector((state) => ({
+  const {loadingBeneficiaries, result, isSuccess} = useSelector(state => ({
     ...state.selecetdBeneficiaries,
   }));
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => ({
+  const {loading} = useSelector(state => ({
     ...state.selecetdBeneficiaries,
   }));
 
@@ -81,7 +83,7 @@ const ListBéneféciare = ({ navigation, route }) => {
     participants,
     nonAppUserParticipants,
     TypeOfParticipant,
-  } = useSelector((state) => ({
+  } = useSelector(state => ({
     ...state.createParticipants,
   }));
 
@@ -90,15 +92,14 @@ const ListBéneféciare = ({ navigation, route }) => {
     selectedconnectUserContacts,
     selectedconnectNonUserApp,
     laoder,
-  } = useSelector((state) => ({
+  } = useSelector(state => ({
     ...state.beneficaire,
   }));
-
 
   const [success2, setsuccess2] = useState(false);
   let object = {};
 
-  let ids = participants?.map((el) => {
+  let ids = participants?.map(el => {
     return el.participantId;
   });
 
@@ -112,126 +113,122 @@ const ListBéneféciare = ({ navigation, route }) => {
   const pressNo = () => {
     setsuccess2(false);
     dispatch(resetSuccesParticipants());
-    navigation.navigate("ViewBenefeciareList", {
+    navigation.navigate('ViewBenefeciareList', {
       projectId,
-      routeData: "null",
+      routeData: 'null',
       title: titree,
     });
   };
 
-
- 
-
-
   let titree =
-    TypeOfParticipant === "PAYER_AND_BENEFICIARY"
-      ? "Participants List"
-      : "Beneficiaries List";
+    TypeOfParticipant === 'PAYER_AND_BENEFICIARY'
+      ? 'Participants List'
+      : 'Beneficiaries List';
 
-  const pressYes = () => {
-    dispatch(resetSuccesParticipants());
-    navigation.navigate("BenefeciareListReorder", {
-      projectId: projectId,
-      title: "Set Beneficiary Order",
-      type
-    });
-  };
+  // const pressYes = () => {
+  //   dispatch(resetSuccesParticipants());
+  //   navigation.navigate("BenefeciareListReorder", {
+  //     projectId: projectId,
+  //     title: "Set Beneficiary Order",
+  //     type
+  //   });
+  // };
 
-  const deviceTokenFromConnectedUsers = selectedconnectUser?.map((i) => {
-    return i?.device?.deviceToken
-      ? i?.device?.deviceToken
-      : i?.device[0]?.deviceToken;
-  });
-  const isFocused = useIsFocused();
+  // const deviceTokenFromConnectedUsers = selectedconnectUser?.map((i) => {
+  //   return i?.device?.deviceToken
+  //     ? i?.device?.deviceToken
+  //     : i?.device[0]?.deviceToken;
+  // });
+  // const isFocused = useIsFocused();
 
-  useEffect(() => {
-    if (
-      status === "success" &&
-      isFocused &&
-      (TypeOfParticipant === "BENEFICIARY" ||
-        TypeOfParticipant === "PAYER_AND_BENEFICIARY" ||
-        TypeOfParticipant === "TONTINE_ORDINARY_TONTINE")
-    ) {
-      console.log("------------- create BENEFICIARY Success 2  -------------- ");
+  // useEffect(() => {
+  //   if (
+  //     status === "success" &&
+  //     isFocused &&
+  //     (TypeOfParticipant === "BENEFICIARY" ||
+  //       TypeOfParticipant === "PAYER_AND_BENEFICIARY" ||
+  //       TypeOfParticipant === "TONTINE_ORDINARY_TONTINE")
+  //   ) {
+  //     console.log("------------- create BENEFICIARY Success 2  -------------- ");
 
-      if (ids && ids.length > 0) {
-        ids?.forEach((element) => {
-          object = {
-            registration_ids: deviceTokenFromConnectedUsers,
-            notification: {
-              body: `You has been invited to join “${routeData?.name}” as a beneficiary`,
-              OrganizationId: "2",
-              content_available: true,
-              priority: "high",
-              subtitle: "Dipaso Invitation",
-              title: "Dipaso - Tontine Invitation ",
-              participantsId: element,
-              projectId,
-            },
-            data: {
-              priority: "high",
-              sound: "app_sound.wav",
-              content_available: true,
-              bodyText: `You has been invited to join “${routeData?.name}” as a beneficiary`,
-              organization: "Dipaso",
-              participantsId: element,
-              projectId,
-              timer: new Date(),
-              for: "invitation",
-              navigate: "InvitationTontine",
-              forgroundView: "Notifications",
-              title: "Dipaso - Tontine Invitation ",
-            },
-          };
-        });
-      }
+  //     if (ids && ids.length > 0) {
+  //       ids?.forEach((element) => {
+  //         object = {
+  //           registration_ids: deviceTokenFromConnectedUsers,
+  //           notification: {
+  //             body: `You has been invited to join “${routeData?.name}” as a beneficiary`,
+  //             OrganizationId: "2",
+  //             content_available: true,
+  //             priority: "high",
+  //             subtitle: "Dipaso Invitation",
+  //             title: "Dipaso - Tontine Invitation ",
+  //             participantsId: element,
+  //             projectId,
+  //           },
+  //           data: {
+  //             priority: "high",
+  //             sound: "app_sound.wav",
+  //             content_available: true,
+  //             bodyText: `You has been invited to join “${routeData?.name}” as a beneficiary`,
+  //             organization: "Dipaso",
+  //             participantsId: element,
+  //             projectId,
+  //             timer: new Date(),
+  //             for: "invitation",
+  //             navigate: "InvitationTontine",
+  //             forgroundView: "Notifications",
+  //             title: "Dipaso - Tontine Invitation ",
+  //           },
+  //         };
+  //       });
+  //     }
 
-      dispatch(createNotification(object));
+  //     dispatch(createNotification(object));
 
-      onDissmis2()
-      navigation.navigate('ViewBenefeciareList', {
-        projectId,
-        routeData, // i get this value from : server
-        title: titree,
-      });
+  //     onDissmis2()
+  //     navigation.navigate('ViewBenefeciareList', {
+  //       projectId,
+  //       routeData, // i get this value from : server
+  //       title: titree,
+  //     });
 
-      setTimeout(() => {
-        dispatch(resetBeneficiaries()), dispatch(deleteSelectedList());
-      }, 2000);
-    } else if (isError) {
-      console.log("isError", isError);
-      Toast.show(
-        isError,
-      
-      );
-      setTimeout(
-        () => dispatch(resetBeneficiaries(), dispatch(deleteSelectedList())),
-        2000
-      );
-    }
-  }, [status, TypeOfParticipant]);
+  //     setTimeout(() => {
+  //       dispatch(resetBeneficiaries()), dispatch(deleteSelectedList());
+  //     }, 2000);
+  //   } else if (isError) {
+  //     console.log("isError", isError);
+  //     Toast.show(
+  //       isError,
 
-  const confirmCreaton=()=>{
-    let ARR = [];
-    GlobalBen.map((i) => {
-      return ARR.push(i.userId);
-    });
-    GlobalBen3;
+  //     );
+  //     setTimeout(
+  //       () => dispatch(resetBeneficiaries(), dispatch(deleteSelectedList())),
+  //       2000
+  //     );
+  //   }
+  // }, [status, TypeOfParticipant]);
 
-    let obj = {
-      appUsers: ARR,
-      noneAppUsers: GlobalBen3,
-      projectId:projectId,
-      token,
-      type,
-    };
-      // console.log("obj", obj);
-     dispatch(createParticipants(obj));
-  }
+  // const confirmCreaton=()=>{
+  //   let ARR = [];
+  //   GlobalBen.map((i) => {
+  //     return ARR.push(i.userId);
+  //   });
+  //   GlobalBen3;
+
+  //   let obj = {
+  //     appUsers: ARR,
+  //     noneAppUsers: GlobalBen3,
+  //     projectId:projectId,
+  //     token,
+  //     type,
+  //   };
+  //     // console.log("obj", obj);
+  //    dispatch(createParticipants(obj));
+  // }
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={"transparent"} />
+      <StatusBar translucent={true} backgroundColor={'transparent'} />
       <Image
         style={styles.ImageBackground}
         source={ImgBack}
@@ -240,20 +237,19 @@ const ListBéneféciare = ({ navigation, route }) => {
       <>
         <SecondaryHeader
           goBack={() => {
-            navigation.navigate("Béneféciare", { projectId, title });
+            navigation.navigate('Béneféciare', {projectId, title});
           }}
-          title={"Selected Beneficiaries"}
+          title={'Selected Beneficiaries'}
           sousTitre={`${ARR?.length} people selected`}
           Cancel="Return"
         />
 
         <ScrollView
-          contentContainerStyle={{ width: SIZES.width }}
-          showsVerticalScrollIndicator={false}
-        >
+          contentContainerStyle={{width: SIZES.width}}
+          showsVerticalScrollIndicator={false}>
           <Space space={15} />
-          <View style={{ paddingHorizontal: 20 }}>
-            <Rectangle width="100%" style={{ paddingVertical: 10 }}>
+          <View style={{paddingHorizontal: 20}}>
+            <Rectangle width="100%" style={{paddingVertical: 10}}>
               <Content1 GlobalBen={GlobalBen} GlobalBen2={GlobalBen2} />
               <Content3 GlobalBen3={GlobalBen3} GlobalBen2={GlobalBen2} />
               <Content2 GlobalBen2={GlobalBen2} />
@@ -269,30 +265,33 @@ const ListBéneféciare = ({ navigation, route }) => {
           loading={isLoading}
           disabled={true}
           onPress={() => {
-            onSuccess2()
-
+            onSuccess2();
           }}
-          width={"100%"}
-        >
+          width={'100%'}>
           confirm
         </PrimaryButtonLinear>
-        <Space space={25} />
-        <Line color={COLORS.black} />
       </View>
- 
 
       <ModelConfirmCreateParticipants
         success={success2}
         onDissmis={onDissmis2}
         pressNo={onDissmis2}
-        pressYes={confirmCreaton}
+        pressYes={() => {
+          let props = {
+            GlobalBen,
+            type,
+            projectId,
+            title: 'Set Beneficiary Order',
+          };
+          onSubmit(props);
+        }}
       />
     </SafeAreaView>
   );
 };
 export default ListBéneféciare;
 
-const Content1 = ({ GlobalBen, GlobalBen2 }) => {
+const Content1 = ({GlobalBen, GlobalBen2}) => {
   return GlobalBen?.map((i, index) => {
     return (
       <View key={index}>
@@ -302,8 +301,7 @@ const Content1 = ({ GlobalBen, GlobalBen2 }) => {
             onPress={() => {
               // console.log('index' , index)
               // handleOnChange(index, item);
-            }}
-          >
+            }}>
             <View>
               <Image
                 source={thumbnailPath}
@@ -311,12 +309,11 @@ const Content1 = ({ GlobalBen, GlobalBen2 }) => {
                 resizeMode="contain"
               />
             </View>
-            <View style={{ width: "57%" }}>
+            <View style={{width: '57%'}}>
               <_.Head
                 fontSize={17}
                 color={COLORS.darkBlueGrey}
-                numberOfLines={1}
-              >
+                numberOfLines={1}>
                 {i.firstName}
               </_.Head>
 
@@ -331,17 +328,16 @@ const Content1 = ({ GlobalBen, GlobalBen2 }) => {
             <View
               style={{
                 height: 1,
-                width: "100%",
+                width: '100%',
                 backgroundColor: COLORS.silverTwo,
-              }}
-            ></View>
+              }}></View>
           )}
         </>
       </View>
     );
   });
 };
-const Content2 = ({ GlobalBen3, GlobalBen2 }) => {
+const Content2 = ({GlobalBen3, GlobalBen2}) => {
   return GlobalBen3?.map((i, index) => {
     return (
       <View key={index}>
@@ -351,8 +347,7 @@ const Content2 = ({ GlobalBen3, GlobalBen2 }) => {
             onPress={() => {
               // console.log('index' , index)
               // handleOnChange(index, item);
-            }}
-          >
+            }}>
             <View>
               <Image
                 source={thumbnailPath}
@@ -360,12 +355,11 @@ const Content2 = ({ GlobalBen3, GlobalBen2 }) => {
                 resizeMode="contain"
               />
             </View>
-            <View style={{ width: "57%" }}>
+            <View style={{width: '57%'}}>
               <_.Head
                 fontSize={17}
                 color={COLORS.darkBlueGrey}
-                numberOfLines={1}
-              >
+                numberOfLines={1}>
                 Pippa Rachel
               </_.Head>
 
@@ -380,17 +374,16 @@ const Content2 = ({ GlobalBen3, GlobalBen2 }) => {
             <View
               style={{
                 height: 1,
-                width: "100%",
+                width: '100%',
                 backgroundColor: COLORS.silverTwo,
-              }}
-            ></View>
+              }}></View>
           )}
         </>
       </View>
     );
   });
 };
-const Content3 = ({ GlobalBen2 }) => {
+const Content3 = ({GlobalBen2}) => {
   return GlobalBen2?.map((i, index) => {
     return (
       <View key={index}>
@@ -400,14 +393,12 @@ const Content3 = ({ GlobalBen2 }) => {
             onPress={() => {
               // console.log('index' , index)
               // handleOnChange(index, item);
-            }}
-          >
-            <View style={{ width: "57%" }}>
+            }}>
+            <View style={{width: '57%'}}>
               <_.Head
                 fontSize={17}
                 color={COLORS.darkBlueGrey}
-                numberOfLines={1}
-              >
+                numberOfLines={1}>
                 {i.displayName}
               </_.Head>
 
@@ -426,10 +417,9 @@ const Content3 = ({ GlobalBen2 }) => {
             <View
               style={{
                 height: 1,
-                width: "100%",
+                width: '100%',
                 backgroundColor: COLORS.silverTwo,
-              }}
-            ></View>
+              }}></View>
           )}
         </>
       </View>
@@ -437,11 +427,10 @@ const Content3 = ({ GlobalBen2 }) => {
   });
 };
 
- 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.paleGrey,
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
   },
   ImageBackground: {
@@ -453,16 +442,15 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   containerButton: {
-    width: "100%",
-    paddingHorizontal: 20,
+    width: '100%',
     backgroundColor: COLORS.white,
-    height: 110,
-    paddingTop: 15,
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
+    paddingHorizontal: Platform.OS =="ios"? 30 :20,
+    padding:Platform.OS =="ios"? 30 :20
   },
   BoxInfoTextYellow: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   textInfo: {
     marginLeft: 8,
@@ -475,13 +463,13 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
   },
   Container: {
-    backgroundColor: "#fff",
-    flexDirection: "row",
+    backgroundColor: '#fff',
+    flexDirection: 'row',
     marginVertical: 10,
     paddingLeft: 20,
     paddingRight: 10,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   Img: {
     borderRadius: 5,
@@ -489,4 +477,3 @@ const styles = StyleSheet.create({
     width: 40,
   },
 });
- 

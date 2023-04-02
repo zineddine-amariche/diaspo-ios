@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {View, StyleSheet, ScrollView, Image} from 'react-native';
+import {View, StyleSheet, ScrollView, Image, Platform} from 'react-native';
 import {PrimaryButtonLinear} from '../../../../../../components/Buttons';
 import Space from '../../../../../../components/Space';
 import * as _ from '../../../../../../components/utils';
@@ -270,10 +270,10 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
     backgroundColor: COLORS.white,
-    height: 110,
-    paddingTop: 15,
     position: 'absolute',
     bottom: 0,
+    paddingHorizontal: Platform.OS =="ios"? 30 :20,
+    padding:Platform.OS =="ios"? 30 :20
   },
 
   Container: {

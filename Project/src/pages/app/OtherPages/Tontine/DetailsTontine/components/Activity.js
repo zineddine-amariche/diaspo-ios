@@ -14,11 +14,12 @@ const Activity = ({
   closeModal,
   tontineProjectInfo,
   consult,
-  cancelTontin
+  cancelTontin,
+  numberOfBenef
 }) => {
   const navigation = useNavigation();
   if (asAPayer) {
-    if (numberOfPayers > 1) {
+    if (numberOfPayers > 1 ||numberOfBenef >1) {
       return (
         <ActivityDetails
           navigation={navigation}
@@ -37,7 +38,7 @@ const Activity = ({
       null;
     }
   } else {
-    if (numberOfPayers > 1) {
+    if (numberOfPayers > 1 ||numberOfBenef >1) {
       return (
         <ActivityDetails
           navigation={navigation}
