@@ -13,7 +13,7 @@ import icon2 from '../../../../Assets/Img/user-square.png';
 import checkedIcon from '../../../../Assets/Img/tick-square.png';
 import arrowLeft from '../../../../Assets/Img/chevron_left.png';
 import {TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {requestReviewInfomations} from '../../../../redux/Features/authentification/ReviewInformations/slice';
 import {useDispatch, useSelector} from 'react-redux';
 import {onExpiredToken} from '../../../../hooks';
@@ -22,7 +22,8 @@ const ReviewOfInformation = ({route}) => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
   const data = route.params;
-   console.log('alpha', data?.data?.userId)
+
+    let id = data?.data?.userId?data?.data?.userId:data?.data
 
   const onPress = () => {
     navigator.goBack();
@@ -35,18 +36,18 @@ const ReviewOfInformation = ({route}) => {
 
   let obj = {
     onSuccesAction,
-    userId: data?.data?.userId,
+    userId: id,
     onErrorAction,
   };
-
+  const isFocsed =useIsFocused()
   useEffect(() => {
-    // if (data?.data?.userId) {
+     
+    if (id) {
 
-
-    console.log('obj', obj)
+    // console.log('obj', obj)
       dispatch(requestReviewInfomations(obj));
-    // }
-  }, [data?.data?.userId]);
+   }
+  }, [id,isFocsed]);
 
   const {isLoading, result} = useSelector(state => state.reviewInfomations);
 
@@ -110,10 +111,11 @@ const RenderListItems = ({result}) => {
 
   const firstFour = result?.slice(0, 4);
 
+// console.log('result-firstFour', result.length)
+  // console.log('firstFour', firstFour)
   const Views = () => {
     return firstFour?.map((i, index) => {
       const linkContent = data[index];
-
       return (
         <TouchableOpacity
           onPress={() => {

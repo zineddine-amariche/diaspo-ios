@@ -6,7 +6,7 @@ import SecondaryHeader from './SecondaryHeader';
 import ImgBack from '../../../Assets/headerImg/background.png';
 import Spiner from '../../spiner';
 
-const ReturnHeader = ({children,goBack,title,Loading}) => {
+const ReturnHeader = ({children,goBack,title,Loading,sousTitre}) => {
   return (
     <SafeAreaView style={styles.container}>
     <StatusBar translucent={true} backgroundColor={'transparent'} />
@@ -19,6 +19,7 @@ const ReturnHeader = ({children,goBack,title,Loading}) => {
       Cancel="Return"
       goBack={goBack}
       title={title}
+      sousTitre={sousTitre}
     />
     {Loading ? <Spiner /> :    children }
     </SafeAreaView>

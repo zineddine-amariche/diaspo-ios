@@ -31,7 +31,7 @@ const AccountsBox = ({title, onPress, item}) => {
         showsHorizontalScrollIndicator={false}>
         {walletAccount?.walletAccounts?.map((i, ind) => {
           return (
-            <View key={ind}>
+            <View key={ind} style={{marginBottom:3}}>
               <RenderItems
                 onPress={onPress}
                 item={i}

@@ -33,7 +33,6 @@ const Form1 = ({
   handlePresentModalSelect,
 }) => {
   const { email,phone, amount, message, BankNum, BankName, from } = values;
- console.log('BankNum', BankNum)
   return (
     <>
       <PrimaryInput

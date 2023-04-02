@@ -30,14 +30,11 @@ export const PrimaryButton = ({
   const hoverRef = useRef(null);
   const stylep = [
     {
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 10,
-        height: 1,
-      },
-      shadowOpacity: 0.22,
-      shadowRadius: 2.22,
-      elevation: 3,
+      shadowColor: '#171717',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+      elevation: 2,
     },
   ];
   return (

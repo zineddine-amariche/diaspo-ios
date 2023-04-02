@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const UseStatusPage = ({onClose,data}) => {
   const nav =useNavigation()
+
   return (
     <SafeAreaView
       style={{

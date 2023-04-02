@@ -63,6 +63,7 @@
     "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-localize": "^2.2.4",
+    "react-native-modalize": "^2.1.1",
     "react-native-multi-selectbox": "^1.5.0",
     "react-native-pager-view": "^5.4.25",
     "react-native-paper": "^4.12.4",

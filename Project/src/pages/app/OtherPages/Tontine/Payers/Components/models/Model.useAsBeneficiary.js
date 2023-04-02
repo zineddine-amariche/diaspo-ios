@@ -66,10 +66,7 @@ const BodyModel2 = ({onDissmis, NavToCnfPayer, NavToCnfBenef}) => {
             disabled={true}
             onPress={() => {
               dispatch(createTypeParticipants('PAYER_AND_BENEFICIARY'));
-
               onDissmis();
-
-              // NavToCnfPayer(); //send to payer function create payers
               NavToCnfBenef(); //send to beneficiary function create to create a benefeciary & payers
             }}
             width={'48%'}>

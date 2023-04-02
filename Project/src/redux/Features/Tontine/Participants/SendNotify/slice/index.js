@@ -1,25 +1,37 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import notifyService from "../service";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import notifyService from '../service';
+import Toast from 'react-native-simple-toast';
 
 export const createNotification = createAsyncThunk(
-  "notify/create",
-  async (object, thunkAPI) => {
-    // console.log('object', object)
+  'notify/create',
+  async (dataObject, thunkAPI) => {
+    const {object, onNotifyError, onNotifySuccess} = dataObject;
+
     try {
- 
-      return await notifyService.api(object);
+      let res = await notifyService.api(object);
+
+      if (res.status == 200) {
+        onNotifySuccess();
+        Toast.show(
+          `notification success ${res.data.success} / notification failed ${res.data.failure} /`,
+        );
+        return res.data;
+      }
     } catch (error) {
       const message =
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
+
+      console.log('message-notify', message);
+      onNotifyError();
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );
 
 const sliceNotification = createSlice({
-  name: "notify",
+  name: 'notify',
   initialState: {
     results: null,
     success: false,
@@ -27,7 +39,7 @@ const sliceNotification = createSlice({
     isLoading: false,
   },
   reducers: {
-    resetNotifications: (state) => {
+    resetNotifications: state => {
       state.isLoading = false;
       state.success = false;
       state.failure = false;
@@ -35,9 +47,9 @@ const sliceNotification = createSlice({
     },
   },
 
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(createNotification.pending, (state) => {
+      .addCase(createNotification.pending, state => {
         state.isLoading = true;
       })
       .addCase(createNotification.fulfilled, (state, action) => {
@@ -55,5 +67,5 @@ const sliceNotification = createSlice({
   },
 });
 
-export const { resetNotifications } = sliceNotification.actions;
+export const {resetNotifications} = sliceNotification.actions;
 export default sliceNotification.reducer;

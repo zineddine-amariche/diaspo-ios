@@ -6,7 +6,6 @@ import { COLORS } from "../../theme";
 
 const Switch = ({ label, onPress,state ,Switchs}) => {
 
-  console.log('state', state)
   return (
     <View style={{ width: "100%" }}>
       <ToggleSwitch

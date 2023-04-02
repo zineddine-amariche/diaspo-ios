@@ -49,7 +49,6 @@ const ActivityDetails = ({
         routeData?.status === 'COMPLETED' ||
         routeData?.project?.status === 'COMPLETED' ||
         routeData?.project?.status === 'ACTIVATED' ? null : (
-          <>
             <>
               {routeData?.project?.listOfBeneficiaries.length > 0 ? (
                 <ReorderButton projectId={projectId} navigation={navigation} />
@@ -60,17 +59,16 @@ const ActivityDetails = ({
               />
               <CancelTontineButton cancelTontin={cancelTontin} />
             </>
-          </>
         )}
       </ViewT1>
 
-      <BottomSheetSelect
+      {/* <BottomSheetSelect
         projectId={projectId}
         closeSelect={closeSelect}
         bottomSheetModalRef={bottomSheetModalRef2}
         navigation={navigation}
         routeData={routeData}
-      />
+      /> */}
       <Space space={20} />
     </View>
   );
@@ -97,15 +95,6 @@ const ReorderButton = ({navigation, projectId}) => {
     </>
   );
 };
-
-// const SendReminderButton = () => {
-//   return (
-//     <>
-//       <Space />
-//       <PaleGreyButton>SEND REMINDER</PaleGreyButton>
-//     </>
-//   );
-// };
 
 const StartTontineButton = ({startWithparticipants}) => {
   return (
@@ -260,16 +249,4 @@ const styles = StyleSheet.create({
   },
 });
 
-{
-  /* <PaleGreyButton 
-          onPress={() => {
-            navigation.navigate("ViewBenefeciareList", {
-              projectId,
-              routeData
-
-            });
-          }}
-        >
-          Consult
-        </PaleGreyButton> */
-}
+ 

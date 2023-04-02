@@ -11,7 +11,7 @@ import review from '../../../../Assets/Kyc/FrameFailed.png';
 import {PaleGreyButton, PrimaryButton} from '../../../../components/Buttons';
 import {useNavigation} from '@react-navigation/native';
 
-const UseStatusPageFailed = ({onClose}) => {
+const UseStatusPageFailed = ({onClose,data}) => {
   const nav = useNavigation();
 
   return (
@@ -61,7 +61,7 @@ const UseStatusPageFailed = ({onClose}) => {
         }}>
         <PrimaryButton
           onPress={() => {
-            nav.navigate('ReviewOfInformation');
+            nav.navigate('ReviewOfInformation',{data});
           }}
           width={'90%'}>
           Review information

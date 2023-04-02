@@ -493,7 +493,7 @@ const AdvancedSettings = ({
         <HView>
           <Txt
             color={COLORS.orangeYellow}
-            style={{textDecorationLine: 'underline '}}
+            style={{textDecorationLine: 'underline'}}
             fontSize={14}>
             Advanced Settings
           </Txt>

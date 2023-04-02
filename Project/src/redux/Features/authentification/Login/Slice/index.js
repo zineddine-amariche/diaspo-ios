@@ -25,8 +25,7 @@ export const login = createAsyncThunk(
           //  navtokyc(data.data.userId);//for Test
         } else if (data.data.UserKycDetails?.kycStatus == 'FAILED') {
           navtoReview('FAILED', data.data.userId);
-          Toast.show(`We failed to
-          verify your information`);
+          Toast.show(`We failed to verify your information`);
         } else if (data.data.UserKycDetails?.kycStatus == 'VALIDATED') {
           navtoHomePage(data.data.userId);
           Toast.show(`${data.status} `);

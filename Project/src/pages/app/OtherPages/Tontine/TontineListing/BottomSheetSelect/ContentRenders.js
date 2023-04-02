@@ -62,7 +62,7 @@ const ContentRenders = ({ onPress, navigation, closeSelect }) => {
             );
           })}
         </ScrollView>
-        <WhiteButton onPress={onPress}>cancel</WhiteButton>
+        <WhiteButton onPress={closeSelect}>cancel</WhiteButton>
         <Space space={90} />
       </View>
     </>

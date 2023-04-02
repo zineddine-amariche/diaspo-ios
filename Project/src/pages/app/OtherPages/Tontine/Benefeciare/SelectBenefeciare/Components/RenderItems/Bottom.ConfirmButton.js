@@ -1,20 +1,15 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import HView from '../../../../../../../../components/views/HView/HView';
 import {COLORS} from '../../../../../../../../theme';
 import {Txt} from '../../../../../../../../components/utils';
 import Space from '../../../../../../../../components/Space';
 import {PrimaryButtonLinear} from '../../../../../../../../components/Buttons';
-import {confirmBeneficiaries} from '../../../../../../../../redux/Features/Tontine/ManageBenefeciare/confirmBeneficiaries/slice';
-import {useDispatch} from 'react-redux';
-import Line from '../../../../../../../../components/views/line';
 import Loader from './Loader';
 
 const BottomConfirmButton = ({
   ARR,
   laoder,
   GlobalBen,
-  GlobalBen3,
   projectId,
   GlobalBen2,
   loading,
@@ -32,8 +27,7 @@ const BottomConfirmButton = ({
       {ARR?.length ? (
         !laoder ? (
           <View style={styles.containerButton}>
-            <HView spaceBetween style={styles.rowButtons}>
-              <View>
+            <View style={{flex:1}}>
                 {ARR?.length ? (
                   <Txt
                     fontSize={17}
@@ -49,7 +43,6 @@ const BottomConfirmButton = ({
                     navigation.navigate('ListBéneféciare', {
                       GlobalBen,
                       GlobalBen2,
-                      GlobalBen3,
                       ARR,
                       ind: index,
                       projectId,
@@ -64,7 +57,8 @@ const BottomConfirmButton = ({
                     View the selected list
                   </Txt>
                 </TouchableOpacity>
-              </View>
+            </View>
+
               <PrimaryButtonLinear
                 loading={loading}
                 disabled={true}
@@ -74,7 +68,6 @@ const BottomConfirmButton = ({
                 }}>
                 confirm
               </PrimaryButtonLinear>
-            </HView>
           </View>
         ) : (
           <Loader />
@@ -88,10 +81,11 @@ export default BottomConfirmButton;
 
 const styles = StyleSheet.create({
   containerButton: {
-    width: '100%',
-    paddingHorizontal: 20,
-    paddingBottom: 20,
     backgroundColor: COLORS.white,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: Platform.OS=="ios"?30: 20,
+    paddingHorizontal: Platform.OS=="ios"?30: 20
   },
   rowButtons: {
     paddingTop: 15,

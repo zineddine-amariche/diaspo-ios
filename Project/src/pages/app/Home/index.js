@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import PrimaryHead from '../../../components/Headers/root/PrimaryHead';
@@ -19,9 +19,15 @@ import BottomSheetKyc from './Components/BottomSheetKYC';
 import {useIsFocused} from '@react-navigation/native';
 import {UseHome} from './Hooks/useHooks';
 import BottomSheetTopUpAccount from './Components/BottomSheetTopUpAccount';
+import BottomSheet from '../../../components/Models/BottomSheet';
+import {Modalize} from 'react-native-modalize';
+import {COLORS} from '../../../theme';
+import {DisableBottomNav} from '../../../redux/Features/App/Appslice';
+import ContentRenders from './Components/BottomSheetTopUpAccount/ContentRenders';
 
 const Home = ({navigation}) => {
   const dispatch = useDispatch();
+  const modalRef = useRef(null);
   const bottomSheetModalRef = useRef(null);
   const bottomSheetModalRef2 = useRef(null);
   const bottomSheetModalRef3 = useRef(null);
@@ -89,8 +95,23 @@ const Home = ({navigation}) => {
     if (userId && token) {
       dispatch(walletAccounts(objectWallet));
     }
-  }, [token, userId,isFocused]);
-  
+  }, [token, userId, isFocused]);
+ 
+
+ 
+ 
+
+ 
+  const handleCloseModal = () => {
+    modalRef.current?.close();
+    dispatch(DisableBottomNav(false));
+  };
+
+  const onOpen = () => {
+    modalRef.current?.open();
+    dispatch(DisableBottomNav(true));
+  };
+
   return (
     <>
       {isLoading ? (
@@ -103,10 +124,7 @@ const Home = ({navigation}) => {
             navigation={() => navigation.navigate('Notifications')}
           />
           <ScrollView contentContainerStyle={{}}>
-            <Main
-              navigation={navigation}
-              onPress={handlePresentModalPress}
-            />
+            <Main navigation={navigation} onPress={onOpen} />
 
             <WalletsList onPress={handlePresentModalSelect} />
             <Space space={17} />
@@ -126,14 +144,14 @@ const Home = ({navigation}) => {
           </ScrollView>
 
           {/* Account */}
-          <BottomSheetTopUpAccount
+          {/* <BottomSheetTopUpAccount
             bottomSheetModalRef={bottomSheetModalRef}
             bottomSheetModalRef2={bottomSheetModalRef2}
             onPress={handlePresentModalPress}
             navigation={navigation}
             closeBottomUp1={closeBottomUp1}
             closeBottomUp2={closeBottomUp2}
-          />
+          /> */}
 
           {/* Select Type */}
           {/* <BottomSheetCashIn
@@ -163,6 +181,28 @@ const Home = ({navigation}) => {
             navigation={navigation}
             close={closeBottomKyc}
           />
+
+          {/* <BottomSheet
+            ref={modalRef}
+            onClose={closeModal}
+            modalType={'modal2'} // or 'modal2', 'modal3', 'modal4'
+          /> */}
+
+          <Modalize
+            // HeaderComponent={<MyHeader />} headerProps={headerProps}
+            snapPoint={800}
+            ref={modalRef}
+            overlayStyle={{
+              backgroundColor: COLORS.blueGreenOpacity9,
+            }}
+            adjustToContentHeight={false}>
+            {/* <UserInfo test={'test'} handleCloseModal={handleCloseModal} /> */}
+            {/* {children} */}
+            <ContentRenders
+              navigation={navigation}
+               closeAll={handleCloseModal}
+            />
+          </Modalize>
         </HomeLayout>
       )}
     </>
@@ -172,3 +212,25 @@ const Home = ({navigation}) => {
 export default Home;
 
 const styles = StyleSheet.create({});
+
+const UserInfo = ({test, handleCloseModal}) => {
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <TouchableOpacity
+        onPress={() => {
+          console.log('test', test);
+        }}>
+        <Text>slow motions</Text>
+      </TouchableOpacity>
+      <Space />
+      <TouchableOpacity onPress={handleCloseModal}>
+        <Text>close slow motions</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};

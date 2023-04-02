@@ -12,7 +12,7 @@ export const checkEmailExists = createAsyncThunk(
       const token = thunkAPI.getState().token.token;
 
       let res = await checkEmail.api(email, token);
-      console.log('data', res.data);
+      // console.log('data', res.data);
       if (res.status === 'success' && !res.data.isAlreadyExist) {
         onEmailSuccessAction(values);
         handleSubmit();

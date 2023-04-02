@@ -1,20 +1,20 @@
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import React from "react";
-import ViewT1 from "../../../../../../../../../components/views/CardViewType1";
-import { Txt } from "../../../../../../../../../components/utils";
-import { COLORS } from "../../../../../../../../../theme";
-import HView from "../../../../../../../../../components/views/HView/HView";
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import ViewT1 from '../../../../../../../../../components/views/CardViewType1';
+import {Txt} from '../../../../../../../../../components/utils';
+import {COLORS} from '../../../../../../../../../theme';
+import HView from '../../../../../../../../../components/views/HView/HView';
 
-import icon24CustomerDefault from "../../../../../../../../../Assets/Img/icon24CustomerDefault.png";
-import icon16CalendarDefault from "../../../../../../../../../Assets/Img/icon16CalendarDefault.png";
-import Space from "../../../../../../../../../components/Space";
-import { useDispatch, useSelector } from "react-redux";
-import { getTontinesProjectInfo } from "../../../../../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice";
-import moment from "moment";
-import { Text } from "react-native";
- 
-const RenderTontine = ({ item, navigation }) => {
-  const { user } = useSelector((state) => ({
+import icon24CustomerDefault from '../../../../../../../../../Assets/Img/icon24CustomerDefault.png';
+import icon16CalendarDefault from '../../../../../../../../../Assets/Img/icon16CalendarDefault.png';
+import Space from '../../../../../../../../../components/Space';
+import {useDispatch, useSelector} from 'react-redux';
+import {getTontinesProjectInfo} from '../../../../../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
+import moment from 'moment';
+import {Text} from 'react-native';
+
+const RenderTontine = ({item, navigation}) => {
+  const {user} = useSelector(state => ({
     ...state.auth,
   }));
   const dispatch = useDispatch();
@@ -25,38 +25,30 @@ const RenderTontine = ({ item, navigation }) => {
 
   return (
     <View
-      style={{
-        marginHorizontal: 20,
-        marginBottom: 10,
-        padding: 20,
-        justifyContent: "space-between",
-        elevation: 2,
-        backgroundColor: "#FFF",
-        borderRadius: 8,
-      }}
-    >
+      style={styles.Card}>
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
           dispatch(getTontinesProjectInfo(object));
-          navigation.navigate("InfoScreenTontine", {
+          navigation.navigate('InfoScreenTontine', {
             routeData: item,
             consult: true,
           });
-        }}
-      >
+        }}>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-              <Text style={{fontSize:8 ,position:'absolute' , right:0  ,top:-10}}>  { item?.type === 'TONTINE_ORDINARY_TONTINE' ? 'ORDINARY' : 'CUSTOM'}</Text>
-          <View style={{ width: "55%" }}>
-            <View style={{   }}>
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Text style={{fontSize: 8, position: 'absolute', right: 0, top: -10}}>
+            {' '}
+            {item?.type === 'TONTINE_ORDINARY_TONTINE' ? 'ORDINARY' : 'CUSTOM'}
+          </Text>
+          <View style={{width: '55%'}}>
+            <View style={{}}>
               <Txt numberOfLines={1} color={COLORS.darkBlueGrey}>
-                {item.name} 
+                {item.name}
               </Txt>
             </View>
             <Space space={10} />
@@ -77,7 +69,9 @@ const RenderTontine = ({ item, navigation }) => {
             </HView>
           </View>
           <View style={styles.etat}>
-            <Txt color={COLORS.orangeYellow}>{item.status=='IN PROGRESS'?"PENDING":''}</Txt>
+            <Txt color={COLORS.orangeYellow}>
+              {item.status == 'IN PROGRESS' ? 'PENDING' : ''}
+            </Txt>
           </View>
         </View>
       </TouchableOpacity>
@@ -97,7 +91,21 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 13,
     height: 40,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  Card:{
+    marginHorizontal: 20,
+    marginBottom: 10,
+    padding: 20,
+    justifyContent: 'space-between',
+    elevation: 2,
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
+    shadowColor: '#171717',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+  }
 });

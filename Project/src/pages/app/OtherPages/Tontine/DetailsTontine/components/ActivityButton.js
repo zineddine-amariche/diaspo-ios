@@ -1,54 +1,20 @@
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {Platform, StyleSheet, View} from 'react-native';
+import React from 'react';
 import {PrimaryButton} from '../../../../../../components/Buttons';
-import Space from '../../../../../../components/Space';
-import {useNavigation} from '@react-navigation/native';
-import { COLORS } from '../../../../../../theme';
+import {COLORS} from '../../../../../../theme';
 
-const ActivityButton = ({
-  projectId,
-  asAPayer,
-  handlePresentModalPress,
-  numberOfPayers,
-  tontineProjectInfo,
-  onCreate,
-  loading
-}) => {
-  const navigation = useNavigation();
+const ActivityButton = ({asAPayer, numberOfPayers, onCreate, loading}) => {
   if (asAPayer) {
     if (numberOfPayers > 1) {
       null;
     } else {
-      return (
-        <CreateParticipantsButton
-          navigation={navigation}
-          routeData={tontineProjectInfo}
-          handlePresentModalPress={handlePresentModalPress}
-          projectId={projectId}
-          onCreate={onCreate}
-          loading={loading}
-
-          // isNewTontine={tontineProjectInfo?.project ? true : false}
-        />
-      );
+      return <CreateParticipantsButton onCreate={onCreate} loading={loading} />;
     }
   } else {
     if (numberOfPayers > 1) {
       null;
     } else {
-      return (
-        <CreateParticipantsButton
-          navigation={navigation}
-          routeData={tontineProjectInfo}
-          handlePresentModalPress={handlePresentModalPress}
-          projectId={projectId}
-          onCreate={onCreate}
-          loading={loading}
-          
-          // isNewTontine={tontineProjectInfo?.project ? true : false}
-        />
-      );
+      return <CreateParticipantsButton onCreate={onCreate} loading={loading} />;
     }
   }
 };
@@ -59,26 +25,20 @@ const styles = StyleSheet.create({
   buttonsConatiner: {
     width: '100%',
     paddingHorizontal: 20,
+    paddingVertical: Platform.OS == 'ios' ? 30 : 20,
     backgroundColor: COLORS.white,
     paddingTop: 10,
+    position: 'absolute',
+    bottom: 0,
   },
 });
 
-const CreateParticipantsButton = ({
-  onCreate,
-  loading
-}) => {
-  const dispatch = useDispatch();
-
-
+const CreateParticipantsButton = ({onCreate, loading}) => {
   return (
     <View style={styles.buttonsConatiner}>
-      <PrimaryButton
-        onPress={() => onCreate()}
-        loading={loading}>
+      <PrimaryButton onPress={() => onCreate()} loading={loading}>
         CREATE PARTICIPANTS
       </PrimaryButton>
-      {/* {Platform.OS == 'ios' ? null : <Space space={20} />} */}
     </View>
   );
 };

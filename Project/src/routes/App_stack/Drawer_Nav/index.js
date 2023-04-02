@@ -121,7 +121,7 @@ const DrawerScreen = props => {
       <Drawer.Screen name="CreditsCards" component={CreditsCards} {...props} />
       <Drawer.Screen name="CardFormInfo" component={CardFormInfo} {...props} />
       <Drawer.Screen name="AmountTopup" component={AmountTopup} {...props} />
-
+      
       <Drawer.Screen
         name="CreateTontine"
         component={CreateTontine}

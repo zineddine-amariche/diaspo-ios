@@ -13,15 +13,13 @@ import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHea
 import {COLORS, SIZES} from '../../../../../theme';
 import DetailsTontine from './components/DetailsTontine/DetailsTontine';
 import Toast from 'react-native-simple-toast';
-
+import RenderView from './BottomSheetInfo/RenderView';
 import {
   PaleGreyButton,
   PrimaryButtonLinear,
 } from '../../../../../components/Buttons';
-import BottomInfo from './BottomSheetInfo';
 import {useRef} from 'react';
 import {useCallback} from 'react';
-import {getSpecificParticipant} from '../../../../../redux/Features/Tontine/Participants/getSpecificParticipant/slice';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   createTypeParticipants,
@@ -38,6 +36,8 @@ import Spiner from '../../../../../components/spiner';
 import {useIsFocused} from '@react-navigation/native';
 import Activity from './components/Activity';
 import ActivityButton from './components/ActivityButton';
+import UseModalize from '../../../../../components/Models/BottomSheet/UseModalize';
+import ContentRenders from './BottomSheetSelect/ContentRenders';
 
 const InfoScreenTontine = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -45,13 +45,11 @@ const InfoScreenTontine = ({navigation, route}) => {
   const bottomSheetModalRef2 = useRef(null);
   const isFocused = useIsFocused();
 
-
   const {consult, object, isFirstTime} = route.params;
 
   const [success2, setsuccess2] = useState(false);
   const [success3, setsuccess3] = useState(false);
   const [loading, setloading] = useState(false);
-
 
   const {tontineProjectInfo, isLoading} = useSelector(state => ({
     ...state.tontines,
@@ -60,15 +58,15 @@ const InfoScreenTontine = ({navigation, route}) => {
     ...state.auth,
   }));
 
-
   const onOpenInfomationDetails = useCallback(() => {
-    dispatch(getSpecificParticipant(tontineProjectInfo?.project?.projectId));
-    bottomSheetModalRef.current?.present();
+    bottomSheetModalRef.current?.open();
   }, []);
 
   const closeModal = useCallback(() => {
+    // bottomSheetModalRef.current.close();
     bottomSheetModalRef.current.close();
   }, []);
+
   const startWithparticipants = () => {
     setsuccess2(true);
   };
@@ -108,10 +106,9 @@ const InfoScreenTontine = ({navigation, route}) => {
   }, []);
 
   const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef2.current?.present();
+    // bottomSheetModalRef2.current?.present();
+    bottomSheetModalRef2.current?.open();
   }, []);
-
-
 
   let TextIn =
     tontineProjectInfo?.project?.status === 'ACTIVATED'
@@ -122,13 +119,11 @@ const InfoScreenTontine = ({navigation, route}) => {
       ? 'Cancelled'
       : 'Finished';
 
-
   useEffect(() => {
     if (object) {
       dispatch(getTontinesProjectInfo(object));
     }
   }, [object, isFirstTime, isFocused]);
-
 
   const onCreate = () => {
     {
@@ -138,22 +133,24 @@ const InfoScreenTontine = ({navigation, route}) => {
 
         setTimeout(() => {
           navigation.navigate('Béneféciare', {
-            projectId:tontineProjectInfo?.project?.projectId,
+            projectId: tontineProjectInfo?.project?.projectId,
             type: 'PAYER_AND_BENEFICIARY',
-            routeData:tontineProjectInfo,
+            routeData: tontineProjectInfo,
             title: 'Select participants',
           });
           setloading(false);
         }, 1000);
-      } else if (tontineProjectInfo?.project?.type === 'TONTINE_CUSTOM_TONTINE') {
+      } else if (
+        tontineProjectInfo?.project?.type === 'TONTINE_CUSTOM_TONTINE'
+      ) {
         setloading(true);
         handlePresentModalPress();
         setTimeout(() => {
           setloading(false);
-        }, 10000);
+        }, 1000);
       } else {
         Toast.showWithGravity(
-          ' Error type tontine !',
+          'Error type tontine !',
           Toast.SHORT,
           Toast.CENTER,
         );
@@ -162,109 +159,135 @@ const InfoScreenTontine = ({navigation, route}) => {
   };
 
   return isLoading ? (
-    <>
-      <Spiner />
-    </>
+    <Spiner />
   ) : (
-    <>
-      <SafeAreaView style={styles.container}>
-        <StatusBar translucent={true} backgroundColor={'transparent'} />
-        <Image
-          style={styles.ImageBackground}
-          source={ImgBack}
-          resizeMode="stretch"
-        />
-        <SecondaryHeader
-          goBack={() => {
-            navigation.navigate('Tontine');
-            dispatch(resetSuccesParticipants());
-          }}
-          title={tontineProjectInfo?.project?.name}
-          sousTontine={tontineProjectInfo?.project?.status}
-          Cancel="Return"
-          TextIn={TextIn}
-        />
+    <SafeAreaView style={styles.container}>
+      <StatusBar translucent={true} backgroundColor={'transparent'} />
+      <Image
+        style={styles.ImageBackground}
+        source={ImgBack}
+        resizeMode="stretch"
+      />
+      <SecondaryHeader
+        goBack={() => {
+          navigation.navigate('Tontine');
+          dispatch(resetSuccesParticipants());
+        }}
+        title={tontineProjectInfo?.project?.name}
+        sousTontine={tontineProjectInfo?.project?.status}
+        Cancel="Return"
+        TextIn={TextIn}
+      />
 
-        <>
-          <ScrollView
-            contentContainerStyle={{width: SIZES.width}}
-            showsVerticalScrollIndicator={false}>
-            <>
-              <DetailsTontine
-                tontineProjectInfo={tontineProjectInfo}
-                onSuccess={onOpenInfomationDetails}
-                closeModal={closeModal}
-                isFirstTime={isFirstTime}
-                projectId={tontineProjectInfo?.project?.projectId}
-                bottomSheetModalRef={bottomSheetModalRef}
-                TextIn={TextIn}
-              />
+      <>
+        <ScrollView
+          contentContainerStyle={{width: SIZES.width}}
+          showsVerticalScrollIndicator={false}>
+          <>
+            <DetailsTontine
+              tontineProjectInfo={tontineProjectInfo}
+              onSuccess={onOpenInfomationDetails}
+              closeModal={closeModal}
+              isFirstTime={isFirstTime}
+              projectId={tontineProjectInfo?.project?.projectId}
+              bottomSheetModalRef={bottomSheetModalRef}
+              TextIn={TextIn}
+            />
 
-              <Activity
-                asAPayer={tontineProjectInfo?.project?.asAPayer}
-                numberOfPayers={tontineProjectInfo?.numberOfPayers}
-                projectId={tontineProjectInfo?.project?.projectId}
-                consult={consult}
-                onSuccess={onOpenInfomationDetails}
-                closeModal={closeModal}
-                isFirstTime={isFirstTime}
-                startWithparticipants={startWithparticipants}
-                cancelTontin={cancelTontin}
-                bottomSheetModalRef={bottomSheetModalRef}
-                tontineProjectInfo={tontineProjectInfo}
-              />
-            </>
-          </ScrollView>
-          <ActivityButton
-            asAPayer={tontineProjectInfo?.project.asAPayer}
-            numberOfPayers={tontineProjectInfo?.numberOfPayers}
-            tontineProjectInfo={tontineProjectInfo}
-            handlePresentModalPress={handlePresentModalPress}
-            projectId={tontineProjectInfo?.project?.projectId}
-            loading={loading}
-            onCreate={onCreate}
+            <Activity
+              asAPayer={tontineProjectInfo?.project?.asAPayer}
+              numberOfPayers={tontineProjectInfo?.numberOfPayers}
+              projectId={tontineProjectInfo?.project?.projectId}
+              consult={consult}
+              onSuccess={onOpenInfomationDetails}
+              closeModal={closeModal}
+              isFirstTime={isFirstTime}
+              startWithparticipants={startWithparticipants}
+              cancelTontin={cancelTontin}
+              bottomSheetModalRef={bottomSheetModalRef}
+              tontineProjectInfo={tontineProjectInfo}
+            />
+          </>
+        </ScrollView>
+        <ActivityButton
+          asAPayer={tontineProjectInfo?.project.asAPayer}
+          numberOfPayers={tontineProjectInfo?.numberOfPayers}
+          tontineProjectInfo={tontineProjectInfo}
+          handlePresentModalPress={handlePresentModalPress}
+          projectId={tontineProjectInfo?.project?.projectId}
+          loading={loading}
+          onCreate={onCreate}
+        />
+      </>
+
+      <CreatedSuccess
+        Visible={success3}
+        onDissmis={() => setsuccess2(false)}
+        padding={1}>
+        {BodyModel2 ? (
+          <BodyModel2
+            onDissmis={() => setsuccess3(false)}
+            navToTontine={cancellTontine}
           />
-        </>
+        ) : null}
+      </CreatedSuccess>
 
-        <BottomInfo
+      <CreatedSuccess
+        Visible={success2}
+        onDissmis={() => setsuccess3(false)}
+        padding={1}>
+        {BodyModel3 ? (
+          <BodyModel3
+            onDissmis={() => setsuccess2(false)}
+            navToTontine={navToTontine}
+          />
+        ) : null}
+      </CreatedSuccess>
+
+      {/* <BottomSheetSelect
+        projectId={tontineProjectInfo?.project?.projectId}
+        closeSelect={closeSelect}
+        bottomSheetModalRef={bottomSheetModalRef2}
+        navigation={navigation}
+        tontineProjectInfo={tontineProjectInfo}
+      /> */}
+      <UseModalize
+        snapPoint={400}
+        ref={bottomSheetModalRef2}
+        bottomRef={bottomSheetModalRef2}
+        Com={
+          <ContentRenders
+            navigation={navigation}
+            closeSelect={closeSelect}
+            projectId={tontineProjectInfo?.project?.projectId}
+            tontineProjectInfo={tontineProjectInfo}
+          />
+        }
+      />
+
+      {/* <BottomInfo
           bottomSheetModalRef={bottomSheetModalRef}
           onSuccess={onOpenInfomationDetails}
           closeModal={closeModal}
-        />
+        /> */}
+      {/* 
+        <Modalize
+          snapPoint={400}
+          ref={bottomSheetModalRef}
+          overlayStyle={{
+            backgroundColor: COLORS.blueGreenOpacity9,
+          }}
+          adjustToContentHeight={false}>
+          <RenderView navigation={navigation} closeModal={closeModal} />
+        </Modalize> */}
 
-        <CreatedSuccess
-          Visible={success3}
-          onDissmis={() => setsuccess2(false)}
-          padding={1}>
-          {BodyModel2 ? (
-            <BodyModel2
-              onDissmis={() => setsuccess3(false)}
-              navToTontine={cancellTontine}
-            />
-          ) : null}
-        </CreatedSuccess>
-
-        <CreatedSuccess
-          Visible={success2}
-          onDissmis={() => setsuccess3(false)}
-          padding={1}>
-          {BodyModel3 ? (
-            <BodyModel3
-              onDissmis={() => setsuccess2(false)}
-              navToTontine={navToTontine}
-            />
-          ) : null}
-        </CreatedSuccess>
-
-        <BottomSheetSelect
-          projectId={tontineProjectInfo?.project?.projectId}
-          closeSelect={closeSelect}
-          bottomSheetModalRef={bottomSheetModalRef2}
-          navigation={navigation}
-          tontineProjectInfo={tontineProjectInfo}
-        />
-      </SafeAreaView>
-    </>
+      <UseModalize
+        snapPoint={400}
+        ref={bottomSheetModalRef}
+        Com={<RenderView navigation={navigation} closeAll={closeModal} />}
+        bottomRef={bottomSheetModalRef}
+      />
+    </SafeAreaView>
   );
 };
 export default InfoScreenTontine;

@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   useWindowDimensions,
   Platform,
 } from 'react-native';
+import {Modalize} from 'react-native-modalize';
 
 import ImgBack from '../../../../../Assets/headerImg/background.png';
 import {PrimaryButton} from '../../../../../components/Buttons';
@@ -15,9 +16,7 @@ import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHea
 import Space from '../../../../../components/Space';
 import {Txt} from '../../../../../components/utils';
 import {COLORS, SIZES} from '../../../../../theme';
-import Bottom4 from './BottomSheetPassword';
 
-import {Formik} from 'formik';
 import {UseTontines} from './Hooks';
 import Form0 from './Components/Forms/Form0/Form0';
 import Form1 from './Components/Forms/Form1/Form1';
@@ -26,42 +25,26 @@ import Form3 from './Components/Forms/Form3/Form3';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import Spiner from '../../../../../components/spiner';
-
-import {
-  getTontines,
-} from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
+import ContentRenders from './BottomSheetSelect/ContentRenders';
+import {getTontines} from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
 import {TabBar, TabView} from 'react-native-tab-view';
 import {useIsFocused} from '@react-navigation/native';
-import BottomSheetSelect from './BottomSheetSelect';
 import {useTranslation} from 'react-i18next';
 
 const Tontine = ({navigation, navigation: {goBack}}) => {
-  const bottomSheetModalRef = useRef(null);
-  const bottomSheetModalRef2 = useRef(null);
+  const layout = useWindowDimensions();
   const {t, i18n} = useTranslation();
-  const {object} = UseTontines();
-  const {state, schema, onSubmit} = UseTontines();
-
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-
-  const closeSelect = useCallback(() => {
-    bottomSheetModalRef2.current?.close();
-  }, []);
-
-  // const DeleteSelectMethod = () => {
-  //   setSelectMethod(null);
-  // };
-
-  const dispatch = useDispatch();
-
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+  const {object} = UseTontines();
+  const modalRef = useRef(null);
+
   const {tontines, isLoading, message} = useSelector(state => ({
     ...state.tontines,
   }));
 
   const [index, setIndex] = React.useState(0);
+
   const [routes] = React.useState([
     {
       key: 'first',
@@ -94,108 +77,74 @@ const Tontine = ({navigation, navigation: {goBack}}) => {
     }
   };
 
+  const handleCloseModal = () => {
+    modalRef.current?.close();
+  };
+
+  const onOpen = () => {
+    modalRef.current?.open();
+  };
+
   useEffect(() => {
     dispatch(getTontines(object));
   }, [isFocused]);
 
-
-
-
-
-  const layout = useWindowDimensions();
-
-  let num = isLoading ? '  ' : ' (' + tontines?.ProjectLists.length + ')';
-
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
-      <Image
-        style={styles.ImageBackground}
-        source={ImgBack}
-        resizeMode="stretch"
-      />
-      <SecondaryHeader
-        Cancel="Return"
-        goBack={() => {
-          navigation.navigate('DiaspoBottomTab');
+    <CustomHeader navigation={navigation}>
+      <>
+        {isLoading ? (
+          <Spiner />
+        ) : (
+          <View
+            style={{width: SIZES.width, flex: 1}}
+            showsVerticalScrollIndicator={false}>
+            <View style={styles.Tabs}>
+              <Space space={10} />
+              <TabView
+                navigationState={{index, routes}}
+                renderScene={renderScene}
+                onIndexChange={index => setIndex(index)}
+                initialLayout={{width: layout.width}}
+                renderTabBar={renderTabBar}
+                removeClippedSubviews={false}
+                swipeEnabled
+                swipeVelocityImpact={0.2}
+                gestureHandlerProps={{
+                  activeOffsetX: [-30, 30], // To solve swipe problems on Android
+                }}
+              />
+            </View>
+          </View>
+        )}
+
+        {!isLoading && (
+          <View style={styles.containerButton}>
+            <PrimaryButton
+              width={'100%'}
+              onPress={() => {
+                // bottomSheetModalRef2.current?.present();
+                onOpen();
+              }}
+              loading={isLoading}>
+              {t('Tontine.button1')}
+            </PrimaryButton>
+          </View>
+        )}
+      </>
+
+      <Modalize
+        snapPoint={700}
+        ref={modalRef}
+        overlayStyle={{
+          backgroundColor: COLORS.blueGreenOpacity9,
         }}
-        title={t('Tontine.title') + num}
-      />
-      <Formik
-        initialValues={state}
-        validationSchema={schema}
-        onSubmit={(values, formikAction) => {
-          formikAction.setSubmitting(false);
-          formikAction.resetForm();
-          onSubmit(values);
-          handlePresentModalPress();
-        }}>
-        {({
-          values,
-          errors,
-          handleChange,
-          handleBlur,
-          touched,
-          handleSubmit,
-          isSubmitting,
-        }) => {
-          const {amount} = values;
-
-          return (
-            <>
-              {isLoading ? (
-                <Spiner />
-              ) : (
-                <View
-                  style={{width: SIZES.width, flex: 1}}
-                  showsVerticalScrollIndicator={false}>
-                  <View style={styles.Tabs}>
-                    <Space space={10} />
-                    <TabView
-                      navigationState={{index, routes}}
-                      renderScene={renderScene}
-                      onIndexChange={index => setIndex(index)}
-                      initialLayout={{width: layout.width}}
-                      renderTabBar={renderTabBar}
-                      removeClippedSubviews={false}
-                      swipeEnabled
-                      swipeVelocityImpact={0.2}
-                      gestureHandlerProps={{
-                        activeOffsetX: [-30, 30], // To solve swipe problems on Android
-                      }}
-                    />
-                  </View>
-                </View>
-              )}
-
-              {!isLoading && (
-                <View style={styles.containerButton}>
-                  <PrimaryButton
-                    width={'100%'}
-                    onPress={() => {
-                      bottomSheetModalRef2.current?.present();
-                    }}
-                    loading={isSubmitting}>
-                    {t('Tontine.button1')}
-                  </PrimaryButton>
-                  {/* {Platform.OS == 'ios' ? null : <Space  space={20}/>} */}
-                </View>
-              )}
-            </>
-          );
-        }}
-      </Formik>
-      <Bottom4
-        bottomSheetModalRef={bottomSheetModalRef}
-        // DeleteSelectMethod={DeleteSelectMethod}
-      />
-
-      <BottomSheetSelect
-        closeSelect={closeSelect}
-        bottomSheetModalRef={bottomSheetModalRef2}
-        navigation={navigation}
-      />
-    </SafeAreaView>
+        adjustToContentHeight={false}>
+        <ContentRenders
+          navigation={navigation}
+          closeSelect={handleCloseModal}
+        />
+      </Modalize>
+    </CustomHeader>
   );
 };
 export default Tontine;
@@ -236,6 +185,36 @@ const renderTabBar = props => {
     />
   );
 };
+
+const CustomHeader = ({children, navigation}) => {
+  const {t, i18n} = useTranslation();
+
+  const {tontines, isLoading} = useSelector(state => ({
+    ...state.tontines,
+  }));
+  let num = isLoading ? '  ' : ' (' + tontines?.ProjectLists.length + ')';
+
+  return (
+    <>
+      <SafeAreaView style={styles.container}>
+        <StatusBar translucent={true} backgroundColor={'transparent'} />
+        <Image
+          style={styles.ImageBackground}
+          source={ImgBack}
+          resizeMode="stretch"
+        />
+        <SecondaryHeader
+          Cancel="Return"
+          goBack={() => {
+            navigation.navigate('DiaspoBottomTab');
+          }}
+          title={t('Tontine.title') + num}
+        />
+        {children}
+      </SafeAreaView>
+    </>
+  );
+};
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
@@ -250,35 +229,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: Platform.OS == 'android' ? -40 : 0,
   },
-  topinuptxt: {
-    padding: 20,
-  },
+
   containerButton: {
     width: '100%',
     paddingHorizontal: 20,
     backgroundColor: COLORS.white,
   },
 
-  line: {
-    height: 3,
-    width: '110%',
-    backgroundColor: COLORS.blueGreen,
-    position: 'absolute',
-    bottom: -17,
-    borderTopLeftRadius: 2,
-    borderTopRightRadius: 2,
-    alignSelf: 'center',
-  },
   Tabs: {
     backgroundColor: COLORS.white,
     flex: 1,
   },
-  scene: {
-    flex: 1,
-  },
-  rowButtons: {
-    paddingTop: 15,
-  },
+
   tabBar: {
     backgroundColor: COLORS.white,
     paddingHorizontal: 10,
@@ -290,49 +252,5 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     bottom: -1,
   },
-  lineVertical: {
-    height: 45,
-    width: 1,
-    backgroundColor: COLORS.lightBlueGrey,
-  },
 });
-
-
-
-  // useEffect(() => {
-  //   if (message) {
-  //     Alert.alert(
-  //       message?.status,
-  //       message?.statusDescription
-  //         ? message?.statusDescription
-  //         : 'Error getting information',
-  //       [
-  //         {
-  //           text: 'Cancel',
-  //           onPress: () => {
-  //             if (
-  //               message?.statusDescription == 'Expired token' ||
-  //               message?.statusDescription == 'Wrong number of segments'
-  //             ) {
-  //               clearAsyncStorage();
-  //             } else {
-  //               dispatch(resetTontine());
-  //             }
-  //           },
-
-  //           style: 'cancel',
-  //         },
-  //         {
-  //           text: 'OK',
-  //           onPress: () => {
-  //             if (message?.statusDescription == 'Expired token') {
-  //               clearAsyncStorage();
-  //             } else {
-  //               dispatch(resetTontine());
-  //             }
-  //           },
-  //         },
-  //       ],
-  //     );
-  //   }
-  // }, [message]);
+ 

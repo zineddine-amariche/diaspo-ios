@@ -62,8 +62,8 @@ const HistoryTransaction = ({ navigation, navigation: { goBack } }) => {
         </View>
       </ScrollView>
       <Space space={10} />
-      <Line  color={COLORS.black}/>
-      <Space space={4} />
+      {/* <Line  color={COLORS.black}/> */}
+      {/* <Space space={4} /> */}
 
     </SafeAreaView>
   );

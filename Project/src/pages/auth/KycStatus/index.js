@@ -15,7 +15,7 @@ const KycStatusPage = ({navigation, route}) => {
       {data.obj === 'PENDING_REVIEW' ? (
         <UseStatusPage onClose={onClose} data={data.id} />
       ) : (
-        <UseStatusPageFailed onClose={onClose} />
+        <UseStatusPageFailed onClose={onClose} data={data.id} />
       )}
     </>
   );

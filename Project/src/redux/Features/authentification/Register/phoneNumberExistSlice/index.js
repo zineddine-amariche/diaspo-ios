@@ -14,7 +14,7 @@ export const checkPhoneNumberExists = createAsyncThunk(
       const token = thunkAPI.getState().token.token;
 
       let res = await checkMobileNumber.api(mobileNumber, token);
-      console.log('data', res.data);
+      // console.log('data', res.data);
       if (res.status === 'success' && !res.data.isAlreadyExist) {
         onPhoneNumberSuccessAction(values);
         handleSubmit();

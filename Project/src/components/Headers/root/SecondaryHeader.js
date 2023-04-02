@@ -23,6 +23,7 @@ const SecondaryHeader = ({
   onSearch,
   visible,
   TextIn,
+  
 }) => {
   let colorText =
     sousTontine === 'ACTIVATED'

@@ -19,7 +19,7 @@ const api = async (object) => {
 
   const res = await axios.post(API_URL, object, config);
   // console.log("[fcm/send] : notify", res.data);
-  return res.data;
+  return res;
 };
 const notifyService = {
   api,

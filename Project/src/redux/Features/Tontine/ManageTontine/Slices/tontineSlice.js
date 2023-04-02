@@ -13,8 +13,8 @@ export const createTontine = createAsyncThunk(
       let res = await CreateTontineService.api(userId, data, token);
       // console.log('00ta', data.data);
       if (res.status === 'success') {
-        console.log('data', res.data);
-        console.log('res.data.project.projectId', res.data.project.projectId)
+        // console.log('data', res.data);
+        // console.log('res.data.project.projectId', res.data.project.projectId)
          onSuccess(res.data.project.projectId,token)
         return res;
       } else {

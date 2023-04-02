@@ -22,7 +22,10 @@ export function useAmount() {
   };
 
   let schema = Yup.object().shape({
-    amount: Yup.string().required("Amount per person  is required"),
+    amount: Yup.number()
+    .typeError('Amount must be a number')
+    .positive('Amount must be a positive number')
+    .required("Amount per person  is required"),
     name: Yup.string().required("Name of totine is required"),
     startAt: Yup.string().required("start date  is required"),
     // delete the value of endAt when fix this issue in the server 

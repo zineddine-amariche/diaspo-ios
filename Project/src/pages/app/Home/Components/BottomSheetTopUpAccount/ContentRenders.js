@@ -24,10 +24,10 @@ const ContentRenders = ({navigation, closeAll}) => {
               <TouchableOpacity
                 key={ind}
                 onPress={() => {
-                  closeAll();
-                  setTimeout(() => {
+                  // closeAll();
+                  // setTimeout(() => {
                     navigation.navigate('TopUp', {data: i});
-                  }, 1000);
+                  // }, 1000);
                 }}
                 disabled={i.accountType == 'tontine' ? true : false}>
                 <View

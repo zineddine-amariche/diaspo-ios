@@ -8,13 +8,13 @@ export const requestReviewInfomations = createAsyncThunk(
   'ReviewInfomations/request',
   async (object, thunkAPI) => {
     // console.log('user', user)
-    console.log('object', object)
+    // console.log('object', object)
 
     const {onSuccesAction, userId, onErrorAction} = object;
     try {
       const token = thunkAPI.getState().token.token;
       let data = await ReviewInfomationsService.api(userId, token);
-       console.log('data', data)
+      //  console.log('data', data)
       return data
     } catch (error) {
       const {onErrorAction} = object;

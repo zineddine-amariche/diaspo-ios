@@ -17,8 +17,6 @@ const Activity = ({
   cancelTontin
 }) => {
   const navigation = useNavigation();
-  console.log('asAPayer', asAPayer)
-  console.log('numberOfPayers', numberOfPayers)
   if (asAPayer) {
     if (numberOfPayers > 1) {
       return (

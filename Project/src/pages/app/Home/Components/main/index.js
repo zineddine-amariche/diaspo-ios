@@ -31,6 +31,9 @@ const MainTypes = ({ navigation,onPress }) => {
       <TouchableOpacity
         onPress={() => {
           navtopage("Tontine");
+          // navtopage("Test");
+
+          
         }}
         style={styles.Box}
 
@@ -113,5 +116,6 @@ const styles = StyleSheet.create({
   Box:{
     overflow:"hidden",
     alignItems:"center",
+  
   }
 });

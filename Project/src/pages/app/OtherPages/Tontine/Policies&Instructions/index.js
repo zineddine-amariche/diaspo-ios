@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,7 +7,6 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import Line from '../../../../../components/views/line';
 
 import ImgBack from '../../../../../Assets/Img/HomeBack.png';
 import {PrimaryLinearOption} from '../../../../../components/Buttons';
@@ -17,52 +16,22 @@ import {Txt} from '../../../../../components/utils';
 
 import {COLORS, SIZES} from '../../../../../theme';
 
-import {useAmount} from './Hooks';
 import SquareCheckBox from '../../../../../components/checkBox/useSquareCheck';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {useEffect} from 'react';
 import {
   createTontine,
   resetcreateTontine,
 } from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
 import Toast from 'react-native-simple-toast';
 import {useNavigation} from '@react-navigation/native';
-import { resetToken } from '../../../../../redux/Features/AppToken/GetToken';
-import { resetCode } from '../../../../../redux/Features/ConfirmAccount/CodeSlice';
-import { Logout } from '../../../../../redux/Features/authentification/Login/Slice';
+import {resetToken} from '../../../../../redux/Features/AppToken/GetToken';
+import {resetCode} from '../../../../../redux/Features/ConfirmAccount/CodeSlice';
+import {Logout} from '../../../../../redux/Features/authentification/Login/Slice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PoliciesInstructions = ({navigation, navigation: {goBack}, route}) => {
   const {data} = route.params;
-
-  // const { tontines, isLoading, message, isSuccess } = useSelector((state) => ({
-  //   ...state.tontines,
-  // }));
-
-  // useEffect(() => {
-  //   if (isError || isSuccess === 'error') {
-  //     // alert(message?.StatusDescription);
-  //     Toast.show('Create tontine Failed !' );
-  //     navigation.navigate('CreateTontine', {ind: 0, type: null});
-  //     console.log('error on Create tontine', message?.StatusDescription);
-  //     dispatch(resetcreateTontine());
-  //   } else if (isSuccess === 'success') {
-  //     let object = {
-  //       projectId: TontineCreated?.data?.project?.projectId,
-  //       token: user?.AccessToken,
-  //     };
-  //     Toast.show('tontine created successfully !');
-  //     navigation.navigate('InfoScreenTontine', {
-  //       routeData: TontineCreated?.data,
-  //       isFirstTime: true,
-  //       object,
-  //     });
-  //     dispatch(resetcreateTontine());
-  //   }
-  // }, [isSuccess, isError]);
-
-  // console.log('isSuccess', isSuccess)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -209,7 +178,6 @@ const ConfirmButton = ({data}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-
   const {selectedTontine} = useSelector(state => ({
     ...state.tontines,
   }));
@@ -227,10 +195,9 @@ const ConfirmButton = ({data}) => {
   }));
 
   const onSuccess = (projectId, token) => {
-
     let object = {
       projectId,
-      token 
+      token,
     };
     Toast.show('tontine created successfully !');
     navigation.navigate('InfoScreenTontine', {
@@ -240,7 +207,6 @@ const ConfirmButton = ({data}) => {
     });
     dispatch(resetcreateTontine());
   };
-
 
   const onErrorAction = async () => {
     dispatch(resetToken());

@@ -1,26 +1,33 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { onError } from "../../../../../../hooks";
-import ParticipantsService from "../service";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {onError} from '../../../../../../hooks';
+import ParticipantsService from '../service';
+import Toast from 'react-native-simple-toast';
 
 export const createParticipants = createAsyncThunk(
-  "participants/create",
-  async (object, {rejectWithValue,getState}) => {
-    // console.log('object', object)
-    const {onSuccesAction} = object
+  'participants/create',
+  async (object, {rejectWithValue, getState}) => {
+    const {onSuccesAction,obj} = object;
+    const {projectId} =obj
     try {
       const token = getState().token.token;
-      let res = await ParticipantsService.api(object, token);
-      if(res.status =="success"){
-        onSuccesAction()
+      let res = await ParticipantsService.api(obj, token);
+      if (res.status == 'success') {
+        let data={
+          participants :res.data.participants,
+          projectId,
+          routeData:"notify"
+
+        }
+        onSuccesAction(data);
       }
-      return res
+      return res;
     } catch (error) {
       const {onErrorAction} = object;
       const message =
         (error.response && error.response.data) ||
         error.message ||
         error.toString();
-console.log('message', message)  
+      console.log('message', message);
       if (message.status == 'error') {
         Toast.show(`${message.status} , ${message.statusDescription}`);
       } else {
@@ -48,43 +55,43 @@ console.log('message', message)
       }
       return rejectWithValue(message);
     }
-  }
+  },
 );
 
 const sliceParticipants = createSlice({
-  name: "participants",
+  name: 'participants',
   initialState: {
     data: null,
     isError: false,
     status: false,
     isLoading: false,
-    message: "",
+    message: '',
     nonAppUserParticipants: null,
     participants: null,
-    TypeOfParticipant:null
+    TypeOfParticipant: null,
   },
   reducers: {
-    resetParticipants: (state) => {
+    resetParticipants: state => {
       state.isLoading = false;
       state.status = false;
       state.isError = false;
-      state.message = "";
+      state.message = '';
       state.nonAppUserParticipants = null;
       state.participants = null;
       state.data = null;
     },
-    resetSuccesParticipants:(state)=>{
-      state.status=false
-      state.TypeOfParticipant=null
+    resetSuccesParticipants: state => {
+      state.status = false;
+      state.TypeOfParticipant = null;
     },
-    createTypeParticipants:(state,action)=>{
-      state.TypeOfParticipant=action.payload
-    }
+    createTypeParticipants: (state, action) => {
+      state.TypeOfParticipant = action.payload;
+    },
   },
 
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(createParticipants.pending, (state) => {
+      .addCase(createParticipants.pending, state => {
         state.isLoading = true;
       })
       .addCase(createParticipants.fulfilled, (state, action) => {
@@ -107,5 +114,9 @@ const sliceParticipants = createSlice({
   },
 });
 
-export const { resetParticipants,resetSuccesParticipants,createTypeParticipants } = sliceParticipants.actions;
+export const {
+  resetParticipants,
+  resetSuccesParticipants,
+  createTypeParticipants,
+} = sliceParticipants.actions;
 export default sliceParticipants.reducer;

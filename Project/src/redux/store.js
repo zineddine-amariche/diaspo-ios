@@ -38,6 +38,7 @@ import uploadPhotoSlice from './Features/kyc/identityVerefication/slice'
 import reviewInfomations from './Features/authentification/ReviewInformations/slice'
 import transactionSlice from './Features/Payements/MTN/slice'
 import creditcCardSlice from './Features/Payements/creditCard/slice'
+import AppSlice from './Features/App/Appslice'
 
 import emailExistsSlice from "./Features/authentification/Register/emailExistsSlice"
 const reducers = combineReducers({
@@ -76,7 +77,8 @@ const reducers = combineReducers({
   existingEmail:emailExistsSlice,
   reviewInfomations,
   transaction:transactionSlice,
-  creditCard:creditcCardSlice
+  creditCard:creditcCardSlice,
+  AppSlice
 });
 
 const persistConfig = {
