@@ -157,7 +157,7 @@ const InfoScreenTontine = ({navigation, route}) => {
     }
   };
 
-  console.log('tontineProjectInfo.numberOfBeneficiaries', tontineProjectInfo.numberOfBeneficiaries)
+  // console.log('tontineProjectInfo.numberOfBeneficiaries', tontineProjectInfo.numberOfBeneficiaries)
   return isLoading ? (
     <Spiner />
   ) : (

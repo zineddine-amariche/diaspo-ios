@@ -3,7 +3,6 @@ import {fr} from 'yup-locales';
 import {setLocale} from 'yup';
 import {useDispatch} from 'react-redux';
 import {useState} from 'react';
-import {connect} from '../../../../redux/Features/auth';
 import GetToken from '../../../../redux/Features/AppToken/GetToken';
 
 setLocale(fr);
@@ -15,26 +14,24 @@ export function useLogin() {
   };
 
   const initialValues = {
-      //  userName: '',
-      //  userPassword: '',
-      //  userPassword: "DiaspoTontin@88",
-      // userName: "amarichezineddine@gmail.com",
-        // userName: "relzed@yopmail.com",
-         userName: "trop@yopmail.com",
-        // userName: "ramadan@yopmail.com",
-           userPassword: "@Zinou12345",
-      //  userName: "reda.bekka@nbk-cg.com",
-        // userPassword: "Azerty@2023",
+    //  userName: '',
+    // userPassword: '',
+    //  userPassword: "DiaspoTontin@88",
+    // userName: "amarichezineddine@gmail.com",
+    // userName: "relzed@yopmail.com",
+    //  userName: "trop@yopmail.com",
+    // userName: "ramadan@yopmail.com",
+    // userPassword: "@Zinou12345",
+    userName: 'reda.bekka@nbk-cg.com',
+    userPassword: 'Azerty@2023',
 
-       
-       
     // userName: "test-djim-23@yopmail.com",
-      // userName: 'redadedv@yopmail.com',
-     
+    // userName: 'redadedv@yopmail.com',
+
     //  userName: "zinoudev@yopmail.com",
-      // userPassword: "@Diaspo2022",
+    // userPassword: "@Diaspo2022",
     //  userPassword: "@Zinou12345",
-     
+
     //  userPassword: "Diaspo@2022",
     //   userName: "rblink@yopmail.com",
     // userPassword: 'Diaspo@2022',
