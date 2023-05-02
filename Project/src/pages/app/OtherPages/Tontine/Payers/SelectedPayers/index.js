@@ -48,7 +48,10 @@ const ListPayer = ({navigation, route}) => {
 
   const handleOnPressYes = () => {
     setshowModelUseAsbenef(false);
-    onSuccess();
+    setTimeout(() => {
+      
+      onSuccess();
+    }, 500);
   };
 
   return (
@@ -63,8 +66,13 @@ const ListPayer = ({navigation, route}) => {
           contentContainerStyle={{width: SIZES.width}}
           showsVerticalScrollIndicator={false}>
           <Space space={15} />
-          <View style={{paddingHorizontal: 20}}>
-            <Rectangle width="100%" style={{paddingVertical: 10}}>
+          <View style={{paddingHorizontal: 20,
+            shadowColor: '#171717',
+            shadowOffset: {width: 0, height: 2},
+            shadowOpacity: 0.2,
+            shadowRadius: 2,
+            elevation: 2,}}>
+            <Rectangle width="100%" style={{paddingVertical: 10,}}>
               <Content1 GlobalBen={GlobalBen} GlobalBen2={GlobalBen2} />
               <Content3 GlobalBen3={GlobalBen3} GlobalBen2={GlobalBen2} />
               <Content2 GlobalBen2={GlobalBen2} />
@@ -123,7 +131,7 @@ export default ListPayer;
 const Content1 = ({GlobalBen, GlobalBen2}) => {
   return GlobalBen?.map((i, index) => {
     return (
-      <View key={index}>
+      <View key={index} style={{}}>
         <>
           <TouchableOpacity
             style={styles.Container}
@@ -284,6 +292,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
+    
   },
   Img: {
     borderRadius: 5,

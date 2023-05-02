@@ -7,15 +7,20 @@ export const createParticipants = createAsyncThunk(
   'participants/create',
   async (object, {rejectWithValue, getState}) => {
     const {onSuccesAction,obj} = object;
-    const {projectId} =obj
+    const {projectId,nameTontine} =obj
     try {
       const token = getState().token.token;
       let res = await ParticipantsService.api(obj, token);
+
+      // console.log('res', res.data.participants[0].beneficiaryDetails)
+      // console.log('res', res.data.participants[0].payerDetails)
+
       if (res.status == 'success') {
         let data={
           participants :res.data.participants,
           projectId,
-          routeData:"notify"
+          routeData:"notify",
+          nameTontine
 
         }
         onSuccesAction(data);

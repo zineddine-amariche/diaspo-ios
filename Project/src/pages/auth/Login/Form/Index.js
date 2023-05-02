@@ -97,8 +97,8 @@ const Form = ({navigation}) => {
               <>
                 <PrimaryInput
                   name={userName}
-                  Label={'Email Or Phone number'}
-                  placeholder="Your full name"
+                  Label={'Email'}
+                  placeholder="Email"
                   style={styles.Input}
                   errors={errors.userName}
                   touched={touched.userName}

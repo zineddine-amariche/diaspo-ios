@@ -11,7 +11,7 @@ export const uploadPhoto = createAsyncThunk(
       let res = await uploadphotoService.api(object);
       if (res.status == 'success') {
         onSucces();
-        console.log('sucujsj', res.data);
+        // console.log('sucujsj', res.data);
       } else {
         Toast.show('success , this endpoint retunrn 200 but its an error  !');
       }

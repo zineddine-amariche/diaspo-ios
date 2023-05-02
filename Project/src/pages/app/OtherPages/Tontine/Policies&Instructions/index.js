@@ -1,16 +1,7 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  Image,
-} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 
-import ImgBack from '../../../../../Assets/Img/HomeBack.png';
 import {PrimaryLinearOption} from '../../../../../components/Buttons';
-import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHeader';
 import Space from '../../../../../components/Space';
 import {Txt} from '../../../../../components/utils';
 
@@ -29,30 +20,23 @@ import {resetToken} from '../../../../../redux/Features/AppToken/GetToken';
 import {resetCode} from '../../../../../redux/Features/ConfirmAccount/CodeSlice';
 import {Logout} from '../../../../../redux/Features/authentification/Login/Slice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ReturnHeader from '../../../../../components/Headers/root/ReturnHeader';
 
-const PoliciesInstructions = ({navigation, navigation: {goBack}, route}) => {
+const PoliciesInstructions = ({navigation: {goBack}, route}) => {
   const {data} = route.params;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
-      <Image
-        style={styles.ImageBackground}
-        source={ImgBack}
-        resizeMode="stretch"
-      />
-      <SecondaryHeader
-        goBack={goBack}
-        title={'Policies and Instructions'}
-        Cancel="Return"
-      />
+    <ReturnHeader
+      goBack={goBack}
+      title={'Policies and Instructions'}
+      Cancel="Return">
       <ScrollView
         contentContainerStyle={{width: SIZES.width}}
         showsVerticalScrollIndicator={false}>
         <Instructions />
         <ConfirmButton data={data} />
       </ScrollView>
-    </SafeAreaView>
+    </ReturnHeader>
   );
 };
 export default PoliciesInstructions;
@@ -194,16 +178,14 @@ const ConfirmButton = ({data}) => {
     ...state.auth,
   }));
 
-  const onSuccess = (projectId, token) => {
-    let object = {
-      projectId,
-      token,
-    };
+  const onSuccess = props => {
+    let {nameTontine} = props;
     Toast.show('tontine created successfully !');
     navigation.navigate('InfoScreenTontine', {
       routeData: null,
       isFirstTime: true,
-      object,
+      object: props,
+      nameTontine,
     });
     dispatch(resetcreateTontine());
   };
@@ -264,7 +246,6 @@ const ConfirmButton = ({data}) => {
         width={'100%'}
         onPress={() => {
           dispatch(createTontine(object));
-          // console.log('object', object)
         }}
         disabled={checked}
         loading={isLoading}>

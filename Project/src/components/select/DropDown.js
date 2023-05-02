@@ -146,7 +146,7 @@ const DropDown = ({
                         </Txt>
                       </HView>
                     </TouchableOpacity>
-                    {data.length !== i + 1 && <View style={styles.divider} />}
+                    {data?.length !== i + 1 && <View style={styles.divider} />}
                   </View>
                 );
               })}

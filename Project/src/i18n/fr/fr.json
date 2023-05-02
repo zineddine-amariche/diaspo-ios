@@ -44,7 +44,7 @@
     "title_back": "retour",
     "button1": "Réglages",
     "button2": "Se déconnecter", 
-    "titleDrawer": "menu", 
+    "titleDrawer": "Menu", 
     "button3": "Utiliser Face ID pour se connecter/vérifier",
     "info": " Tous les visages enregistrés dans vos appareils seraient autorisés à vérifier."
   },
@@ -67,7 +67,7 @@
   "CreateTontine": {},
   "Entertainment": {},
   "AboutDiaspora": {
-    "button1": "À propos de la diaspo"
+    "button1": "À propos de la tontine"
   },
   "PrivaciPolicy": {
     "button1": "Politique de confidentialité"

@@ -16,57 +16,60 @@ const Form = () => {
     <View
       style={{
         backgroundColor: COLORS.white,
-        flex: 1,
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
       }}>
       <HeaderView />
       {!next ? (
-        <ScrollView contentContainerStyle={{flex: 1}}>
+        <ScrollView contentContainerStyle={{}}>
           <View
             style={{
               position: 'relative',
-              flex: 1,
+              // flex: 1,
+              // backgroundColor: '#109',
+              // justifyContent:"space-between"
             }}>
-            <Image source={account_verified} style={{width: '100%'}} />
+            <View>
+              <Image source={account_verified} style={{width: '100%'}} />
+              <View
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: 20,
+                }}>
+                <Space space={20} />
+
+                <Head Bold={'700'}>Identity Verification</Head>
+                <Space space={10} />
+
+                <Txt fontSize={14} color={'#798395'} style={{lineHeight: 24}}>
+                  Diaspora is committed to building a safe and accountable
+                  place, which requires our users to submit documents for
+                  verification. Your personal data will be protected and only
+                  shared with MONEYTRANS to administer your account or for
+                  regulatory compliance.
+                </Txt>
+              </View>
+              <View style={{paddingHorizontal: 20}}>
+                <Txt fontSize={16} color={'#576071'} style={{lineHeight: 24}}>
+                  It only takes 5 minutes to complete the submission.
+                </Txt>
+              </View>
+              <Space space={40} />
+              <View style={{alignSelf: 'center', width: '80%'}}>
+                <Txt
+                  style={{textAlign: 'center', lineHeight: 24}}
+                  color={COLORS.orangeYellow}>
+                  Why my information is shared with Moneytrans
+                </Txt>
+              </View>
+            </View>
             <View
               style={{
-                width: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
                 padding: 20,
-              }}>
-              <Space space={20} />
-
-              <Head Bold={'700'}>Identity Verification</Head>
-              <Space space={10} />
-
-              <Txt fontSize={14} color={'#798395'} style={{lineHeight: 24}}>
-                Diaspora is committed to building a safe and accountable place,
-                which requires our users to submit documents for verification.
-                Your personal data will be protected and only shared with
-                MONEYTRANS to administer your account or for regulatory
-                compliance.
-              </Txt>
-            </View>
-            <View style={{paddingHorizontal: 20}}>
-              <Txt fontSize={16} color={'#576071'} style={{lineHeight: 24}}>
-                It only takes 5 minutes to complete the submission.
-              </Txt>
-            </View>
-            <Space space={40} />
-            <View style={{alignSelf: 'center', width: '80%'}}>
-              <Txt
-                style={{textAlign: 'center', lineHeight: 24}}
-                color={COLORS.orangeYellow}>
-                Why my information is shared with Moneytrans
-              </Txt>
-            </View>
-            <View
-              style={{
-                padding: 20,
-                position: 'absolute',
-                bottom: Platform.OS == 'ios' ? 10 : -20,
+                // position: 'absolute',
+                // bottom: Platform.OS == 'ios' ? 10 : -20,
                 width: '100%',
               }}>
               <PrimaryButton
@@ -81,11 +84,18 @@ const Form = () => {
               </PrimaryButton>
             </View>
           </View>
+          <Space space={40}/>
         </ScrollView>
       ) : (
         <>
-          <ScrollView contentContainerStyle={{}}>
-            <>
+          <ScrollView contentContainerStyle={{ }}>
+            <View
+            style={{
+              position: 'relative',
+              flex: 1,
+              // backgroundColor: '#109',
+              justifyContent:"space-between"
+            }}>
               <View style={{padding: 20}}>
                 <Head>Why my information is shared with Moneytrans</Head>
                 <Space space={10} />
@@ -125,9 +135,7 @@ const Form = () => {
                 <Txt color={'#457DF5'}>onlinesupport@moneytrans.eu</Txt>
                 <Space space={20} />
               </View>
-            </>
-          </ScrollView>
-
+            </View>
           <View
             style={{
               width: '90%',
@@ -143,6 +151,10 @@ const Form = () => {
               Close
             </PrimaryButton>
           </View>
+          <Space space={60}/>
+
+          </ScrollView>
+
         </>
       )}
     </View>

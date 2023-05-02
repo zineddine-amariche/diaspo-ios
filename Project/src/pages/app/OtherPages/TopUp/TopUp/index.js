@@ -26,22 +26,22 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
       currency: '11 / 2022',
       url: require('../../../../../Assets/cartecredit.png'),
     },
-    {
-      id: 1,
-      label: 'Main ',
-      value: 'Main ',
-      price: '**** **** **** 3651',
-      currency: '11 / 2020',
-      url: require('../../../../../Assets/Img/cardLogo2-removebg-preview.png'),
-    },
-    {
-      id: 2,
-      label: '2nd FX',
-      value: '2nd FX',
-      price: '**** **** **** 9251',
-      currency: '09 / 2021',
-      url: require('../../../../../Assets/Img/apple-pay-icon-28-removebg-preview.png'),
-    },
+    // {
+    //   id: 1,
+    //   label: 'Main ',
+    //   value: 'Main ',
+    //   price: '**** **** **** 3651',
+    //   currency: '11 / 2020',
+    //   url: require('../../../../../Assets/Img/cardLogo2-removebg-preview.png'),
+    // },
+    // {
+    //   id: 2,
+    //   label: '2nd FX',
+    //   value: '2nd FX',
+    //   price: '**** **** **** 9251',
+    //   currency: '09 / 2021',
+    //   url: require('../../../../../Assets/Img/apple-pay-icon-28-removebg-preview.png'),
+    // },
   ];
   const data3 = [
     {
@@ -78,14 +78,14 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
       currency: '09 / 2021',
       url: require('../../../../../Assets/mtn.png'),
     },
-    {
-      id: 3,
-      label: 'AliPay',
-      value: 'AliPay',
-      price: '**** **** **** 9251',
-      currency: '09 / 2021',
-      url: require('../../../../../Assets/Img/ALIPAye.png'),
-    },
+    // {
+    //   id: 3,
+    //   label: 'AliPay',
+    //   value: 'AliPay',
+    //   price: '**** **** **** 9251',
+    //   currency: '09 / 2021',
+    //   url: require('../../../../../Assets/Img/ALIPAye.png'),
+    // },
   ];
   const data2 = [
     {
@@ -123,7 +123,6 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
     },
   ];
 
- 
 
   const onSelect = item => {
     if (item.value == 'MTN' || item.value == "Main Account") {
@@ -154,7 +153,7 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
           <View style={{padding: 20}}>
             <View style={styles.topinuptxt}>
               <Txt lineHeight={20} color={COLORS.slateGrey} fontSize={14}>
-                You are topping up your {data?.label} account in euro. Choose a
+                You are topping up your <Txt>{data?.name} </Txt>account in euro. Choose a
                 top up method below:
               </Txt>
             </View>
@@ -173,13 +172,13 @@ const TopUp = ({navigation, navigation: {goBack}, route}) => {
               onSelect={onSelect}
             />
             <Space space={20} />
-            <CreditDebit title={'Wallets'} data={data3} onSelect={onSelect} />
-            <Space space={20} />
+            {/* <CreditDebit title={'Wallets'} data={data3} onSelect={onSelect} /> */}
+            {/* <Space space={20} /> */}
 
-            <PrepaidCard
+            {/* <PrepaidCard
               onPress={handlePresentModalSelect}
               title={'Prepaid Card'}
-            />
+            /> */}
 
             <Space space={120} />
           </View>

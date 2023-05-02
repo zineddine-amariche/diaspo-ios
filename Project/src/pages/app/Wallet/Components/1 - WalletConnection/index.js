@@ -56,7 +56,7 @@ const WalletConnection = ({ navigation }) => {
                 date={i.date}
                 source={i.source}
                 index={index}
-                lenght={data.length}
+                lenght={data?.length}
                 item={i}
                 navigation={navigation}
               />

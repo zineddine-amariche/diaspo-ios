@@ -52,7 +52,7 @@ const PasswordRender = () => {
               <UseCheckBoxElements />
             </HView>
             <Space />
-            {data.length - 1 !== index && <Line height={1} />}
+            {data?.length - 1 !== index && <Line height={1} />}
           </View>
         );
       })}

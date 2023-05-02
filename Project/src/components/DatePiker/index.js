@@ -2,7 +2,6 @@ import {
   View,
   Text,
   Platform,
-  Image,
   TouchableOpacity,
   StyleSheet,
   useColorScheme,
@@ -10,15 +9,9 @@ import {
 import React, {useEffect, useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-// import {COLORS} from '../../../theme';
-
-// import { StyleSheet, Text, View } from "react-native";
-// import React, { useState } from "react";
-import {Head, Txt} from '../utils';
-// import DateHandler from "./Components/DateHandler";
+import {Txt} from '../utils';
 import {COLORS} from '../../theme';
-// import * as Animatable from "react-native-animatable";
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 import * as Animatable from 'react-native-animatable';
 
 const DateHandler = ({
@@ -30,8 +23,7 @@ const DateHandler = ({
   minimumDate,
   maximumDate,
   touched,
-  errors
-
+  errors,
 }) => {
   const [date, setDate] = useState(new Date());
   const [Mode, setMode] = useState('date');
@@ -40,8 +32,6 @@ const DateHandler = ({
   const [Color, setColor] = useState(false);
   const colorScheme = useColorScheme();
 
-  // get selected value from localStorage &
-  // display the last value entred
   useEffect(() => {
     if (selectedValue) {
       settext(selectedValue);
@@ -75,64 +65,42 @@ const DateHandler = ({
     setMode(currentMode);
   };
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
   return (
     <>
-
-<View
-          style={{
-            borderBottomWidth: 1,
-            borderBottomColor: COLORS.silver,
-            paddingBottom: Platform.OS == 'ios' ? 10 : 0,
-          }}>
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => {
-          if (Platform.OS == 'ios') {
-            return;
-            // showMode('date');
-            // setIsTouched(true);
-          } else {
-            showMode('date');
-            setIsTouched(true);
-          }
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderBottomColor: COLORS.silver,
+          paddingBottom: Platform.OS == 'ios' ? 10 : 0,
         }}>
-        <Txt
-          style={{
-            color: Color ? COLORS.darkBlueGrey : COLORS.silver,
-            fontSize: 20,
-            fontWeight: '700',
+        <TouchableOpacity
+          style={styles.container}
+          onPress={() => {
+            if (Platform.OS == 'ios') {
+              return;
+            } else {
+              showMode('date');
+              setIsTouched(true);
+            }
           }}>
-          {Platform.OS == 'ios' ? null : `${text}`}
-        </Txt>
-        <View
-          style={{
-            position: 'absolute',
-            width: 190,
-            top: 1,
-            flex: 1,
-            zIndex: 20,
-            left: -20,
-          }}>
-          {Platform.OS == 'ios' ? (
-            <DateTimePicker
-              testID="dateTimePiker"
-              value={date}
-              mode={Mode}
-              is24Hour="default"
-              onChange={onChage}
-              minimumDate={minimumDate ? minimumDate : undefined}
-              maximumDate={maximumDate ? maximumDate : undefined}
-
-              // isVisible={show}
-              // onConfirm={handleConfirm}
-              // onCancel={onChage}
-            />
-          ) : (
-            show && (
+          <Txt
+            style={{
+              color: Color ? COLORS.darkBlueGrey : COLORS.silver,
+              fontSize: 20,
+              fontWeight: '700',
+            }}>
+            {Platform.OS == 'ios' ? "" : `${text}`}
+          </Txt>
+          <View
+            style={{
+              position: 'absolute',
+              width: 190,
+              top: 1,
+              flex: 1,
+              zIndex: 20,
+              left: -20,
+            }}>
+            {Platform.OS == 'ios' ? (
               <DateTimePicker
                 testID="dateTimePiker"
                 value={date}
@@ -141,51 +109,41 @@ const DateHandler = ({
                 onChange={onChage}
                 minimumDate={minimumDate ? minimumDate : undefined}
                 maximumDate={maximumDate ? maximumDate : undefined}
-
-                // isVisible={show}
-                // onConfirm={handleConfirm}
-                // onCancel={onChage}
+                
               />
-            )
-          )}
-        </View>
-        <TouchableOpacity
-          onPress={() => {
-            showMode('date');
-            setIsTouched(true);
-          }}>
-          <Fontisto
-            name={'date'}
-            color={colorScheme == 'dark' ? COLORS.silver : COLORS.silver}
-            size={24}
-          />
+            ) : (
+              show && (
+                <DateTimePicker
+                  testID="dateTimePiker"
+                  value={date}
+                  mode={Mode}
+                  is24Hour="default"
+                  onChange={onChage}
+                  minimumDate={minimumDate ? minimumDate : undefined}
+                  maximumDate={maximumDate ? maximumDate : undefined}
+                />
+              )
+            )}
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              showMode('date');
+              setIsTouched(true);
+            }}>
+            <Fontisto
+              name={'date'}
+              color={colorScheme == 'dark' ? COLORS.silver : COLORS.silver}
+              size={24}
+            />
+          </TouchableOpacity>
         </TouchableOpacity>
-      </TouchableOpacity>
       </View>
 
       {errors && touched ? (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.error}>{errors} </Text>
-          </Animatable.View>
-        ) : null}
-
-
-      {/* {show && ( */}
-      {/* <DateTimePicker
-          testID="dateTimePiker"
-          value={date}
-          mode={Mode}
-          is24Hour="default"
-          onChange={onChage}
-          minimumDate={minimumDate ? minimumDate :undefined}
-          maximumDate={maximumDate?maximumDate :undefined}
-
-          isVisible={show}
-          // onConfirm={handleConfirm}
-          // onCancel={onChage}
-
-        /> */}
-      {/* )} */}
+        <Animatable.View animation="fadeInLeft" duration={500}>
+          <Text style={styles.error}>{errors} </Text>
+        </Animatable.View>
+      ) : null}
     </>
   );
 };
@@ -198,7 +156,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // backgroundColor:"#446"
   },
   row: {
     flexDirection: 'row',
@@ -208,115 +165,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 5,
   },
-  row2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '20%',
-    backgroundColor: '#fff',
-    justifyContent: 'space-between',
-    paddingHorizontal: 5,
-  },
-  Input: {
-    color: COLORS.darkBlueGrey,
-    fontSize: 20,
-    // fontFamily: 'Roboto-Bold',
-    flex: 1,
-    paddingLeft: 2,
-  },
+
   error: {
     color: COLORS.coral,
     paddingVertical: 5,
     fontSize: 13,
   },
 });
-
-// import { StyleSheet, Text, View } from "react-native";
-// import React, { useState } from "react";
-// import { Head, Txt } from "../utils";
-// import DateHandler from "./Components/DateHandler";
-// import { COLORS } from "../../theme";
-// import * as Animatable from "react-native-animatable";
-
-// const CustomDatePiker = ({
-//   label,
-//   name,
-//   value,
-//   placeholder,
-//   onBlur,
-//   onChangeText,
-//   width,
-//   check,
-//   style,
-//   hidePass,
-//   isPassword,
-//   HandlehidePass,
-//   errors,
-//   touched,
-//   placeholderTextColor,
-//   editable,
-//   keyboardType,
-//   icon,
-//   fontSize,
-//   openDrawerisReceivers,
-//   amount,
-//   setFieldValue,
-//   isInteger,
-//   setIsTouched,
-//   IsTouched,
-//   selectedValue,
-//   minimumDate,
-//   maximumDate
-// }) => {
-//   return (
-//     <>
-//       <View style={styles.containerForm}>
-//         {label ? <Head fontSize={fontSize}>{label}</Head> : null}
-//         <View style={styles.InputCustom}>
-//           <DateHandler
-//             setFieldValue={setFieldValue}
-//             name={name}
-//             setIsTouched={setIsTouched}
-//             isInteger={isInteger}
-//             IsTouched={IsTouched}
-//             selectedValue={selectedValue}
-//             minimumDate={minimumDate}
-//             maximumDate={maximumDate}
-//           />
-//         </View>
-//       </View>
-
-//       {errors && IsTouched ? (
-//         <Animatable.View animation="fadeInLeft" duration={500}>
-//           <Text style={styles.error}>{errors} </Text>
-//         </Animatable.View>
-//       ) : null}
-//     </>
-//   );
-// };
-
-// export default CustomDatePiker;
-
-// const styles = StyleSheet.create({
-//   containerForm: {
-//     borderBottomWidth: 1,
-//     borderBottomColor: COLORS.silver,
-//   },
-//   error: {
-//     color: COLORS.coral,
-//     fontSize: 13,
-//     marginVertical: 5,
-//   },
-
-//   iconPass: {
-//     fontSize: 20,
-//     position: "absolute",
-//     right: 10,
-//     top: 9,
-//     zIndex: 100,
-//   },
-//   imp: {
-//     position: "absolute",
-//     right: 10,
-//     top: 10,
-//   },
-// });

@@ -10,12 +10,18 @@ export const CrediteCard = createAsyncThunk(
       const token = thunkAPI.getState().token.token;
       const {onErrorAction, onSuccessAction, info} = object;
       const {amount} = info;
+
       let res = await creditCardService.api(info, token);
+      console.log('res.status', res.status);
+      console.log('clientSecret', res.data.CashIn.extras.clientSecret);
+      console.log('publishableKey', res.data.CashIn.extras.publishableKey);
 
+      let clientSecret = res.data.CashIn.extras.clientSecret;
+      let publishableKey = res.data.CashIn.extras.publishableKey;
 
-      console.log('res.status', res.status)
-      if (res.status == 200) {
-        onSuccessAction(amount);
+      if (res.status == 'success') {
+        console.log('extras', res.data.CashIn.extras);
+        onSuccessAction(amount,clientSecret);
       } else {
         onErrorAction();
       }
@@ -64,6 +70,7 @@ const creditcCardSlice = createSlice({
     message: '',
     result: null,
     amount: '',
+    bg:false
   },
   reducers: {
     clearCreditCard: (state, action) => {
@@ -75,6 +82,9 @@ const creditcCardSlice = createSlice({
     },
     handlAmountCreditCrad: (state, action) => {
       state.amount = action.payload;
+    },
+    ShowBg: (state, action) => {
+      state.bg = action.payload;
     },
   },
 
@@ -96,5 +106,6 @@ const creditcCardSlice = createSlice({
   },
 });
 
-export const {clearCreditCard, handlAmountCreditCrad} = creditcCardSlice.actions;
+export const {clearCreditCard,ShowBg, handlAmountCreditCrad} =
+  creditcCardSlice.actions;
 export default creditcCardSlice.reducer;

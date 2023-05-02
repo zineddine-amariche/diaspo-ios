@@ -39,7 +39,6 @@ const Step1 = ({
   dirty,
 }) => {
   return (
-    <View style={{flex: 1, backgroundColor: '#FFF', borderRadius: 8}}>
       <FormInputs
         setFieldValue={setFieldValue}
         handleChange={handleChange}
@@ -55,7 +54,6 @@ const Step1 = ({
         setValues={setValues}
         dirty={dirty}
       />
-    </View>
   );
 };
 
@@ -131,7 +129,7 @@ const FormInputs = ({
     <>
       <View style={{flex: 1}}>
         <Space space={20} />
-        <View style={styles.Avatar}>
+        {/* <View style={styles.Avatar}>
           <Image
             source={fileUri ? {uri: fileUri} : avatar}
             style={{
@@ -146,7 +144,7 @@ const FormInputs = ({
             onPress={launchImageLibrary}>
             <Image source={icon16CameraPlus} />
           </TouchableOpacity>
-        </View>
+        </View> */}
         <View
           style={{
             flexDirection: 'row',

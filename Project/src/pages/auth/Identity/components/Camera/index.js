@@ -176,21 +176,21 @@ const Camera = ({TypeFileToSend, setType, navigation}) => {
       if (step == 2 && TypeFileToSend == 'PASSPORT') {
         dispatch(handlePassportDoc(obj));
          dispatch(uploadPhoto(obj));
-        console.log('handlePassportDoc-userId', obj.userId);
+        // console.log('handlePassportDoc-userId', obj.userId);
       } else {
         if (frontPhotoDocument?.content) {
           dispatch(handleBackPhotoDocument(obj));
           dispatch(uploadPhoto(obj));
-          console.log('obj--back-', obj.userId);
+          // console.log('obj--back-', obj.userId);
         } else {
           dispatch(handleFrontPhotoDocument(obj));
           dispatch(uploadPhoto(obj));
-          console.log('obj--USERID-', obj.userId);
+          // console.log('obj--USERID-', obj.userId);
         }
       }
     } else if (step == 3) {
       dispatch(handleProofDocument(obj));
-      console.log('obj--USERID-Step332', obj.userId);
+      // console.log('obj--USERID-Step332', obj.userId);
     }
   };
 
@@ -231,7 +231,7 @@ const Camera = ({TypeFileToSend, setType, navigation}) => {
       setTypeCam(RNCamera.Constants.Type.back);
     }
   };
-console.log('typeCam', typeCam)
+// console.log('typeCam', typeCam)
 // console.log('RNCamera.Constants.Type.back', RNCamera.Constants.Type.back)
   return (
     <>

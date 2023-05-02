@@ -34,9 +34,9 @@ const Benefeciare = ({navigation, route}) => {
 
   const {onSubmit} = UseBenef();
 
-  const {projectId, type, routeData, title} = route.params;
+  const {projectId, type, routeData,nameTontine, title} = route.params;
   const {token} = useSelector(state => ({...state.token}));
-
+  
   const {isLoading} = useSelector(state => ({
     ...state.createParticipants,
   }));
@@ -127,6 +127,7 @@ const Benefeciare = ({navigation, route}) => {
         title={title}
         routeData={routeData}
         showPopUp={onSuccess2}
+        nameTontine={nameTontine}
       />
       <ModelRemove success={success} onDissmis={onDissmis} />
 
@@ -139,6 +140,7 @@ const Benefeciare = ({navigation, route}) => {
               GlobalBen,
               type,
               projectId,
+              nameTontine
             };
           onSubmit(props)
         

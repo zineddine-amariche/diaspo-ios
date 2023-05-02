@@ -28,7 +28,7 @@ const PrimaryHead = ({
           ></View>
         </TouchableOpacity>
 
-        <Head color={COLORS.white} fontSize={24}>
+        <Head color={COLORS.white} fontSize={20}>
           {title}
         </Head>
       </HView>

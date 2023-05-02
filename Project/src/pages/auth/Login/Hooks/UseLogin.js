@@ -1,36 +1,34 @@
 import * as Yup from 'yup';
 import {fr} from 'yup-locales';
 import {setLocale} from 'yup';
-import {useDispatch} from 'react-redux';
 import {useState} from 'react';
 import GetToken from '../../../../redux/Features/AppToken/GetToken';
 
 setLocale(fr);
 export function useLogin() {
-  const dispatch = useDispatch();
   const [hidePass, setHidePass] = useState(true);
   const HandlehidePass = () => {
     setHidePass(!hidePass);
   };
 
   const initialValues = {
-    //  userName: '',
+    //userName: '',
     // userPassword: '',
     //  userPassword: "DiaspoTontin@88",
     // userName: "amarichezineddine@gmail.com",
     // userName: "relzed@yopmail.com",
-    //  userName: "trop@yopmail.com",
+      userName: "trop@yopmail.com",
+     userPassword: "@Zinou12345",
     // userName: "ramadan@yopmail.com",
-    // userPassword: "@Zinou12345",
-    userName: 'reda.bekka@nbk-cg.com',
-    userPassword: 'Azerty@2023',
+    // userName: 'reda.bekka@nbk-cg.com',
+    // userPassword: 'Azerty@2023',
 
     // userName: "test-djim-23@yopmail.com",
     // userName: 'redadedv@yopmail.com',
 
-    //  userName: "zinoudev@yopmail.com",
-    // userPassword: "@Diaspo2022",
-    //  userPassword: "@Zinou12345",
+    // userName: 'zinoudev@yopmail.com',
+    //  userPassword: "@Diaspo2022",
+    // userPassword: '@Zinou12345',
 
     //  userPassword: "Diaspo@2022",
     //   userName: "rblink@yopmail.com",
@@ -39,73 +37,37 @@ export function useLogin() {
     //  userPassword: "kyc@yop23S",
   };
 
-  // const initialValues = {
-  //   userName: "s.djimera-diaspo1@yopmail.com",
-  //   userPassword: "M0oiuyt12@uiU",
-  // "mobileNumber": "+447307568988",
-  // };
-
-  // const initialValues = {
-  //   userName: "hapaf13592@deitada.com",
-  //   userPassword: "@Zinou123",
-  // };
-
-  // const initialValues = {
-  //   userName: "",
-  //   userPassword: "",
-  // };
-  const Login = async data => {
-    // dispatch(connect())
-    // console.log("data", data);
-
+  const Login = async () => {
     GetToken();
-
-    // await dispatch({ type: "LOGIN", payload: data });
   };
 
   const lowercaseRegEx = /(?=.*[a-z])/;
   const uppercaseRegEx = /(?=.*[A-Z])/;
   const numericRegEx = /(?=.*[0-9])/;
   const specialsRegEx = /[^A-Za-z 0-9]/g;
-  // const emailPhoneRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/ || /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g
+  // const emailPhoneRegex =
+  //   /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})|([0-9]{10})+$/;
+
   const emailPhoneRegex =
-    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})|([0-9]{10})+$/;
+    /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
   let validationSchema = Yup.object().shape({
     userName: Yup.string()
-      .max(
-        35,
-        'numéro telephone ou email est trop long - doit être de 35 caractères maximum.',
-      )
-      .required('numéro telephone ou email est requis')
-      .matches(
-        emailPhoneRegex,
-        'Doit être un numéro téléphone ou email valide !',
-      )
-      .min(
-        10,
-        'Le Numéro téléphone est trop court - doit comporter au moins 10 caractères.',
-      ),
+      .max(35, 'Email is too long - must be 35 characters maximum.')
+      .required('Email is required')
+      .matches(emailPhoneRegex, 'Must be a valid email!')
+      .min(10, 'Email is too short - must be at least 10 characters.'),
     userPassword: Yup.string()
-      .max(
-        20,
-        'Le mot de passe est trop long - doit être de 20 caractères maximum.',
-      )
-      .min(
-        6,
-        'Le mot de passe est trop court - doit comporter au moins 8 caractères.',
-      )
-      .matches(
-        lowercaseRegEx,
-        'Doit contenir un caractère alphabétique minuscule!',
-      )
+      .max(20, 'Password is too long - must be no more than 20 characters.')
+      .min(6, 'Password is too short - must be at least 8 characters.')
+      .matches(lowercaseRegEx, 'Must contain a lowercase alphabetic character!')
       .matches(
         uppercaseRegEx,
-        'Doit contenir un caractère alphabétique majuscule!',
+        'Must contain an uppercase alphabetic character!',
       )
-      .matches(numericRegEx, 'Doit contenir un caractère numérique!')
-      .matches(specialsRegEx, 'Doit contenir un caractère spécial')
-      .required('Mot de passe requis'),
+      .matches(numericRegEx, 'Must contain a numeric character!')
+      .matches(specialsRegEx, 'Must contain a special character')
+      .required('Password required'),
   });
 
   return {

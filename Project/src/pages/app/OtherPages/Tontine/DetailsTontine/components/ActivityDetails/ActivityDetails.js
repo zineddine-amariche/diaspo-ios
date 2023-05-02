@@ -125,7 +125,7 @@ const DetailsInformations = ({
   routeData,
   isFirstTime,
 }) => {
-  //  console.log('routeData', routeData.nextToReceived)
+
   return (
     <>
       <Txt fontSize={17}>Activity Details</Txt>
@@ -141,7 +141,7 @@ const DetailsInformations = ({
       <Divider />
       <Space space={10} />
 
-      <HView spaceBetween>
+      {/* <HView spaceBetween>
         <Txt fontSize={14} color={COLORS.coolGrey}>
           Payment status
         </Txt>
@@ -150,7 +150,7 @@ const DetailsInformations = ({
             Paid 5 circles Next payment on 14 April
           </Txt>
         </View>
-      </HView>
+      </HView> */}
       <Space space={10} />
 
       <HView spaceBetween>

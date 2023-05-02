@@ -22,7 +22,7 @@ const Payer = ({navigation, route}) => {
 
   const {createPayers, createBenef} = UsePayers();
 
-  const {projectId, type, routeData} = route.params;
+  const {projectId, type,nameTontine, routeData} = route.params;
 
   const {selectedconnectUser, selectedconnectUserContacts, laoder, goBackFun} =
     useAddNewPersson();
@@ -75,9 +75,6 @@ const Payer = ({navigation, route}) => {
       ? []
       : [...selectedconnectUser, ...selectedconnectUserContacts];
 
-  
-
-
   // HandleShowModel confirm create the list
   const [showModelUseAsbenef, setshowModelUseAsbenef] = useState(false);
 
@@ -91,7 +88,9 @@ const Payer = ({navigation, route}) => {
 
   const handleOnPressYes = () => {
     setshowModelUseAsbenef(false);
-    onSuccess2();
+    setTimeout(() => {
+      setsuccess2(true);
+    }, 500);
   };
 
   return (
@@ -127,6 +126,7 @@ const Payer = ({navigation, route}) => {
         NavToCnfPayer={createPayers}
         routeData={routeData}
         onSuccess2={openModelConfirmCreatePayers}
+        nameTontine={nameTontine}
       />
 
       {/* Models */}
@@ -140,6 +140,7 @@ const Payer = ({navigation, route}) => {
             selectedconnectUser,
             GlobalBen,
             projectId,
+            nameTontine
           };
           createBenef(props);
         }}
@@ -149,6 +150,7 @@ const Payer = ({navigation, route}) => {
             GlobalBen,
             type,
             projectId,
+            nameTontine
           };
           createPayers(props);
         }}
@@ -164,5 +166,3 @@ const Payer = ({navigation, route}) => {
   );
 };
 export default Payer;
-
- 

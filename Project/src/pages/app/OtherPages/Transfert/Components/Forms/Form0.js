@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import PrimaryInput from "../../../../../../components/Input";
 import { COLORS } from "../../../../../../theme";
@@ -51,7 +51,7 @@ const Form0 = ({
     setSelected(item);
   };
   return (
-    <>
+    <View style={{width:"100%"}} >
     <Space/>
 
       <PrimaryInput
@@ -142,7 +142,7 @@ const Form0 = ({
         value={bankName}
       />
       <Space space={30} />
-    </>
+    </View>
   );
 };
 

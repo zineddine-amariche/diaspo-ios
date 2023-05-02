@@ -6,14 +6,14 @@ import Space from "../../../../../../components/Space";
 import CardUser from "../CardUser";
 import { COLORS } from "../../../../../../theme";
 const openedPercent = 100;
-const FormC3 = ({ ContactsPhone, openedPercentage }) => {
+const FormC3 = ({ ContactsPhone,setFieldValue, openedPercentage,closeDrawer }) => {
   const heightValue = openedPercentage * openedPercent;
 
   return (
     <View style={{ flex: 1 }}>
       {ContactsPhone?.length ? (
         <View>
-          <Txt>{ContactsPhone.length} saved non-app users</Txt>
+          <Txt>{ContactsPhone.length} saved app users</Txt>
         </View>
       ) : null}
       <Space space={15} />
@@ -27,6 +27,8 @@ const FormC3 = ({ ContactsPhone, openedPercentage }) => {
                   item={item}
                   index={index}
                   length={ContactsPhone.length}
+                  setFieldValue={setFieldValue}
+                  closeDrawer={closeDrawer}
                 />
               </View>
             );

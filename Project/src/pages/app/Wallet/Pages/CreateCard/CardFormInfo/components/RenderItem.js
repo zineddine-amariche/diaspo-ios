@@ -57,7 +57,7 @@ const RenderItem = ({
           <PrimaryInput
             name={CardNumber}
             Label={"Card Number"}
-            placeholder="Your full name"
+            placeholder="Your Card Number"
             style={styles.InputCard}
             errors={errors.CardNumber}
             touched={touched.CardNumber}

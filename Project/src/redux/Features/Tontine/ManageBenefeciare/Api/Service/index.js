@@ -1,6 +1,16 @@
 import axios from "axios";
 
-const API_URL = `https://wallet-gateway-svc-x6fr3lwlgq-nw.a.run.app/v1/authentication/users`;
+
+import {
+  API_URL_WALLET_DEV,
+  API_URL_STRIPE_DEV,
+  API_URL_MOBILE_DEV,
+  API_BASE_COMPLIANCE_DEV,
+} from '@env';
+
+let API_URL = `${API_URL_WALLET_DEV}/authentication/users`;
+
+// const API_URL = `https://wallet-gateway-svc-x6fr3lwlgq-nw.a.run.app/v1/authentication/users`;
 
 //  !APi user api
 const api = async (dataUser, token) => {

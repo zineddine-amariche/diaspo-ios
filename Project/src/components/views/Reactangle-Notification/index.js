@@ -35,7 +35,7 @@ const ReactangleNotification = ({ data, title, navigation }) => {
                 navigation={navigation}
                 item={item}
                 index={index}
-                lenght={data.length - 1}
+                lenght={data?.length - 1}
               />
             </View>
           );

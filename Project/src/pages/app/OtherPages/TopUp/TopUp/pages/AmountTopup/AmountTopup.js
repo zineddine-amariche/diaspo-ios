@@ -1,32 +1,27 @@
-import {Platform, StyleSheet, View} from 'react-native';
+import { StyleSheet, Keyboard, View, Pressable} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {Formik} from 'formik';
 import {useAmoutTopup} from './Hooks/useAmountTopup';
 import Space from '../../../../../../../components/Space';
-import ViewT1 from '../../../../../../../components/views/CardViewType1';
-import {Head, Txt} from '../../../../../../../components/utils';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {
-  PaleGreyButton,
   PrimaryButtonLinear,
 } from '../../../../../../../components/Buttons';
 import {COLORS} from '../../../../../../../theme';
 import PrimaryInput from '../../../../../../../components/Input';
 import ReturnHeader from '../../../../../../../components/Headers/root/ReturnHeader';
 import CreatedSuccess from '../../../../../../../components/views/Layouts/AuthLayout/Model';
-
-import illusphone from '../../../../../../../Assets/Img/illusphone.png';
-import illusErr from '../../../../../../../Assets/Img/illusErr.png';
-import {Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {handlAmount} from '../../../../../../../redux/Features/Payements/MTN/slice';
+import {ShowBg} from '../../../../../../../redux/Features/Payements/creditCard/slice';
+import {KeyboardAvoidingView} from 'react-native';
+import { BodyModel, BodyModelErr } from '../../../../../../../components/Models/payements';
 
 const AmountTopup = ({navigation, route}) => {
-  const {onSubmit, state, schema} = useAmoutTopup();
+  const {onSubmit, onCheckout, state, schema} = useAmoutTopup();
   const {data, item} = route.params;
 
   const {isLoading} = useSelector(state => state.transaction);
-  const {isCreditCardLoading} = useSelector(state => state.creditCard);
+  const {isCreditCardLoading, bg} = useSelector(state => state.creditCard);
   const dispatch = useDispatch();
 
   const [success, setsuccess] = useState(false);
@@ -42,14 +37,36 @@ const AmountTopup = ({navigation, route}) => {
     navigation.navigate('TopUp', {data});
   }, []);
 
-  const onSuccessAction = useCallback(value => {
+  const showSuccess = () => {
     setsuccess(true);
+    dispatch(ShowBg(false));
+  };
+  const onSuccessAction = useCallback((value, clientSecret) => {
     dispatch(handlAmount(value));
+    setTimeout(() => {
+      let obj = {
+        showSuccess,
+        clientSecret,
+      };
+      onCheckout(obj);
+    }, 700);
+  }, []);
+
+  const onSuccessActionMTN = useCallback((value, clientSecret) => {
+    dispatch(handlAmount(value/100));
+    setTimeout(() => {
+      setsuccess(true);
+    }, 700);
   }, []);
 
   const onErrorAction = useCallback(() => {
     setError(true);
+    dispatch(ShowBg(false));
   }, []);
+
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
 
   return (
     <ReturnHeader
@@ -58,7 +75,29 @@ const AmountTopup = ({navigation, route}) => {
         navigation.navigate('TopUp', {data});
       }}
       Loading={isLoading || isCreditCardLoading}>
-      <>
+      {bg ? (
+        <View
+          style={{
+            flex: 1,
+
+            backgroundColor: COLORS.blueGreenOpacity9,
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            zIndex: 2,
+            marginTop: 90,
+          }}></View>
+      ) : null}
+
+      <View
+        style={{
+          flex: 1,
+          padding: 1,
+          width: '100%',
+          alignItems: 'center',
+          backgroundColor: COLORS.finished,
+        }}>
+        <Space space={20} />
         <Formik
           initialValues={state}
           validationSchema={schema}
@@ -67,7 +106,7 @@ const AmountTopup = ({navigation, route}) => {
             formikAction.resetForm();
 
             let obj = {
-              amount: values.amount,
+              amount: Math.floor(values.amount * 100),
               type: item.value,
               currency: 'EUR',
               originator: {
@@ -81,12 +120,13 @@ const AmountTopup = ({navigation, route}) => {
               accountId: data.accountId,
               userId: data?.userId,
               obj,
-              amount: values.amount,
+              amount: Math.floor(values.amount * 100),
             };
             let object = {
               info,
               onErrorAction,
               onSuccessAction,
+              onSuccessActionMTN,
             };
             onSubmit(object);
           }}>
@@ -104,11 +144,34 @@ const AmountTopup = ({navigation, route}) => {
             const {amount} = values;
 
             return (
-              <>
-                <Space space={30} />
-                <View style={{padding: 20}}>
-                  <ViewT1>
-                    <Txt color={COLORS.slateGrey} fontSize={14}>
+              <KeyboardAvoidingView
+                style={{flex: 1, width: '100%', alignItems: 'center'}}
+                behavior="padding">
+                <Pressable
+                  style={{
+                    backgroundColor: COLORS.finished,
+                    width: '90%',
+                    flex: 1,
+                    justifyContent: 'space-between',
+                  }}
+                  onPress={dismissKeyboard}
+                  
+                  >
+                  <Pressable
+                    style={{
+                      backgroundColor: COLORS.white,
+                      borderRadius: 8,
+                      shadowColor: '#171717',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.2,
+                      shadowRadius: 2,
+                      elevation: 2,
+                      padding: 20,
+                      marginTop: 10,
+                      width: '100%',
+                    }}
+                    onPress={dismissKeyboard}>
+                    {/* <Txt color={COLORS.slateGrey} fontSize={14}>
                       You are topping up your {item?.label} account in euro
                       using
                       <Txt color={COLORS.darkBlueGrey}>
@@ -116,49 +179,51 @@ const AmountTopup = ({navigation, route}) => {
                         Credit Card No.
                         {item?.price}.
                       </Txt>
-                    </Txt>
+                    </Txt> */}
                     <Space space={20} />
-                    <KeyboardAwareScrollView extraHeight={160} enabledOnAndroid>
+                    <View style={{height: 90}}>
                       <PrimaryInput
                         name={amount}
                         Label={'Top up amount'}
-                        placeholder="14.760"
+                        placeholder="15.000"
                         style={styles.Input}
                         errors={errors.amount}
                         touched={touched.amount}
                         value={amount}
-                        onBlur={handleBlur('amount')}
+                        onBlur={() => {
+                          handleBlur('amount');
+                          dismissKeyboard();
+                        }}
                         onChangeText={handleChange('amount')}
                         amount="euro"
                         keyboardType="numeric"
                       />
-                      <Space space={20} />
-                    </KeyboardAwareScrollView>
-                  </ViewT1>
-                </View>
-
-                <View style={styles.containerButton}>
-                  <PrimaryButtonLinear
-                    width={'100%'}
-                    onPress={() => {
-                      handleSubmit();
-                    }}
-                    disabled={true}
-                    loading={isLoading}>
-                    Next
-                  </PrimaryButtonLinear>
-                </View>
-              </>
+                    </View>
+                    <Space space={20} />
+                  </Pressable>
+                  <View style={styles.containerButton}>
+                    <PrimaryButtonLinear
+                      width={'100%'}
+                      onPress={() => {
+                        handleSubmit();
+                      }}
+                      disabled={true}
+                      loading={isLoading}>
+                      Next
+                    </PrimaryButtonLinear>
+                  </View>
+                </Pressable>
+              </KeyboardAvoidingView>
             );
           }}
         </Formik>
-      </>
+      </View>
       <CreatedSuccess Visible={success} onDissmis={onDissmis} top={90}>
         {BodyModel ? <BodyModel onDissmis={onDissmis} /> : null}
       </CreatedSuccess>
 
       <CreatedSuccess Visible={error} onDissmis={onDissmisError} top={90}>
-        {BodyModel ? <BodyModelErr onDissmis={onDissmisError} /> : null}
+        {BodyModel ? <BodyModelErr  onDissmis={onDissmisError} /> : null}
       </CreatedSuccess>
     </ReturnHeader>
   );
@@ -166,81 +231,74 @@ const AmountTopup = ({navigation, route}) => {
 
 export default AmountTopup;
 
-const BodyModel = ({onDissmis}) => {
-  const {amount} = useSelector(state => state.transaction);
-  return (
-    <>
-      <View style={styles.ModelContainer}>
-        <Image source={illusphone} style={{width: '100%'}} />
+// const BodyModel = ({onDissmis}) => {
+//   const {amount} = useSelector(state => state.transaction);
+//   return (
+//     <>
+//       <View style={styles.ModelContainer}>
+//         <Image source={illusphone} style={{width: '100%'}} />
 
-        <Head
-          //  fontFamily={"Poppins-Bold"}
-          style={{padding: 20, textAlign: 'center'}}>
-          Transfered successfully
-        </Head>
-        <Txt
-          color={COLORS.slateGrey}
-          style={{
-            paddingHorizontal: 10,
-            textAlign: 'center',
-            //fontFamily: "Poppins-SemiBold",
-          }}>
-          <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
-            {amount} euro
-          </Txt>{' '}
-          has been transfered successfully
-          {/* to
-          <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
-            {' '}
-            Faith Felicity (+44 7538 110953).
-          </Txt>
-          You can check in your account
-          <Txt Bold={'400'} color={COLORS.orangeYellow} fontSize={17}>
-            {' '}
-            transaction history.
-          </Txt>
-          . */}
-        </Txt>
+//         <Head
+//           //  fontFamily={"Poppins-Bold"}
+//           style={{padding: 20, textAlign: 'center'}}>
+//           Transfered successfully
+//         </Head>
+//         <Txt
+//           color={COLORS.slateGrey}
+//           style={{
+//             paddingHorizontal: 10,
+//             textAlign: 'center',
+//             //fontFamily: "Poppins-SemiBold",
+//           }}>
+//           <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
+//             {amount / 100} euro
+//           </Txt>{' '}
+//           has been transfered successfully
+//           {/* to
+//           <Txt Bold={'700'} color={COLORS.black} fontSize={17}>
+//             {' '}
+//             Faith Felicity (+44 7538 110953).
+//           </Txt>
+//           You can check in your account
+//           <Txt Bold={'400'} color={COLORS.orangeYellow} fontSize={17}>
+//             {' '}
+//             transaction history.
+//           </Txt>
+//           . */}
+//         </Txt>
 
-        <PaleGreyButton onPress={onDissmis}>close</PaleGreyButton>
-      </View>
-    </>
-  );
-};
-const BodyModelErr = ({onDissmis}) => {
-  return (
-    <>
-      <View style={styles.ModelContainer}>
-        <Image source={illusErr} style={{width: '100%'}} />
+//         <PaleGreyButton onPress={onDissmis}>close</PaleGreyButton>
+//       </View>
+//     </>
+//   );
+// };
+// const BodyModelErr = ({onDissmis}) => {
+//   return (
+//     <>
+//       <View style={styles.ModelContainer}>
+//         <Image source={illusErr} style={{width: '100%'}} />
 
-        <Head
-          //  fontFamily={"Poppins-Bold"}
-          style={{padding: 20, textAlign: 'center'}}
-          color={COLORS.coral}>
-          Topped up unsuccessfully
-        </Head>
-        <Txt
-          color={COLORS.slateGrey}
-          style={{
-            paddingHorizontal: 10,
-            textAlign: 'center',
-            //fontFamily: "Poppins-SemiBold",
-          }}>
-          Sorry, something went wrong. Please try agian.
-        </Txt>
+//         <Head
+//           //  fontFamily={"Poppins-Bold"}
+//           style={{padding: 20, textAlign: 'center'}}
+//           color={COLORS.coral}>
+//           Topped up unsuccessfully
+//         </Head>
+//         <Txt
+//           color={COLORS.slateGrey}
+//           style={{
+//             paddingHorizontal: 10,
+//             textAlign: 'center',
+//             //fontFamily: "Poppins-SemiBold",
+//           }}>
+//           Sorry, something went wrong. Please try agian.
+//         </Txt>
 
-        <PaleGreyButton onPress={onDissmis}>close</PaleGreyButton>
-      </View>
-    </>
-  );
-};
+//         <PaleGreyButton onPress={onDissmis}>close</PaleGreyButton>
+//       </View>
+//     </>
+//   );
+// };
 const styles = StyleSheet.create({
-  containerButton: {
-    width: '100%',
-    paddingHorizontal: 20,
-    backgroundColor: COLORS.white,
-    padding: Platform.OS == 'ios' ? 20 : 15,
-    position: 'absolute',
-    bottom: 0,
-  },
+  containerButton: {backgroundColor: COLORS.white,  },
 });

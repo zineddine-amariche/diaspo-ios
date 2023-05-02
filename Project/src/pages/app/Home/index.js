@@ -5,7 +5,6 @@ import PrimaryHead from '../../../components/Headers/root/PrimaryHead';
 import Main from './Components/main';
 import WalletsList from '../../../components/views/Rectangle-Price';
 import Recent from './Components/Recent';
-import Events from './Components/Events';
 import HomeLayout from '../../../components/views/Layouts/AppLayout/HomeLayout';
 import Space from '../../../components/Space';
 import {useRef} from 'react';
@@ -18,18 +17,17 @@ import Spiner from '../../../components/spiner';
 import BottomSheetKyc from './Components/BottomSheetKYC';
 import {useIsFocused} from '@react-navigation/native';
 import {UseHome} from './Hooks/useHooks';
-import BottomSheetTopUpAccount from './Components/BottomSheetTopUpAccount';
-import BottomSheet from '../../../components/Models/BottomSheet';
 import {Modalize} from 'react-native-modalize';
 import {COLORS} from '../../../theme';
-import {DisableBottomNav} from '../../../redux/Features/App/Appslice';
 import ContentRenders from './Components/BottomSheetTopUpAccount/ContentRenders';
+import {getAllTransactions} from '../../../redux/Features/Transactions/Slice';
 
 const Home = ({navigation}) => {
   const dispatch = useDispatch();
   const modalRef = useRef(null);
+  const modalRef2 = useRef(null);
+  const modalRef3 = useRef(null);
   const bottomSheetModalRef = useRef(null);
-  const bottomSheetModalRef2 = useRef(null);
   const bottomSheetModalRef3 = useRef(null);
   const KycRef = useRef(null);
   const {object, objectUpdate, objectWallet} = UseHome();
@@ -39,16 +37,9 @@ const Home = ({navigation}) => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
-  const handlePresentModalCashIn = useCallback(() => {
-    bottomSheetModalRef2.current.present();
-  }, []);
 
   const handlePresentModalSelect = useCallback(() => {
     // bottomSheetModalRef3.current?.present();
-  }, []);
-
-  const closeBottomUp2 = useCallback(() => {
-    bottomSheetModalRef2.current.forceClose();
   }, []);
 
   const closeBottomUp3 = useCallback(() => {
@@ -57,10 +48,6 @@ const Home = ({navigation}) => {
 
   const closeBottomKyc = useCallback(() => {
     KycRef.current.close();
-  }, []);
-
-  const closeBottomUp1 = useCallback(() => {
-    bottomSheetModalRef.current.forceClose();
   }, []);
 
   const ChangeAccount = Item => {
@@ -75,9 +62,6 @@ const Home = ({navigation}) => {
   let token = user?.AccessToken;
   let userId = user?.userId;
 
-  // const message = useSelector(state => state.walletAccounts);
-  // console.log('message', message)
-
   useEffect(() => {
     dispatch(updateNotify(objectUpdate));
   }, [objectUpdate.data.deviceToken, objectUpdate.data.deviceOs]);
@@ -88,30 +72,52 @@ const Home = ({navigation}) => {
     dispatch(getUserInformations(object.userId));
   }, [isFocused]);
 
-  const {isLoading} = useSelector(state => state.walletAccounts);
+  const {isLoading, accountId} = useSelector(state => state.walletAccounts);
 
-  // console.log('bottomSheetModalRef2', bottomSheetModalRef2);
   useEffect(() => {
     if (userId && token) {
       dispatch(walletAccounts(objectWallet));
     }
   }, [token, userId, isFocused]);
- 
 
- 
- 
-
- 
   const handleCloseModal = () => {
     modalRef.current?.close();
-    dispatch(DisableBottomNav(false));
   };
 
-  const onOpen = () => {
-    modalRef.current?.open();
-    dispatch(DisableBottomNav(true));
+  const onOpen = ty => {
+    if (ty == 'cashout') {
+      modalRef.current?.open();
+    } else if (ty == 'cashin') {
+      modalRef2.current?.open();
+    } else {
+      modalRef3.current?.open();
+    }
   };
 
+  const onErrorAction = () => {
+    console.log('error');
+  };
+
+
+  useEffect(() => {
+    let object = {
+      accountId,
+      userId,
+      onErrorAction,
+    };
+    if (accountId) {
+      dispatch(getAllTransactions(object));
+    }
+  }, [accountId, isFocused]);
+  const {informationsUser} = useSelector(state => state.userInformations);
+  const nav = (to, data) => {
+    navigation.navigate(to, data);
+  };
+
+  let obje = {
+    accountId,
+    userId,
+  };
   return (
     <>
       {isLoading ? (
@@ -119,7 +125,7 @@ const Home = ({navigation}) => {
       ) : (
         <HomeLayout>
           <PrimaryHead
-            title={'Diaspo'}
+            title={`Welcome ${informationsUser?.data?.walletAccountUser?.firstName} ${informationsUser?.data?.walletAccountUser?.lastName}`}
             openDrawer={() => navigation.toggleDrawer()}
             navigation={() => navigation.navigate('Notifications')}
           />
@@ -130,15 +136,15 @@ const Home = ({navigation}) => {
             <Space space={17} />
             <Recent
               onPress={() => {
-                navigation.navigate('Categories');
+                navigation.navigate('HistoryTransaction',{info:obje});
               }}
             />
             <Space />
-            <Events
+            {/* <Events
               onPress={() => {
                 // navigation.navigate("Categories");
               }}
-            />
+            /> */}
 
             <Space space={140} />
           </ScrollView>
@@ -182,25 +188,45 @@ const Home = ({navigation}) => {
             close={closeBottomKyc}
           />
 
-          {/* <BottomSheet
-            ref={modalRef}
-            onClose={closeModal}
-            modalType={'modal2'} // or 'modal2', 'modal3', 'modal4'
-          /> */}
-
           <Modalize
-            // HeaderComponent={<MyHeader />} headerProps={headerProps}
             snapPoint={800}
             ref={modalRef}
             overlayStyle={{
               backgroundColor: COLORS.blueGreenOpacity9,
             }}
             adjustToContentHeight={false}>
-            {/* <UserInfo test={'test'} handleCloseModal={handleCloseModal} /> */}
-            {/* {children} */}
             <ContentRenders
-              navigation={navigation}
-               closeAll={handleCloseModal}
+              nav={nav}
+              type={'cashin'}
+              closeAll={handleCloseModal}
+            />
+          </Modalize>
+
+          <Modalize
+            snapPoint={800}
+            ref={modalRef2}
+            overlayStyle={{
+              backgroundColor: COLORS.blueGreenOpacity9,
+            }}
+            adjustToContentHeight={false}>
+            <ContentRenders
+              nav={nav}
+              closeAll={handleCloseModal}
+              type={'cashout'}
+            />
+          </Modalize>
+
+          <Modalize
+            snapPoint={800}
+            ref={modalRef3}
+            overlayStyle={{
+              backgroundColor: COLORS.blueGreenOpacity9,
+            }}
+            adjustToContentHeight={false}>
+            <ContentRenders
+              nav={nav}
+              closeAll={handleCloseModal}
+              type={'transfert'}
             />
           </Modalize>
         </HomeLayout>

@@ -1,15 +1,13 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
-let Cl_ID = '1t37i9t15h3rvlib7g1u7odp23';
-let Secret = 'avqbjl9vfeo1spfhv5qfp4ojrplg6guf3gv44q1hpvffk6nab8g';
+import {API_URL_WALLET_DEV, APP_KEY_ID, APP_SECRET_KEY} from '@env';
+
 
 export const getToken = createAsyncThunk('getToken', async () => {
-  return axios
-    .get(
-      `https://wallet-gateway-svc-x6fr3lwlgq-nw.a.run.app/v1/authentication/oauth2/token/${Cl_ID}/${Secret}`,
-    )
-    .then(res => res.data);
+  let url = `${API_URL_WALLET_DEV}/authentication/oauth2/token/${APP_KEY_ID}/${APP_SECRET_KEY}`;
+
+  return axios.get(url).then(res => res.data);
 });
 
 const TokenSlice = createSlice({

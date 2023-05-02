@@ -39,7 +39,7 @@ const BodyModelConfirmToReorder = ({onDissmis, pressNo, pressYes}) => {
         <Head
           //fontFamily={'Poppins-Bold'}
           style={{padding: 20, textAlign: 'center'}}>
-          Do you want to define the beneficary positions?
+          Do you want to define the beneficary positions ?
         </Head>
 
         <HView spaceBetween>

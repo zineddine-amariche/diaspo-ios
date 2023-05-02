@@ -6,7 +6,6 @@ import ActivityDetails from './ActivityDetails/ActivityDetails';
 const Activity = ({
   asAPayer,
   bottomSheetModalRef,
-  numberOfPayers,
   startWithparticipants,
   projectId,
   isFirstTime,
@@ -15,11 +14,11 @@ const Activity = ({
   tontineProjectInfo,
   consult,
   cancelTontin,
-  numberOfBenef
+  listOfParticipants
 }) => {
   const navigation = useNavigation();
   if (asAPayer) {
-    if (numberOfPayers > 1 ||numberOfBenef >1) {
+    if (listOfParticipants>1) {
       return (
         <ActivityDetails
           navigation={navigation}
@@ -38,7 +37,7 @@ const Activity = ({
       null;
     }
   } else {
-    if (numberOfPayers > 1 ||numberOfBenef >1) {
+    if (listOfParticipants>1) {
       return (
         <ActivityDetails
           navigation={navigation}

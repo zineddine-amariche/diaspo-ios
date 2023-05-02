@@ -1,9 +1,7 @@
 import axios from 'axios';
+import {API_URL_STRIPE_DEV} from '@env';
 
-const API_URL =
-  'https://wallet-payment-svc-x6fr3lwlgq-nw.a.run.app/v1/stripe/payments/form';
-
-//  !register user api
+let API_URL = `${API_URL_STRIPE_DEV}/stripe/payments/intents`;
 
 const api = async (data, token) => {
   let {userId, accountId, obj, amount} = data;
@@ -14,12 +12,11 @@ const api = async (data, token) => {
     },
   };
 
-  let uri = `${API_URL}/${amount}/${currency}/${accountId}/${userId}`;
-// console.log('uri', uri)
-   const res = await axios.get(uri, config);
-   console.log('transaction credit card', res.data);
+  // let uri = `${API_URL}/${amount}/${currency}/${accountId}/${userId}`;
+  let uri = `${API_URL}/${accountId}`;
+  const res = await axios.post(uri, obj, config);
 
-   return res;
+  return res.data;
 };
 const creditCardService = {
   api,

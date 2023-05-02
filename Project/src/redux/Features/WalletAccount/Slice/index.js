@@ -14,6 +14,7 @@ export const walletAccounts = createAsyncThunk("wallet/account", async (user, th
     // if(res.data){
 
     // }
+    // console.log('res', res.data.walletAccounts[0].accountId)
     return res
   } catch (error) {
    const {onErrorAction} = user;
@@ -64,7 +65,8 @@ const walletAccountsSlice = createSlice({
     isSuccess: false,
     isLoading: false,
     message: "",
-    walletName:null
+    walletName:null,
+    accountId:null
   },
   reducers: {
     resetwalletAccount: (state) => {
@@ -90,6 +92,7 @@ const walletAccountsSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.walletAccount = action.payload.data;
+        state.accountId = action.payload.data.walletAccounts[0].accountId
        
       })
       .addCase(walletAccounts.rejected, (state, action) => {

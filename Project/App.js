@@ -19,6 +19,10 @@ import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import "./src/i18n";
+import {STRIPE_KEY} from '@env';
+
+
+import { StripeProvider } from '@stripe/stripe-react-native';
 // import appTheme from "./src/theme";
 
 function App({ navigation }) {
@@ -30,11 +34,14 @@ function App({ navigation }) {
         <QueryClientProvider client={queryClient}>
           <NavigationContainer>
             <Provider store={store}>
+            <StripeProvider publishableKey={STRIPE_KEY}>
               <PersistGate loading={null} persistor={persistor}>
                 <BottomSheetModalProvider>
                   <Root navigation={navigation} />
                 </BottomSheetModalProvider>
               </PersistGate>
+
+              </StripeProvider>
             </Provider>
           </NavigationContainer>
         </QueryClientProvider>

@@ -1,204 +1,296 @@
-import React from "react";
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  Image,
-} from "react-native";
-import Line from "../../../components/views/line";
+import React, {useCallback, useEffect} from 'react';
+import {View, ScrollView, Platform} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-import ImgBack from "../../../Assets/Img/HomeBack.png";
-import {
-  PaleGreyButton,
-} from "../../../components/Buttons";
-import SecondaryHeader from "../../../components/Headers/root/SecondaryHeader";
-import Space from "../../../components/Space";
-import { Head, Txt } from "../../../components/utils";
-import { COLORS, SIZES } from "../../../theme";
-import illusphone from "../../../Assets/Img/illusphone.png";
-import { useSelector } from "react-redux";
-import CardUserHistory from "./components/CardUser";
-import RectangleTransactionHistory from "../../../components/views/Rectangle-TransactionHistory";
+import Space from '../../../components/Space';
+import {Txt} from '../../../components/utils';
+import {SIZES} from '../../../theme';
+import CardUserHistory from './components/CardUser';
+import RectangleTransactionHistory from '../../../components/views/Rectangle-TransactionHistory';
 
-const HistoryTransaction = ({ navigation, navigation: { goBack } }) => {
-  const { contacts } = useSelector((state) => ({
-    ...state.contacts,
-  }));
+import {useDateDebut} from './Hooks/useDateDebut';
+import {useDateFin} from './Hooks/useDateFin';
+import {useAmount} from './Hooks';
+import UseModalize from './components/useModalize';
+import HeaderTransctions from './components/HeaderTransctions/HeaderTransctions';
+import {useSelector} from 'react-redux';
+import Spiner from '../../../components/spiner';
+import moment from 'moment';
+import CreatedSuccess from '../../../components/views/Layouts/AuthLayout/Model';
+import {BodyModel, BodyModelErr} from '../../../components/Models/payements';
+import {filterTransactions} from '../../../redux/Features/Transactions/Slice';
+
+const HistoryTransaction = ({navigation, route}) => {
+  const {info} = route.params;
+
+  // console.log('info', info)
+  const {
+    modalRef,
+    onOpen,
+    showDate,
+    text,
+    onChangeAndroid,
+    date,
+    showTimeAndroid,
+    onChangeTimeAndroid,
+    time,
+    onChangeTimeIos,
+    onChangeIos,
+    handleCloseModal,
+    showTime,
+    dispatch,
+    ResetDate
+  } = useDateDebut(info);
+
+  const {
+    showDateFin,
+    showTime2,
+    date2,
+    text2,
+    time2,
+    onChangeDate2ios,
+    handleCloseModal2,
+    modalRef2,
+    showDateAndroid2,
+    onChageAndroid2,
+    onChangeTimeAndroid2,
+    showTimeAndroid2,
+    onChangeTimeIos2,
+    ResetDate2
+  } = useDateFin(info);
+
+  const localTime = moment.utc(time).local().format('HH:mm:ss');
+  const localTime2 = moment.utc(time2).local().format('HH:mm:ss');
+
+  const {onSelcet, selcted, data} = useAmount();
+
+  let {isLoading} = useSelector(state => state.getAllTransactions);
+
+  const onSucces = () => {
+    // setsuccess(true)
+  };
+
+  const onErrorAction = () => {
+    // setError(true)
+  };
+  const onFilter = () => {
+    let object = {
+      userId: info.userId,
+      accountId: info.accountId,
+      type: 'Debit',
+      fromDate: `${text} ${localTime}`,
+      toDate: text2 == 'MM-DD-YYYY' ? undefined : `${text2} ${localTime2}`,
+      page: 1,
+      limit: 10,
+    };
+
+    let obj = {
+      onSucces,
+      onErrorAction,
+      object,
+    };
+    handleCloseModal(obj);
+  };
+
+  const onFilter2 = () => {
+    let object = {
+      userId: info.userId,
+      accountId: info.accountId,
+      type: 'Debit',
+      fromDate: `${text} ${localTime}`,
+      toDate: `${text2} ${localTime2}`,
+      page: 1,
+      limit: 10,
+    };
+
+    let obj = {
+      onSucces,
+      onErrorAction,
+      object,
+    };
+    handleCloseModal2(obj);
+  };
+
+  let {disable} = useSelector(state => state.getAllTransactions);
+
+  const onFilterAndroid = () => {
+    let object = {
+      userId: info.userId,
+      accountId: info.accountId,
+      type: 'Debit',
+      fromDate: `${text} ${localTime}`,
+      toDate: text2 == 'MM-DD-YYYY' ? undefined : `${text2} ${localTime2}`,
+      page: 1,
+      limit: 10,
+    };
+
+    let obj = {
+      onSucces,
+      onErrorAction,
+      object,
+    };
+
+    dispatch(filterTransactions(obj));
+  };
+
+  const onFilterAndroid2 = () => {
+    let object = {
+      userId: info.userId,
+      accountId: info.accountId,
+      type: 'Debit',
+      fromDate: `${text} ${localTime}`,
+      toDate: `${text2} ${localTime2}`,
+      page: 1,
+      limit: 10,
+    };
+
+    let obj = {
+      onSucces,
+      onErrorAction,
+      object,
+    };
+
+    dispatch(filterTransactions(obj));
+  };
+
+  useEffect(() => {
+    if (Platform.OS == 'android' && !disable && text !== 'MM-DD-YYYY') {
+      onFilterAndroid();
+    }
+  }, [disable, time]);
+
+  useEffect(() => {
+    if (
+      Platform.OS == 'android' &&
+      !disable &&
+      text !== 'MM-DD-YYYY' &&
+      text2 !== 'MM-DD-YYYY'
+    ) {
+      onFilterAndroid2();
+    }
+  }, [disable, time2]);
+
+  const DeleteAll = () => { 
 
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={"transparent"} />
-      <Image
-        style={styles.ImageBackground}
-        source={ImgBack}
-        resizeMode="stretch"
-      />
-      <SecondaryHeader
-        goBack={() => {
-          navigation.goBack()
-        }}
-        title={"Transaction History"}
-      />
+   }
+
+  return !isLoading ? (
+    <HeaderTransctions navigation={navigation}>
       <ScrollView
-        contentContainerStyle={{ width: SIZES.width }}
-        showsVerticalScrollIndicator={false}
-      >
+        contentContainerStyle={{width: SIZES.width}}
+        showsVerticalScrollIndicator={false}>
+        <RectangleTransactionHistory
+          time={time}
+          date={text}
+          date2={text2}
+          time2={time2}
+          onOpen={onOpen}
+          selcted={selcted}
+          onSelcet={onSelcet}
+          onOpen2={showDateFin}
+          ResetDate={ResetDate}
+          ResetDate2={ResetDate2}
+        />
 
-      <RectangleTransactionHistory />
-        <View style={{ paddingHorizontal: 20 }}>
-          {/* <Rectangle width="100%" style={{ paddingVertical: 10 }}> */}
-            {contacts.map((i, index) => {
-              return (
-                <View key={index}>
-                  <CardUserHistory item={i} index={index} />
-                </View>
-              );
-            })}
-          {/* </Rectangle> */}
-          <Space />
+        <View style={{paddingHorizontal: 20}}>
+          {data?.length ? (
+            <>
+              {data?.map((i, index) => {
+                return (
+                  <View key={index}>
+                    <CardUserHistory item={i} index={index} />
+                  </View>
+                );
+              })}
+
+              <Space />
+            </>
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: 200,
+              }}>
+              <Txt>No data</Txt>
+            </View>
+          )}
         </View>
       </ScrollView>
-      <Space space={10} />
-      {/* <Line  color={COLORS.black}/> */}
-      {/* <Space space={4} /> */}
 
-    </SafeAreaView>
+      <UseModalize
+        title={'Select the start date'}
+        date={date}
+        time={time}
+        showTime={showTime}
+        modalRef={modalRef}
+        showDate={showDate}
+        onChage={onChangeIos}
+        onChangeTime={onChangeTimeIos}
+        handleCloseModal={onFilter}
+        text={text}
+      />
+
+      <UseModalize
+        title={'Select the end date'}
+        time={time2}
+        date={date2}
+        showTime={showTime2}
+        modalRef={modalRef2}
+        onChage={onChangeDate2ios}
+        onChangeTime={onChangeTimeIos2}
+        handleCloseModal={onFilter2}
+        text={text2}
+      />
+
+      {showDate && (
+        <DateTimePicker
+          value={date}
+          mode={'date'}
+          display="spinner"
+          is24Hour="default"
+          testID="dateTimePiker"
+          onChange={onChangeAndroid}
+        />
+      )}
+
+      {showTimeAndroid && (
+        <DateTimePicker
+          mode="time"
+          value={time}
+          is24Hour={true}
+          display="spinner"
+          onChange={onChangeTimeAndroid}
+        />
+      )}
+
+      {/* fin date android */}
+
+      {showDateAndroid2 && (
+        <DateTimePicker
+          testID="dateTimePiker"
+          value={date2}
+          mode={'date'}
+          is24Hour="default"
+          onChange={onChageAndroid2}
+          display="spinner"
+        />
+      )}
+
+      {showTimeAndroid2 && (
+        <DateTimePicker
+          value={time2}
+          mode="time"
+          is24Hour={true}
+          display="spinner"
+          onChange={onChangeTimeAndroid2}
+        />
+      )}
+    </HeaderTransctions>
+  ) : (
+    <Spiner />
   );
 };
 export default HistoryTransaction;
-
-const BodyModel = ({ onDissmis }) => {
-  return (
-    <>
-      <View style={styles.ModelContainer}>
-        <Image source={illusphone} style={{ width: "100%" }} />
-
-        <Head
-          //fontFamily={"Poppins-Bold"}
-          style={{ padding: 20, textAlign: "center" }}
-        >
-          Transfered successfully
-        </Head>
-        <Txt
-          color={COLORS.slateGrey}
-          style={{
-            paddingHorizontal: 10,
-            textAlign: "center",
-            // //fontFamily: "Poppins-SemiBold",
-          }}
-        >
-          <Txt Bold={"700"} color={COLORS.black} fontSize={17}>
-            12,000 euro
-          </Txt>{" "}
-          has been transfered successfully to
-          <Txt Bold={"700"} color={COLORS.black} fontSize={17}>
-            {" "}
-            Faith Felicity (+44 7538 110953).
-          </Txt>
-          You can check in your account
-          <Txt Bold={"400"} color={COLORS.orangeYellow} fontSize={17}>
-            {" "}
-            transaction histopy.
-          </Txt>
-          .
-        </Txt>
-
-        <PaleGreyButton onPress={onDissmis}>close</PaleGreyButton>
-      </View>
-    </>
-  );
-};
-const BodyModelErr = ({ onDissmis }) => {
-  return (
-    <>
-      <View style={styles.ModelContainer}>
-        <Image source={illusphone} style={{ width: "100%" }} />
-
-        <Head
-          //fontFamily={"Poppins-Bold"}
-          style={{ padding: 20, textAlign: "center" }}
-        >
-          Transfered successfully
-        </Head>
-        <Txt
-          color={COLORS.slateGrey}
-          style={{
-            paddingHorizontal: 10,
-            textAlign: "center",
-            // //fontFamily: "Poppins-SemiBold",
-          }}
-        >
-          <Txt Bold={"700"} color={COLORS.black} fontSize={17}>
-            12,000 euro
-          </Txt>{" "}
-          has been transfered successfully to
-          <Txt Bold={"700"} color={COLORS.black} fontSize={17}>
-            {" "}
-            Faith Felicity (+44 7538 110953).
-          </Txt>
-          You can check in your account
-          <Txt Bold={"400"} color={COLORS.orangeYellow} fontSize={17}>
-            {" "}
-            transaction histopy.
-          </Txt>
-          .
-        </Txt>
-
-        <PaleGreyButton onPress={onDissmisError}>close</PaleGreyButton>
-      </View>
-    </>
-  );
-};
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.paleGrey,
-    alignItems: "center",
-    flex: 1,
-  },
-  ImageBackground: {
-    ...StyleSheet.absoluteFillObject,
-    width: SIZES.width,
-    height: 170,
-  },
-  topinuptxt: {
-    padding: 20,
-  },
-  containerButton: {
-    width: "100%",
-    paddingHorizontal: 20,
-    backgroundColor: COLORS.white,
-    height: 110,
-    paddingTop: 15,
-    position: "absolute",
-    bottom: 0,
-  },
-  BoxInfoTextYellow: {
-    justifyContent: "center",
-  },
-  textInfo: {
-    marginLeft: 8,
-  },
-  Input: {
-    color: COLORS.darkBlueGrey,
-    fontSize: 20,
-    // //fontFamily: "Roboto-Bold",
-    flex: 1,
-    paddingLeft: 2,
-  },
-});
-
-// const [success, setsuccess] = useState(false);
-
-// const onDissmis = useCallback(() => {
-//   setsuccess(false);
-// }, []);
-// const onSuccess = useCallback(() => {
-//   setsuccess(true);
-// }, []);
-
-// const handlePresentModalPress = useCallback(() => {
-//   bottomSheetModalRef.current?.present();
-// }, []);

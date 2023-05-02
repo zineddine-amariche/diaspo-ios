@@ -23,7 +23,6 @@ const SecondaryHeader = ({
   onSearch,
   visible,
   TextIn,
-  
 }) => {
   let colorText =
     sousTontine === 'ACTIVATED'
@@ -42,7 +41,6 @@ const SecondaryHeader = ({
       : sousTontine === 'CANCELLED'
       ? COLORS.veryLightPink
       : COLORS.finished;
-
   return (
     <View style={[styles.header]}>
       <View style={styles.row}>
@@ -72,6 +70,7 @@ const SecondaryHeader = ({
                 paddingHorizontal: 10,
                 borderRadius: 8,
                 paddingVertical: 3,
+                marginTop: 3,
               }}>
               <Txt fontSize={14} color={colorText}>
                 Tontine {TextIn}
@@ -97,8 +96,8 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     width: '100%',
-    paddingTop: Platform.OS == 'ios' ? 30 : 50,
-    paddingBottom: 30,
+    paddingTop: Platform.OS == 'ios' ? 5 : 50,
+    // paddingBottom: Platform.OS == 'ios' ? 20 : 30,
     zIndex: 999,
   },
   button: {

@@ -3,16 +3,18 @@ import React from 'react';
 import {PrimaryButton} from '../../../../../../components/Buttons';
 import {COLORS} from '../../../../../../theme';
 
-const ActivityButton = ({asAPayer, numberOfPayers,numberOfBenef, onCreate, loading}) => {
- console.log('numberOfPayers', numberOfPayers)
+const ActivityButton = ({asAPayer, onCreate, loading,
+  listOfParticipants
+
+}) => {
   if (asAPayer) {
-    if (numberOfPayers > 1||numberOfBenef >1) {
+    if (listOfParticipants >1) {
       null;
     } else {
       return <CreateParticipantsButton onCreate={onCreate} loading={loading} />;
     }
   } else {
-    if (numberOfPayers > 1||numberOfBenef >1) {
+    if (listOfParticipants >1) {
       null;
     } else {
       return <CreateParticipantsButton onCreate={onCreate} loading={loading} />;

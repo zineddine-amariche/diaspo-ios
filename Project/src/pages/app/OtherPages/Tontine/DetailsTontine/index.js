@@ -1,15 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  Image,
-  Platform,
-} from 'react-native';
-import ImgBack from '../../../../../Assets/headerImg/background.png';
-import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHeader';
+import {View, StyleSheet, ScrollView, Platform} from 'react-native';
 import {COLORS, SIZES} from '../../../../../theme';
 import DetailsTontine from './components/DetailsTontine/DetailsTontine';
 import Toast from 'react-native-simple-toast';
@@ -37,6 +27,7 @@ import Activity from './components/Activity';
 import ActivityButton from './components/ActivityButton';
 import UseModalize from '../../../../../components/Models/BottomSheet/UseModalize';
 import ContentRenders from './BottomSheetSelect/ContentRenders';
+import ReturnHeader from '../../../../../components/Headers/root/ReturnHeader';
 
 const InfoScreenTontine = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -45,7 +36,7 @@ const InfoScreenTontine = ({navigation, route}) => {
   const isFocused = useIsFocused();
 
   const {consult, object, isFirstTime} = route.params;
-
+  // console.log('nameTontine', nameTontine)
   const [success2, setsuccess2] = useState(false);
   const [success3, setsuccess3] = useState(false);
   const [loading, setloading] = useState(false);
@@ -136,6 +127,7 @@ const InfoScreenTontine = ({navigation, route}) => {
             type: 'PAYER_AND_BENEFICIARY',
             routeData: tontineProjectInfo,
             title: 'Select participants',
+            nameTontine: tontineProjectInfo?.project?.name,
           });
           setloading(false);
         }, 1000);
@@ -161,25 +153,17 @@ const InfoScreenTontine = ({navigation, route}) => {
   return isLoading ? (
     <Spiner />
   ) : (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
-      <Image
-        style={styles.ImageBackground}
-        source={ImgBack}
-        resizeMode="stretch"
-      />
-      <SecondaryHeader
-        goBack={() => {
-          navigation.navigate('Tontine');
-          dispatch(resetSuccesParticipants());
-        }}
-        title={tontineProjectInfo?.project?.name}
-        sousTontine={tontineProjectInfo?.project?.status}
-        Cancel="Return"
-        TextIn={TextIn}
-      />
-
+    <ReturnHeader
+      goBack={() => {
+        navigation.navigate('Tontine');
+        dispatch(resetSuccesParticipants());
+      }}
+      title={tontineProjectInfo?.project?.name}
+      sousTontine={tontineProjectInfo?.project?.status}
+      Cancel="Return"
+      TextIn={TextIn}>
       <>
+      <Space space={20}/>
         <ScrollView
           contentContainerStyle={{width: SIZES.width}}
           showsVerticalScrollIndicator={false}>
@@ -196,8 +180,9 @@ const InfoScreenTontine = ({navigation, route}) => {
 
             <Activity
               asAPayer={tontineProjectInfo?.project?.asAPayer}
-              numberOfPayers={tontineProjectInfo?.numberOfPayers}
-              numberOfBenef={tontineProjectInfo?.numberOfBeneficiaries}
+              listOfParticipants={
+                tontineProjectInfo?.project?.listOfParticipants.length
+              }
               projectId={tontineProjectInfo?.project?.projectId}
               consult={consult}
               onSuccess={onOpenInfomationDetails}
@@ -209,13 +194,13 @@ const InfoScreenTontine = ({navigation, route}) => {
               tontineProjectInfo={tontineProjectInfo}
             />
           </>
-          <Space space={40}/>
+          <Space space={40} />
         </ScrollView>
         <ActivityButton
           asAPayer={tontineProjectInfo?.project.asAPayer}
-          numberOfPayers={tontineProjectInfo?.numberOfPayers}
-          numberOfBenef={tontineProjectInfo?.numberOfBeneficiaries}
-
+          listOfParticipants={
+            tontineProjectInfo?.project?.listOfParticipants.length
+          }
           tontineProjectInfo={tontineProjectInfo}
           handlePresentModalPress={handlePresentModalPress}
           projectId={tontineProjectInfo?.project?.projectId}
@@ -265,6 +250,7 @@ const InfoScreenTontine = ({navigation, route}) => {
             closeSelect={closeSelect}
             projectId={tontineProjectInfo?.project?.projectId}
             tontineProjectInfo={tontineProjectInfo}
+            nameTontine={tontineProjectInfo?.project?.name}
           />
         }
       />
@@ -291,7 +277,9 @@ const InfoScreenTontine = ({navigation, route}) => {
         Com={<RenderView navigation={navigation} closeAll={closeModal} />}
         bottomRef={bottomSheetModalRef}
       />
-    </SafeAreaView>
+    </ReturnHeader>
+
+    // </SafeAreaView>
   );
 };
 export default InfoScreenTontine;

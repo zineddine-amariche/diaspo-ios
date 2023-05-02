@@ -2,51 +2,36 @@ import React, {useCallback, useRef, useState} from 'react';
 import {
   View,
   StyleSheet,
-  SafeAreaView,
-  StatusBar,
   ScrollView,
   Image,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
-import Line from '../../../../../components/views/line';
-
-import ImgBack from '../../../../../Assets/Img/HomeBack.png';
 
 import {
   PaleGreyButton,
   PrimaryButtonLinear,
 } from '../../../../../components/Buttons';
-import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHeader';
 import Space from '../../../../../components/Space';
 import {Head, Txt} from '../../../../../components/utils';
 import CreatedSuccess from '../../../../../components/views/Layouts/AuthLayout/Model';
 import {COLORS, SIZES} from '../../../../../theme';
 import Bottom4 from './BottomSheetPassword';
-
-import ViewT1 from '../../../../../components/views/CardViewType1';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {Formik} from 'formik';
 import {useAmount} from './Hooks';
 import PrimaryInput from '../../../../../components/Input';
-import Slider from '@react-native-community/slider';
-
-// var Slider = require('react-native-slider');
-
-// import Slider from 'react-native-slider';
-
 import illusphone from '../../../../../Assets/Img/illusphone.png';
 import imgInfo from '../../../../../Assets/Img/icon24Info2.png';
 import DropDown from '../../../../../components/select/DropDown';
-import SquareCheckBox from '../../../../../components/checkBox/useSquareCheck';
 import HView from '../../../../../components/views/HView/HView';
 import {useDispatch, useSelector} from 'react-redux';
 import CustomDatePiker from '../../../../../components/DatePiker';
 import {resetSelectTontine} from '../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
 import ReturnHeader from '../../../../../components/Headers/root/ReturnHeader';
 
-const CreateTontine = ({navigation, route}) => {
+const CreateTontine = ({navigation}) => {
   const dispatch = useDispatch();
-  const {type, ind} = route.params;
   const bottomSheetModalRef = useRef(null);
   const {isLoading} = useSelector(state => ({
     ...state.tontines,
@@ -67,6 +52,7 @@ const CreateTontine = ({navigation, route}) => {
   }, []);
 
   const [SelectMethod, setSelectMethod] = useState(null);
+
   const {state, schema} = useAmount();
 
   const onSelect = item => {
@@ -102,18 +88,11 @@ const CreateTontine = ({navigation, route}) => {
   };
   // validation date piker
   const [IsTouched, setIsTouched] = useState(false);
-  // const [IsTouched2, setIsTouched2] = useState(false);
   const [AdvancedSettingsState, setAdvancedSettings] = useState(false);
 
-  const [checked, setChecked] = useState(false);
-  const onCheck = () => {
-    setChecked(!checked);
-  };
-
-  const {selectedTontine} = useSelector(state => ({
+  const {tontines} = useSelector(state => ({
     ...state.tontines,
   }));
-
   return (
     <ReturnHeader
       title={'Create A New Tontine'}
@@ -126,8 +105,6 @@ const CreateTontine = ({navigation, route}) => {
         initialValues={state}
         validationSchema={schema}
         onSubmit={(values, formikAction) => {
-          // formikAction.setValues("");
-          // formikAction.setErrors(null)
           formikAction.resetForm();
           formikAction.setErrors('');
           navigation.navigate('PoliciesInstructions', {data: values});
@@ -139,23 +116,29 @@ const CreateTontine = ({navigation, route}) => {
           handleBlur,
           touched,
           handleSubmit,
-          isSubmitting,
           setFieldValue,
-          isValid,
         }) => {
-          const {name, amount, startAt, retentionRate} = values;
-          // console.log('values', values)
+          const {name, amount, retentionRate} = values;
 
-          // console.log('errors', errors)
           return (
             <>
               <ScrollView
                 contentContainerStyle={{width: SIZES.width}}
                 showsVerticalScrollIndicator={false}>
-                <View style={{padding: 20}}>
-                  <Space space={20} />
-                  <ViewT1>
-                    <Space space={10} />
+                <View style={{paddingHorizontal: 20}}>
+                  <View
+                    style={{
+                      backgroundColor: COLORS.white,
+                      paddingVertical: 20,
+                      paddingHorizontal: 15,
+                      borderRadius: 8,
+                      elevation: 2,
+                      shadowColor: '#171717',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.2,
+                      shadowRadius: 2,
+                      elevation: 2,
+                    }}>
                     <Txt color={COLORS.slateGrey} fontSize={14}>
                       You are creating a new tontine:
                     </Txt>
@@ -225,25 +208,6 @@ const CreateTontine = ({navigation, route}) => {
                       />
                       <Space space={20} />
 
-                      {/* {startAt && (
-                        <CustomDatePiker
-                          label={"End date"}
-                          setFieldValue={setFieldValue}
-                          name={"endAt"}
-                          errors={errors.endAt}
-                          touched={touched.endAt}
-                          placeholder={"Select your end date"}
-                          onBlur={handleBlur("endAt")}
-                          value={selected}
-                          onSelect={onSelect}
-                          placeholderTextColor={COLORS.darkBlueGrey}
-                          fontSize={20}
-                          isInteger={true}
-                          IsTouched={IsTouched2}
-                          setIsTouched={setIsTouched2}
-                        />
-                      )} */}
-
                       <AdvancedSettings
                         retentionRate={retentionRate}
                         errors={errors}
@@ -254,17 +218,6 @@ const CreateTontine = ({navigation, route}) => {
                         AdvancedSettings={AdvancedSettingsState}
                         setAdvancedSettings={setAdvancedSettings}
                       />
-                      <Space space={20} />
-
-                      {/* {    selectedTontine == 'TONTINE_CUSTOM_TONTINE' &&selectedTontine ? <SquareCheckBox
-                        title={'Include you as a payer'}
-                        checked={checked}
-                        onPress={() => {
-                          onCheck();
-                          setFieldValue('asAPayer', checked);
-                        }}
-                        disabled={selectedTontine == 'TONTINE_CUSTOM_TONTINE'  ? true :false }
-                      /> : null } */}
                       <Space space={40} />
                       <HView style={styles.BoxInfoTextYellow}>
                         <Image source={imgInfo} />
@@ -277,7 +230,7 @@ const CreateTontine = ({navigation, route}) => {
                       </HView>
                       <Space space={20} />
                     </KeyboardAwareScrollView>
-                  </ViewT1>
+                  </View>
                 </View>
               </ScrollView>
 
@@ -285,16 +238,17 @@ const CreateTontine = ({navigation, route}) => {
                 <PrimaryButtonLinear
                   width={'100%'}
                   onPress={() => {
-                    handleSubmit();
-                    setIsTouched(true);
-                    setAdvancedSettings(false);
+                   
+                      handleSubmit();
+                      setIsTouched(true);
+                      setAdvancedSettings(false);
+                    
+                 
                   }}
                   disabled={true}
                   loading={isLoading}>
                   next
                 </PrimaryButtonLinear>
-                {/* <Space space={25} /> */}
-                {/* <Line color={COLORS.black} /> */}
               </View>
             </>
           );
@@ -348,7 +302,7 @@ const BodyModel = ({onDissmis}) => {
           You can check in your account
           <Txt Bold={'400'} color={COLORS.orangeYellow} fontSize={17}>
             {' '}
-            transaction histopy.
+            transaction history.
           </Txt>
           .
         </Txt>
@@ -387,7 +341,7 @@ const BodyModelErr = ({onDissmis}) => {
           You can check in your account
           <Txt Bold={'400'} color={COLORS.orangeYellow} fontSize={17}>
             {' '}
-            transaction histopy.
+            transaction history.
           </Txt>
           .
         </Txt>
@@ -398,28 +352,14 @@ const BodyModelErr = ({onDissmis}) => {
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.paleGrey,
-    alignItems: 'center',
-    flex: 1,
-  },
-  ImageBackground: {
-    ...StyleSheet.absoluteFillObject,
-    width: SIZES.width,
-    height: 110,
-  },
-  topinuptxt: {
-    padding: 20,
-  },
   containerButton: {
     width: '100%',
-    paddingHorizontal: 20,
-    backgroundColor: COLORS.white,
-    // height: 110,
-    // paddingTop: 15,
+    backgroundColor: COLORS.finished,
     position: 'absolute',
     bottom: 0,
-    paddingVertical:10
+    paddingBottom: Platform.OS == 'ios' ? 30 : 20,
+    paddingHorizontal: Platform.OS == 'ios' ? 30 : 20,
+    paddingTop: 15,
   },
   BoxInfoTextYellow: {
     justifyContent: 'center',
@@ -430,7 +370,6 @@ const styles = StyleSheet.create({
   Input: {
     color: COLORS.darkBlueGrey,
     fontSize: 20,
-    //fontFamily: 'Roboto-Bold',
     flex: 1,
     paddingLeft: 2,
   },
@@ -442,7 +381,6 @@ const AdvancedSettings = ({
   touched,
   handleBlur,
   handleChange,
-  setFieldValue,
   AdvancedSettings,
   setAdvancedSettings,
 }) => {
@@ -457,7 +395,6 @@ const AdvancedSettings = ({
     setVisible(true);
   }, []);
 
-  // console.log('v', value);
   return AdvancedSettings ? (
     <>
       <Space space={1} />
@@ -499,10 +436,6 @@ const AdvancedSettings = ({
           </Txt>
         </HView>
       </TouchableOpacity>
-
-      {/* <CreatedSuccess Visible={visible} onDissmis={onDissmis} top={90}>
-        {BodyModel ? <BodyModelInfo onDissmis={onDissmis} /> : null}
-      </CreatedSuccess> */}
     </>
   );
 };

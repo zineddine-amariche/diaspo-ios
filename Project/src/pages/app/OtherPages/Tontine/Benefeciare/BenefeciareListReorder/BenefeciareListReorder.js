@@ -4,9 +4,6 @@ import {View, SafeAreaView, StatusBar, Image, Platform} from 'react-native';
 import ImgBack from '../../../../../../Assets/Img/HomeBack.png';
 import SecondaryHeader from '../../../../../../components/Headers/root/SecondaryHeader';
 import Space from '../../../../../../components/Space';
-import {COLORS} from '../../../../../../theme';
-import Line from '../../../../../../components/views/line';
-
 import {PrimaryButtonLinear} from '../../../../../../components/Buttons';
 
 import {

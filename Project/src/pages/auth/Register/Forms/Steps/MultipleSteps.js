@@ -271,7 +271,6 @@ export const MultiStep = ({
         }) => {
           return (
             <>
-              <View style={styles.Form}>
                 {renderStep(
                   step,
                   values,
@@ -411,7 +410,6 @@ export const MultiStep = ({
                     </PrimaryButtonLinear>
                   )}
                 </View>
-              </View>
             </>
           );
         }}

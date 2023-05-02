@@ -8,18 +8,19 @@ export const createTontine = createAsyncThunk(
   'tontine/create',
   async (object, thunkAPI) => {
     try {
-      let {token, userId,onSuccess, data} = object;
+      let {token, userId, onSuccess, data} = object;
 
       let res = await CreateTontineService.api(userId, data, token);
-      // console.log('00ta', data.data);
       if (res.status === 'success') {
-        // console.log('data', res.data);
-        // console.log('res.data.project.projectId', res.data.project.projectId)
-         onSuccess(res.data.project.projectId,token)
+        let obj ={
+          projectId:res.data.project.projectId,
+          token,
+          nameTontine:res.data.project.name
+        }
+        onSuccess(obj);
         return res;
       } else {
-        console.log('data.status ', res )
-        console.log('error', 'Somthing went wrong.');
+        onError('error', 'Somthing went wrong.')
       }
     } catch (error) {
       const {onErrorAction} = object;

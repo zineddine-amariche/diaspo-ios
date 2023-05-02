@@ -34,6 +34,9 @@ import {Formik} from 'formik';
 import {useTransfers} from '../Hooks';
 import {useSelector} from 'react-redux';
 import BottomSheetSelect from './BottomSheetSelect';
+import ReturnHeader from '../../../../../components/Headers/root/ReturnHeader';
+import {Modalize} from 'react-native-modalize';
+import RenderAppUsers from '../Components/RenderContents/RenderAppUsers';
 
 const BottomSheetTransfertSelectCountry = ({goBack}) => {
   const bottomSheetModalRef = useRef(null);
@@ -120,19 +123,17 @@ const BottomSheetTransfertSelectCountry = ({goBack}) => {
 
     bottomSheetModalRef.current?.close();
   };
+  const modalRef = useRef(null);
+
+  const onOpen = () => {
+    modalRef.current?.open();
+  };
+  const handleCloseModal = () => {
+    modalRef.current?.close();
+  };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
-      <ImageBackground
-        style={styles.ImageBackground}
-        source={ImgBack}
-        resizeMode="stretch"
-      />
-      {isOpen ? null : (
-        <SecondaryHeader goBack={goBack} Cancel="Return" title={'Transfer'} />
-      )}
-      <Space space={30} />
+    <ReturnHeader goBack={goBack} Cancel="Return" title={'Transfer'}>
       <Formik
         initialValues={state}
         validationSchema={schema}
@@ -162,53 +163,46 @@ const BottomSheetTransfertSelectCountry = ({goBack}) => {
               <ScrollView
                 contentContainerStyle={{width: SIZES.width}}
                 showsVerticalScrollIndicator={false}>
-                <MainAccount
+                {/* <MainAccount
                   onSelect={onSelect}
                   selected={selected}
                   Visible={isOpenAccount}
                   onPress={handlePresentModalPress}
                   Change={Change}
                   price={price}
-                />
-                <Space space={20} />
+                /> */}
+                {/* <Space space={20} /> */}
                 {
-                  <Rectangle
+                  <View
                     padding={20}
-                    width="90%"
                     style={{
-                      paddingTop: 20,
                       backgroundColor: COLORS.white,
                       padding: 20,
+                      alignItems: 'center',
+                      marginHorizontal: 20,
+                      marginTop: 40,
+                      borderRadius: 8,
+                      shadowColor: '#171717',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.2,
+                      shadowRadius: 2,
+                      elevation: 2,
+                      flex: 1,
                     }}>
-                    {selected === 0 ? (
-                      <Form0
-                        handlePresentModalPress3={handlePresentModalPress3}
-                        values={values}
-                        errors={errors}
-                        touched={touched}
-                        handleChange={handleChange}
-                        handleBlur={handleBlur}
-                        handlePresentModalSelect={handlePresentModalSelect}
-                        setFieldValue={setFieldValue}
-                        closeSelect={closeSelect}
-                      />
-                    ) : (
-                      <Form1
-                        handlePresentModalPress3={handlePresentModalPress2}
-                        values={values}
-                        errors={errors}
-                        touched={touched}
-                        handleChange={handleChange}
-                        handleBlur={handleBlur}
-                        handlePresentModalSelect={handlePresentModalSelect}
-                        setFieldValue={setFieldValue}
-                        closeSelect={closeSelect}
-                      />
-                    )}
-                  </Rectangle>
+                    <Form0
+                      handlePresentModalPress3={onOpen}
+                      values={values}
+                      errors={errors}
+                      touched={touched}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      handlePresentModalSelect={handlePresentModalSelect}
+                      setFieldValue={setFieldValue}
+                      closeSelect={closeSelect}
+                    />
+                  </View>
                 }
                 <Space space={85} />
-
               </ScrollView>
               <Bottom1
                 bottomSheetModalRef={bottomSheetModalRef}
@@ -221,11 +215,11 @@ const BottomSheetTransfertSelectCountry = ({goBack}) => {
                 closeDrawer={closeDrawer}
                 ContactsPhone={contacts.contacts}
               />
-              <Bottom3
+              {/* <Bottom3
                 bottomSheetModalRef={bottomSheetModalRef3}
                 closeDrawer={closeDrawer}
                 ContactsPhone={contacts.contacts}
-              />
+              /> */}
               <Bottom4
                 bottomSheetModalRef={bottomSheetModalRef4}
                 closeDrawer={closeDrawer}
@@ -241,34 +235,44 @@ const BottomSheetTransfertSelectCountry = ({goBack}) => {
                 }}
               />
 
-              {isOpen ? null : (
-                <View style={styles.buttonsConatiner}>
-                  <PrimaryButtonLinear
-                    disabled={true}
-                    onPress={() => {
-                      handleSubmit();
-                    }}
-
-                    // onPress={handlePresentModalPress4}
-                  >
-                    CONFIRM
-                  </PrimaryButtonLinear>
-                  {Platform.OS == 'ios' ? (
-                    <Space space={15} />
-                  ) : (
-                    <Space space={25} />
-                  )}
-                </View>
-              )}
+              <PrimaryButtonLinear
+                disabled={true}
+                onPress={() => {
+                  handleSubmit();
+                }}
+                width="90%">
+                CONFIRM
+              </PrimaryButtonLinear>
 
               <CreatedSuccess Visible={success} onDissmis={onDissmis} top={90}>
                 {BodyModel ? <BodyModel onDissmis={onDissmis} /> : null}
               </CreatedSuccess>
+
+              <Modalize
+                snapPoint={600}
+                ref={modalRef}
+                overlayStyle={{
+                  backgroundColor: COLORS.blueGreenOpacity9,
+                }}
+                adjustToContentHeight={false}>
+                <View
+                  style={{
+                    marginTop:20
+                  }}>
+                  <RenderAppUsers
+                    type={'transfert'}
+                    bottomSheetModalRef={bottomSheetModalRef3}
+                    closeDrawer={handleCloseModal}
+                    ContactsPhone={contacts.contacts}
+                    setFieldValue={setFieldValue}
+                  />
+                </View>
+              </Modalize>
             </>
           );
         }}
       </Formik>
-    </SafeAreaView>
+    </ReturnHeader>
   );
 };
 
@@ -301,7 +305,7 @@ const BodyModel = ({onDissmis}) => {
           You can check in your account
           <Txt Bold={'400'} color={COLORS.orangeYellow} fontSize={17}>
             {' '}
-            transaction histopy.
+            transaction history.
           </Txt>
           .
         </Txt>
@@ -336,44 +340,3 @@ const styles = StyleSheet.create({
 });
 
 export default BottomSheetTransfertSelectCountry;
-
-// const [ContactsPhone, setContactsPhone] = useState([]);
-
-// const Req = async () => {
-//   // console.log('req activated')
-//   let req = await Contacts.requestPermission();
-//   // console.log("Req", req);
-//   return req;
-// };
-// const getContacts = async () => {
-//   let conts = await Contacts.checkPermission();
-
-//   if (conts === "undefined") {
-//     Contacts.requestPermission().then((permission) => {
-//       console.log("undefineds");
-//     });
-//   }
-//   if (conts === "authorized") {
-//     // console.log("authorized");
-//     Contacts.getAll().then((contacts) => {
-//       // console.log(contacts);
-//       setContactsPhone(contacts);
-//     });
-//   }
-//   if (conts === "denied") {
-//     console.log("denied");
-//   }
-// };
-
-// useEffect(() => {
-//   // !!first get permession then get contacts
-//   if (ContactsPhone.length === 0) {
-//     Req();
-
-//     if (Req) {
-//       getContacts();
-//     } else {
-//       console.log("no permession");
-//     }
-//   }
-// }, []);

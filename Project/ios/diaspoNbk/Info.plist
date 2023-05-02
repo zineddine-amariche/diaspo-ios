@@ -49,8 +49,8 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Your camera will be used to take photos.</string>
 	<key>NSContactsUsageDescription</key>
-	<string></string>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Diapso needs access to your contacts to allow you to quickly and easily share contact information with other users of the app We will not share your contact information with any third-party services.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>

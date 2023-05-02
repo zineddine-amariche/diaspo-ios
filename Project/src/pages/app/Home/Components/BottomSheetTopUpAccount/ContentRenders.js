@@ -7,9 +7,13 @@ import Space from '../../../../../components/Space';
 import {WhiteButton} from '../../../../../components/Buttons';
 import {useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
+import Intl from 'intl';
+import 'intl';
+import 'intl/locale-data/jsonp/en';
 
-const ContentRenders = ({navigation, closeAll}) => {
+const ContentRenders = ({nav, type, closeAll}) => {
   const {walletAccount} = useSelector(state => state.walletAccounts);
+
   return (
     <>
       <View
@@ -17,16 +21,27 @@ const ContentRenders = ({navigation, closeAll}) => {
           backgroundColor: COLORS.white,
           padding: 16,
         }}>
-        <Head style={styles.Head}>Select a account to top up</Head>
+        <Head style={styles.Head}>Select a account to {type}</Head>
         <ScrollView>
           {walletAccount?.walletAccounts?.map((i, ind) => {
+            const formattedNumber = new Intl.NumberFormat('en-US', {
+              style: 'decimal',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }).format(i?.balance / 100);
             return (
               <TouchableOpacity
                 key={ind}
                 onPress={() => {
                   // closeAll();
                   // setTimeout(() => {
-                    navigation.navigate('TopUp', {data: i});
+                  if (type == 'cashout') {
+                    nav('TopUp', {data: i});
+                  } else if (type == 'cashin') {
+                    nav('CashOut', {data: i});
+                  } else {
+                    nav('Transfer', {data: i});
+                  }
                   // }, 1000);
                 }}
                 disabled={i.accountType == 'tontine' ? true : false}>
@@ -83,7 +98,7 @@ const ContentRenders = ({navigation, closeAll}) => {
                         fontSize: 16,
                         alignSelf: 'flex-end',
                       }}>
-                      {i.balance}
+                      {formattedNumber == 0.0 ? '£ 0' : ` £ ${formattedNumber}`}
                     </Txt>
                   </View>
                 </View>

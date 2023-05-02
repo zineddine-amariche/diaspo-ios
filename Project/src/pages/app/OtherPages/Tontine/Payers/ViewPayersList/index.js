@@ -82,14 +82,13 @@ const ViewPayersList = ({navigation, route}) => {
 
   const [visible, setVisible] = useState(false);
 
-  const { user } = useSelector((state) => ({
+  const {user} = useSelector(state => ({
     ...state.auth,
   }));
   let object = {
     projectId: projectId,
     token: user?.AccessToken,
   };
-
 
   const nav = () => {
     if (!routeData) {
@@ -102,10 +101,9 @@ const ViewPayersList = ({navigation, route}) => {
           routeData,
           projectId,
           isFirstTime: false,
-          object
+          object,
         });
         setVisible(false);
-
       }, 2000);
 
       goBackFun();
@@ -123,7 +121,7 @@ const ViewPayersList = ({navigation, route}) => {
     alert(message.statusDescription);
   }
 
-//  console.log('data.data', data.data)
+  //  console.log('data.data', data.data)
 
   return (
     <>
@@ -173,10 +171,11 @@ const ViewPayersList = ({navigation, route}) => {
                             width: '70%',
                             overflow: 'hidden',
                           }}>
-                          <Image
+                          {/* <Image
                             source={Imge}
                             style={{height: 30, width: 30, marginRight: 10}}
-                          />
+                          /> */}
+                          <View style={{height: 10, width: 10}}></View>
                           <View style={{width: '100%'}}>
                             <Txt
                               color={COLORS.darkBlueGrey}
@@ -231,9 +230,7 @@ const ViewPayersList = ({navigation, route}) => {
           sendReminder={sendReminder}
         /> */}
           <CreatedSuccess Visible={success} onDissmis={onDissmis} padding={1}>
-            {BodyModel1 ? (
-              <BodyModel1 onDissmis={onDissmis}  />
-            ) : null}
+            {BodyModel1 ? <BodyModel1 onDissmis={onDissmis} /> : null}
           </CreatedSuccess>
 
           {/* <CreatedSuccess
@@ -275,7 +272,7 @@ const BodyModel1 = ({onDissmis, navToTontine}) => {
         <Space />
 
         <Head
-        //  fontFamily={'Poppins-Bold'}
+          //  fontFamily={'Poppins-Bold'}
           style={{paddingHorizontal: 20, textAlign: 'center'}}>
           Send reminder ?
         </Head>
@@ -318,7 +315,7 @@ const BodyModel2 = ({onDissmis, navToTontine}) => {
         <Space />
 
         <Head
-        //  fontFamily={'Poppins-Bold'}
+          //  fontFamily={'Poppins-Bold'}
           style={{paddingHorizontal: 20, textAlign: 'center'}}>
           Cancel this Tontine ?
         </Head>
@@ -358,7 +355,7 @@ const BodyModel3 = ({onDissmis, navToTontine}) => {
       <Space />
 
       <Head
-      //  fontFamily={'Poppins-Bold'}
+        //  fontFamily={'Poppins-Bold'}
         style={{paddingHorizontal: 20, textAlign: 'center'}}>
         Start with particial list
       </Head>

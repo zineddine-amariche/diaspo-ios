@@ -31,8 +31,11 @@ import Space from '../../../../../../components/Space';
 import Line from '../../../../../../components/views/line';
 import {resetSuccesParticipants} from '../../../../../../redux/Features/Tontine/Participants/create/slice';
 import SimpleSpiner from '../../../../../../components/spiner/SimpleSpiner';
-import { deleteSelectedList, resetBeneficaire } from '../../../../../../redux/Features/Tontine/ManageBenefeciare/ManageStatesBeneficiare';
-import { getTontinesProjectInfo } from '../../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
+import {
+  deleteSelectedList,
+  resetBeneficaire,
+} from '../../../../../../redux/Features/Tontine/ManageBenefeciare/ManageStatesBeneficiare';
+import {getTontinesProjectInfo} from '../../../../../../redux/Features/Tontine/ManageTontine/Slices/tontineSlice';
 const ViewBenefeciareList = ({navigation, navigation: {goBack}, route}) => {
   const {projectId, routeData, title, isFirstTime} = route.params;
   const isFocused = useIsFocused();
@@ -44,54 +47,42 @@ const ViewBenefeciareList = ({navigation, navigation: {goBack}, route}) => {
     ...state.benef,
   }));
 
-
-  const { user } = useSelector((state) => ({
+  const {user} = useSelector(state => ({
     ...state.auth,
   }));
 
-
-   let object = {
-     projectId: projectId,
-     token: user?.AccessToken,
-   };
+  let object = {
+    projectId: projectId,
+    token: user?.AccessToken,
+  };
   const nav = () => {
     if (!routeData) {
       navigation.navigate('Tontine');
     } else {
       setVisible(true);
-      if(object){
-
+      if (object) {
         setTimeout(() => {
           navigation.navigate('InfoScreenTontine', {
             routeData,
             projectId,
             isFirstTime: false,
-            object
+            object,
           });
           setVisible(false);
         }, 2000);
-      }else{
+      } else {
         setVisible(false);
-
       }
       goBackFun();
-
     }
   };
 
- 
-
-  
-
- 
   const goBackFun = () => {
     setTimeout(
       () => dispatch(resetBeneficaire(), dispatch(deleteSelectedList())),
       2000,
     );
   };
-
-
 
   const [success, setsuccess] = useState(false);
 
@@ -106,10 +97,10 @@ const ViewBenefeciareList = ({navigation, navigation: {goBack}, route}) => {
     onSuccess();
   };
 
-// console.log('isFocused', isFocused)
+  // console.log('isFocused', isFocused)
   useEffect(() => {
     dispatch(getBeneficiaries(projectId));
-  }, [projectId, isFocused, dispatch,visible]);
+  }, [projectId, isFocused, dispatch, visible]);
   return (
     <>
       {visible ? (
@@ -162,10 +153,16 @@ const ViewBenefeciareList = ({navigation, navigation: {goBack}, route}) => {
                               flexDirection: 'row',
                               alignItems: 'center',
                             }}>
-                            <Image
+                            {/* <Image
                               source={Imge}
                               style={{height: 30, width: 30, marginRight: 10}}
-                            />
+                            /> */}
+    <View
+                          style={{height: 10, width: 10,  }}
+                          >
+
+                          </View>
+
                             <View style={{alignItems: 'center'}}>
                               <Txt
                                 color={COLORS.darkBlueGrey}
@@ -378,7 +375,7 @@ const ReorderButton = ({resetSuccesParticipants, navigation, projectId}) => {
       </PrimaryButtonLinear>
       {/* <Space space={20} /> */}
       {/* <Line color={COLORS.black} /> */}
-      {/* {Platform.OS == 'ios' ? <Space/>:null  } */}
+      {Platform.OS == 'ios' ? <Space/>:null  }
     </View>
   );
 };

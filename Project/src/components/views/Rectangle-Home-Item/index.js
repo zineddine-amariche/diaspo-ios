@@ -4,7 +4,7 @@ import HView from "../HView/HView";
 import { COLORS } from "../../../theme";
 import { Txt } from "../../utils";
 
-const RectangleItem = ({ T1, T2, T3, Price, date }) => {
+const RectangleItem = ({ T1, T2, T3, Price, date,keys }) => {
   return (
     <HView
       spaceBetween
@@ -17,7 +17,7 @@ const RectangleItem = ({ T1, T2, T3, Price, date }) => {
       }}
     >
       <View style={{ width: "70%" }}>
-        <HView>
+        <HView style={{marginVertical:3}}>
           <Txt numberOfLines={1} color={COLORS.slateGrey}>
             {T1} <Txt color={COLORS.dark}>{T2}</Txt>
           </Txt>
@@ -30,7 +30,8 @@ const RectangleItem = ({ T1, T2, T3, Price, date }) => {
       <View>
         <Txt
           fontSize={17}
-          color={T3 === "" ? COLORS.peachyPink : COLORS.greenishTeal}
+          // color={T1 == "request to pay" ? COLORS.peachyPink : COLORS.greenishTeal}
+          color={COLORS.greenishTeal}
           Bold="700"
         >
           {Price}

@@ -156,7 +156,7 @@ export const PrimaryButtonLinear = ({
         )}
       </LinearGradient>
     </TouchableOpacity>
-    {Platform.OS == 'ios' ? <Space space={20} /> : null}
+    {/* {Platform.OS == 'ios' ? <Space space={20} /> : null} */}
 
     </>
   );

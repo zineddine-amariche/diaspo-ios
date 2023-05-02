@@ -17,8 +17,6 @@ import getListPayersSlice from "./Features/Tontine/ManagePayers/getListOfPayers/
 import nonUserContactsSlice from "./Features/Tontine/ManageBenefeciare/NonAppUsers/slice";
 import userConnectedSlice from "./Features/Tontine/ManageBenefeciare/ConectedUsers/slice";
 import BeneficaireSlice from "./Features/Tontine/ManageBenefeciare/ManageStatesBeneficiare";
-import confirmBeneficiariesSlice from "./Features/Tontine/ManageBenefeciare/confirmBeneficiaries/slice";
-import getListBeneficiariesSlice from "./Features/Tontine/ManageBenefeciare/getListOfBeneficiaries/slice";
 import payerseSlice from "./Features/Tontine/ManagePayers";
 import forgotSlice from "./Features/authentification/ForgotPass/Slice";
 import attachDocsSlice from "./Features/authentification/Register/AttachDocument/Slice";
@@ -39,7 +37,8 @@ import reviewInfomations from './Features/authentification/ReviewInformations/sl
 import transactionSlice from './Features/Payements/MTN/slice'
 import creditcCardSlice from './Features/Payements/creditCard/slice'
 import AppSlice from './Features/App/Appslice'
-
+import  getAllTransactions from './Features/Transactions/Slice'
+import cashoutSlice from './Features/Payements/cashoutMTN/slice'
 import emailExistsSlice from "./Features/authentification/Register/emailExistsSlice"
 const reducers = combineReducers({
   token: TokenSlice,
@@ -56,8 +55,6 @@ const reducers = combineReducers({
   confirmpass: confirmPasswordSlice,
   selecetdPayers: confirmPayersSlice,
   payersList: getListPayersSlice,
-  selecetdBeneficiaries: confirmBeneficiariesSlice,
-  BeneficiariesList: getListBeneficiariesSlice,
   Languages: Languages,
   walletAccounts: walletAccountsSlice,
   docs: attachDocsSlice,
@@ -78,7 +75,9 @@ const reducers = combineReducers({
   reviewInfomations,
   transaction:transactionSlice,
   creditCard:creditcCardSlice,
-  AppSlice
+  AppSlice,
+  getAllTransactions,
+  cashoutSlice
 });
 
 const persistConfig = {

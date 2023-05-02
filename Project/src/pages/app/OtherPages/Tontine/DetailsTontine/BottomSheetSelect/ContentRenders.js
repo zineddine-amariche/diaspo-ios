@@ -15,6 +15,7 @@ const ContentRenders = ({
   navigation,
   projectId,
   tontineProjectInfo,
+  nameTontine
 }) => {
   const dispatch = useDispatch();
 
@@ -80,11 +81,13 @@ const ContentRenders = ({
                 <TouchableOpacity
                   key={ind}
                   onPress={() => {
+
                     navigation.navigate(i.discription, {
                       projectId,
                       type: i.value,
                       routeData: tontineProjectInfo,
                       title: i.title,
+                      nameTontine
                     });
                     dispatch(createTypeParticipants(i.value));
                   }}

@@ -22,7 +22,7 @@ const Step4 = ({
   dirty,
   step,
 }) => {
-  const {hidePass, HandlehidePass, ToRegister} = useRegister();
+  const {hidePass, HandlehidePass,hidePass2,HandlehidePass2, ToRegister} = useRegister();
   return (
     <View style={{flex: 1, backgroundColor: '#FFF', borderRadius: 8}}>
       <FormInputs
@@ -33,7 +33,9 @@ const Step4 = ({
         values={values}
         errors={errors}
         hidePass={hidePass}
+        hidePass2={hidePass2}
         HandlehidePass={HandlehidePass}
+        HandlehidePass2={HandlehidePass2}
         IsTouched={IsTouched}
         setIsTouched={setIsTouched}
         step={step}
@@ -63,8 +65,8 @@ const FormInputs = ({
   handleBlur,
   hidePass,
   HandlehidePass,
-  IsTouched,
-  setIsTouched,
+  hidePass2,
+  HandlehidePass2,
   setValues,
   dirty,
   step,
@@ -121,7 +123,7 @@ const FormInputs = ({
 
   return (
     <>
-      <Space space={30} />
+      {/* <Space space={30} /> */}
       {/* proof ID */}
       {/* <Proof
         title={"Proof of identity to be provide by the client*"}
@@ -156,7 +158,7 @@ const FormInputs = ({
         IsTouched={IsTouched}
       /> */}
 
-      <Space space={20} />
+      {/* <Space space={20} /> */}
       <PrimaryInput
         placeholder="Your password"
         // style={styles.Input}
@@ -178,7 +180,7 @@ const FormInputs = ({
           fontSize: password?.length == 0 ? 16 : 20,
         }}
       />
-      <Space space={20} />
+      <Space space={30} />
       
       <PrimaryInput
         placeholder="Confirm password"        
@@ -188,10 +190,10 @@ const FormInputs = ({
         onBlur={handleBlur('confirmPassword')}
         onChangeText={handleChange('confirmPassword')}
         Label="Confirm password"
-        secureTextEntry={hidePass ? true : false}
+        secureTextEntry={hidePass2 ? true : false}
         isPassword={'pass'}
-        hidePass={hidePass}
-        HandlehidePass={HandlehidePass}
+        hidePass={hidePass2}
+        HandlehidePass={HandlehidePass2}
         errors={errors.confirmPassword}
         touched={touched.confirmPassword}
         placeholderTextColor={COLORS.silver}

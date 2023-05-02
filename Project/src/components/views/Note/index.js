@@ -12,6 +12,7 @@ const Note = () => {
         flexDirection: "row",
         width: "90%",
         alignItems: "stretch",
+        marginBottom:1
       }}
     >
       <Image source={ImageInfo} style={{ marginRight: 10, marginTop: 5 }} />

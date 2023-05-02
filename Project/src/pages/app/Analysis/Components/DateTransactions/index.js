@@ -90,7 +90,7 @@ const DateTransactions = ({onOpen}) => {
           <Space space={4}></Space>
           <Txt color={COLORS.coral}>- £270</Txt>
           <Space space={4}></Space>
-          <Txt color={COLORS.slateGrey}>{data.length} transactions</Txt>
+          <Txt color={COLORS.slateGrey}>{data?.length} transactions</Txt>
         </View>
       </HView>
       {isOpen && <Space space={20} />}

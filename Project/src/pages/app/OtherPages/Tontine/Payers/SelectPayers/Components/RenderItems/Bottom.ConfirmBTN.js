@@ -82,6 +82,7 @@ const CustomConfirmButton = ({
   type,
   ARR,
 }) => {
+  console.log('type --- btn', type)
   const dispatch = useDispatch();
   const {isLoading} = useSelector(state => ({
     ...state.createParticipants,

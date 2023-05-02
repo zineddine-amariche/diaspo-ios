@@ -13,6 +13,7 @@ import {Txt} from '../../../components/utils';
 import MyCode from '../../../pages/app/MyCode';
 import Categories from '../../../pages/app/Home/pages/Categories';
 import {useSelector} from 'react-redux';
+ 
 
 const BottomTab = ({type, color, size = 34, isFocused, index}) => {
   const icon =
@@ -51,9 +52,8 @@ const BottomTab = ({type, color, size = 34, isFocused, index}) => {
 };
 
 const MyTabBar = ({state, descriptors, navigation}) => {
-  const {isBottomOpen} = useSelector(state => state.AppSlice);
 
-  return  (
+  return (
     <View
       style={{
         height: 94,
@@ -74,7 +74,11 @@ const MyTabBar = ({state, descriptors, navigation}) => {
               target: route.key,
             });
             if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
+              if (route.name == 'TopUp') {
+                return;
+              } else {
+                navigation.navigate(route.name);
+              }
             }
           };
 
@@ -148,9 +152,13 @@ const TabNavigator = () => {
       tabBar={props => <MyTabBar {...props} />}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Wallet" component={Wallet} />
+      {/* <Tab.Screen name="Tontine" component={Tontine} /> */}
       <Tab.Screen name="." component={MyCode} />
       <Tab.Screen name="Discount" component={Categories} />
       <Tab.Screen name="Analysis" component={Analysis} />
+      {/* <Tab.Screen name="." component={MyCode} /> */}
+      {/* <Tab.Screen name="TopUp" component={TopUp} /> */}
+      {/* <Tab.Screen name="CashOut" component={CashOut} /> */}
     </Tab.Navigator>
   );
 };

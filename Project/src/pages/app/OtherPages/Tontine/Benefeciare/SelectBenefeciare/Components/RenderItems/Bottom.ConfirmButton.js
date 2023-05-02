@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: Platform.OS=="ios"?30: 20,
-    paddingHorizontal: Platform.OS=="ios"?30: 20
+    paddingHorizontal: Platform.OS=="ios"?30: 20,
   },
   rowButtons: {
     paddingTop: 15,

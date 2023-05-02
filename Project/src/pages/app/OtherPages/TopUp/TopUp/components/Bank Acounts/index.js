@@ -29,7 +29,7 @@ const BankAcccounts = ({title,data,onSelect}) => {
               <HView>
                 <Image fontSize={17} color={COLORS.orangeYellow} source={i.url}/>
               </HView>
-              <View>
+              {/* <View>
                 <Txt
                   color={COLORS.blueGreen}
                   style={{  fontSize: 14 ,  alignSelf: "flex-end",lineHeight:20 , textTransform: 'uppercase'}}
@@ -46,7 +46,10 @@ const BankAcccounts = ({title,data,onSelect}) => {
                 >
                <Txt color={COLORS.coolGrey} fontSize={12}> No:</Txt>  {i.currency}
                 </Txt>
-              </View>
+              </View> */}
+
+<Txt>Click here to pay</Txt>
+
             </HView>
           </TouchableOpacity>
         );

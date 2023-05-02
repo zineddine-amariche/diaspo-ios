@@ -8,11 +8,11 @@ export const transaction = createAsyncThunk(
   async (object, thunkAPI) => {
     try {
       const token = thunkAPI.getState().token.token;
-      const {onErrorAction, onSuccessAction, info} = object;
+      const {onErrorAction, onSuccessActionMTN, info} = object;
       const {amount} = info;
       let res = await transactionService.api(info, token);
       if (res.status == 'success') {
-        onSuccessAction(amount);
+        onSuccessActionMTN(amount);
       } else {
         onErrorAction();
       }

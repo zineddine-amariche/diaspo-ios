@@ -14,6 +14,10 @@ import {useTranslation} from 'react-i18next';
 import {useSelector} from 'react-redux';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Intl from 'intl';
+
+import 'intl';
+import 'intl/locale-data/jsonp/en'; 
 
 const AccountsBox = ({title, onPress, item}) => {
   const {walletAccount} = useSelector(state => state.walletAccounts);
@@ -48,6 +52,20 @@ export default AccountsBox;
 
 const RenderItems = ({  onPress, item}) => {
   const {t, i18n} = useTranslation();
+  
+  if (typeof Intl === 'undefined') {
+    // Use the Intl.js polyfill if Intl is not defined
+    // You can customize the polyfill by passing options to the constructor
+    var IntlPolyfill = require('intl');
+    Intl.NumberFormat = IntlPolyfill.NumberFormat;
+    Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  }
+  const formattedNumber = new Intl.NumberFormat('en-US', {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(item?.balance / 100);
+
 
   return (
     <>
@@ -64,7 +82,7 @@ const RenderItems = ({  onPress, item}) => {
               <Txt
                 color={COLORS.blueGreen}
                 style={{lineHeight: 40, fontSize: 32, marginTop: 10}}>
-                {item.balance}{' '}
+                {formattedNumber == 0.00?'0':formattedNumber}{' '}
               </Txt>
               <Txt
                 color={COLORS.greyblue}

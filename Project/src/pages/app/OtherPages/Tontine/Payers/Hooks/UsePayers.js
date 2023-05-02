@@ -1,8 +1,14 @@
 import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import {useNavigation} from '@react-navigation/native';
-import {createParticipants, resetSuccesParticipants} from '../../../../../../redux/Features/Tontine/Participants/create/slice';
-import {deleteSelectedListPayers, resetPayers} from '../../../../../../redux/Features/Tontine/ManagePayers';
+import {
+  createParticipants,
+  resetSuccesParticipants,
+} from '../../../../../../redux/Features/Tontine/Participants/create/slice';
+import {
+  deleteSelectedListPayers,
+  resetPayers,
+} from '../../../../../../redux/Features/Tontine/ManagePayers';
 import {deleteSelectedList} from '../../../../../../redux/Features/Tontine/ManageBenefeciare/ManageStatesBeneficiare';
 import {resetBeneficiaries} from '../../../../../../redux/Features/Tontine/Participants/getBeneficiaires/slice';
 import {createNotification} from '../../../../../../redux/Features/Tontine/Participants/SendNotify/slice';
@@ -25,8 +31,9 @@ export function UsePayers() {
   const {token} = useSelector(state => ({...state.token}));
 
   const createPayers = props => {
-    const {selectedconnectUser, GlobalBen, type, projectId} = props;
-
+    const {selectedconnectUser, GlobalBen, nameTontine, type, projectId} =
+      props;
+    console.log('nameTontine createPayers', nameTontine);
     if (selectedconnectUser.length == 0) {
       Toast.show('choose connected users');
     } else {
@@ -40,6 +47,7 @@ export function UsePayers() {
         projectId,
         token,
         type,
+        nameTontine,
       };
 
       let object = {
@@ -52,9 +60,9 @@ export function UsePayers() {
     }
   };
 
-
-  const createBenef = (props)=>{
-    const {selectedconnectUser, GlobalBen, projectId} = props;
+  const createBenef = props => {
+    const {selectedconnectUser, GlobalBen, nameTontine, projectId} = props;
+    console.log('nameTontine createBenef', nameTontine);
 
     if (selectedconnectUser.length == 0) {
       Toast.show('choose connected users');
@@ -69,6 +77,7 @@ export function UsePayers() {
         projectId,
         token,
         type: 'PAYER_AND_BENEFICIARY',
+        nameTontine,
       };
 
       let object = {
@@ -79,7 +88,7 @@ export function UsePayers() {
 
       dispatch(createParticipants(object));
     }
-  }
+  };
 
   const deviceTokenFromConnectedUsers = selectedconnectUser?.map(i => {
     return i?.device?.deviceToken
@@ -88,7 +97,7 @@ export function UsePayers() {
   });
 
   const onSuccesAction = data => {
-    const {participants, projectId,routeData} = data;
+    const {participants, projectId, nameTontine, routeData} = data;
     let ids = participants?.map(el => {
       return el.participantId;
     });
@@ -100,7 +109,7 @@ export function UsePayers() {
         object = {
           registration_ids: deviceTokenFromConnectedUsers,
           notification: {
-            body: `You has been invited to join “${routeData?.name}” as a payer`,
+            body: `You has been invited to join “${nameTontine}” as a payer`,
             OrganizationId: '2',
             content_available: true,
             priority: 'high',
@@ -113,7 +122,7 @@ export function UsePayers() {
             priority: 'high',
             sound: 'app_sound.wav',
             content_available: true,
-            bodyText: `You has been invited to join “${routeData?.name}” as a payer`,
+            bodyText: `You has been invited to join “${nameTontine}” as a payer`,
             organization: 'Dipaso',
             participantsId: element,
             projectId,
@@ -175,6 +184,6 @@ export function UsePayers() {
     onSubmit,
     dispatch,
     createPayers,
-    createBenef
+    createBenef,
   };
 }

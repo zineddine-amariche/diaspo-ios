@@ -8,17 +8,23 @@ import { COLORS } from "../../../../../../theme";
 import Space from "../../../../../../components/Space";
 const RenterCarts = ({ item, onPress, connected }) => {
   return (
-    <Rectangle
+    <View
       elevation={0.2}
       title={"Wallet Connection"}
       swiper
       style={{
-        paddingVertical: 10,
-        width: "90%",
         marginTop: 20,
         paddingHorizontal: 10,
+        backgroundColor: '#FFF',
+        shadowColor: '#171717',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+        elevation: 2,
+        borderRadius:24,
+        paddingVertical:20,
+
       }}
-      radius={24}
     >
     
         <>
@@ -47,7 +53,7 @@ const RenterCarts = ({ item, onPress, connected }) => {
           </View>
         </>
     
-    </Rectangle>
+    </View>
   );
 };
 

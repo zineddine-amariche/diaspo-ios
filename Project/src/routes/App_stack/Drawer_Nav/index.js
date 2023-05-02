@@ -46,8 +46,6 @@ import Béneféciare from '../../../pages/app/OtherPages/Tontine/Benefeciare/Sel
 import ConfirmedList from '../../../pages/app/OtherPages/Tontine/Payers/PayerList/ConfirmedList';
 import ListBéneféciare from '../../../pages/app/OtherPages/Tontine/Benefeciare/SelectedBenefeciare';
 import BenefeciareListReorder from '../../../pages/app/OtherPages/Tontine/Benefeciare/BenefeciareListReorder/BenefeciareListReorder';
-import PageForTest from '../../../pages/app/PageForTest';
-import PageForTest2 from '../../../pages/app/PageForTest/Page2';
 import TontineRecap from '../../../pages/app/OtherPages/Tontine/TontineRecap';
 import AccountInfo from '../../../pages/app/AccountInfo';
 import EditAccount from '../../../pages/app/AccountInfo/EditAccount';
@@ -59,6 +57,8 @@ import {useNavigation} from '@react-navigation/native';
 import AmountTopup from '../../../pages/app/OtherPages/TopUp/TopUp/pages/AmountTopup/AmountTopup';
 
 const Drawer = createDrawerNavigator();
+
+const HiddenBottomNavigationScreens = ['Tontine'];
 const DrawerScreen = props => {
   const navigation = useNavigation();
 
@@ -99,7 +99,7 @@ const DrawerScreen = props => {
       <Drawer.Screen name="Request" component={Request} {...props} />
       <Drawer.Screen name="CashOut" component={CashOut} {...props} />
       <Drawer.Screen name="AddPlan" component={AddPlan} {...props} />
-      <Drawer.Screen name="Tontine" component={Tontine} {...props} />
+      <Drawer.Screen name="Tontine" component={Tontine} {...props}  />
       <Drawer.Screen name="Discount" component={Discount} {...props} />
       <Drawer.Screen name="Planning" component={Planning} {...props} />
       <Drawer.Screen name="Analysis" component={Analysis} {...props} />
@@ -111,12 +111,10 @@ const DrawerScreen = props => {
       <Drawer.Screen name="ContactUs" component={ContactUs} {...props} />
       <Drawer.Screen name="Categories" component={Categories} {...props} />
       <Drawer.Screen name="CreateCard" component={CreateCard} {...props} />
-      <Drawer.Screen name="PageForTest" component={PageForTest} {...props} />
       <Drawer.Screen name="AccountInfo" component={AccountInfo} {...props} />
       <Drawer.Screen name="EditAccount" component={EditAccount} {...props} />
       <Drawer.Screen name="Béneféciare" component={Béneféciare} {...props} />
       <Drawer.Screen name="TontineRecap" component={TontineRecap} {...props} />
-      <Drawer.Screen name="PageForTest2" component={PageForTest2} {...props} />
       <Drawer.Screen name="BankAccounts" component={BankAccounts} {...props} />
       <Drawer.Screen name="CreditsCards" component={CreditsCards} {...props} />
       <Drawer.Screen name="CardFormInfo" component={CardFormInfo} {...props} />

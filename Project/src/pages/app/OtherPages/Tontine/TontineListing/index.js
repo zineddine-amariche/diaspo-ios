@@ -9,14 +9,13 @@ import {
   Platform,
 } from 'react-native';
 import {Modalize} from 'react-native-modalize';
+import Toast from 'react-native-simple-toast';
 
 import ImgBack from '../../../../../Assets/headerImg/background.png';
 import {PrimaryButton} from '../../../../../components/Buttons';
 import SecondaryHeader from '../../../../../components/Headers/root/SecondaryHeader';
-import Space from '../../../../../components/Space';
 import {Txt} from '../../../../../components/utils';
 import {COLORS, SIZES} from '../../../../../theme';
-
 import {UseTontines} from './Hooks';
 import Form0 from './Components/Forms/Form0/Form0';
 import Form1 from './Components/Forms/Form1/Form1';
@@ -30,6 +29,8 @@ import {getTontines} from '../../../../../redux/Features/Tontine/ManageTontine/S
 import {TabBar, TabView} from 'react-native-tab-view';
 import {useIsFocused} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import ReturnHeader from '../../../../../components/Headers/root/ReturnHeader';
+import Space from '../../../../../components/Space';
 
 const Tontine = ({navigation, navigation: {goBack}}) => {
   const layout = useWindowDimensions();
@@ -89,8 +90,14 @@ const Tontine = ({navigation, navigation: {goBack}}) => {
     dispatch(getTontines(object));
   }, [isFocused]);
 
+  let num = isLoading ? '  ' : ' (' + tontines?.ProjectLists.length + ')';
   return (
-    <CustomHeader navigation={navigation}>
+
+    <ReturnHeader
+      title={t('Tontine.title') + num}
+      goBack={() => {
+        navigation.goBack();
+      }}>
       <>
         {isLoading ? (
           <Spiner />
@@ -98,8 +105,9 @@ const Tontine = ({navigation, navigation: {goBack}}) => {
           <View
             style={{width: SIZES.width, flex: 1}}
             showsVerticalScrollIndicator={false}>
+            <Space space={45} />
+
             <View style={styles.Tabs}>
-              <Space space={10} />
               <TabView
                 navigationState={{index, routes}}
                 renderScene={renderScene}
@@ -123,13 +131,19 @@ const Tontine = ({navigation, navigation: {goBack}}) => {
               width={'100%'}
               onPress={() => {
                 // bottomSheetModalRef2.current?.present();
-                onOpen();
+
+                if (tontines.length >= 6) {
+                  onOpen();
+                }   else {
+                  Toast.show("you cannot create more than 5 tontines");
+                }
               }}
               loading={isLoading}>
               {t('Tontine.button1')}
             </PrimaryButton>
           </View>
         )}
+        {/* <Space space={80} /> */}
       </>
 
       <Modalize
@@ -144,7 +158,7 @@ const Tontine = ({navigation, navigation: {goBack}}) => {
           closeSelect={handleCloseModal}
         />
       </Modalize>
-    </CustomHeader>
+    </ReturnHeader>
   );
 };
 export default Tontine;
@@ -237,8 +251,9 @@ const styles = StyleSheet.create({
   },
 
   Tabs: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.lightBlueGrey30,
     flex: 1,
+    top: Platform.OS == 'android' ? 20 : -10,
   },
 
   tabBar: {
@@ -253,4 +268,3 @@ const styles = StyleSheet.create({
     bottom: -1,
   },
 });
- 

@@ -65,7 +65,7 @@ const Form0 = ({onSuccesReq}) => {
               <>
                 <PrimaryInput
                   name="nom"
-                  Label={'Register email or phone number'}
+                  Label={'Register email'}
                   placeholder="Typing"
                   style={styles.Input}
                   errors={errors.email_phone}
@@ -78,8 +78,7 @@ const Form0 = ({onSuccesReq}) => {
                 />
 
                 <Txt style={styles.bodyText}>
-                  We will send a OTP code to your registered email address or
-                  phone number
+                  We will send a OTP code to your registered email address.
                 </Txt>
                 <View style={styles.space}></View>
                 <PrimaryButtonLinear

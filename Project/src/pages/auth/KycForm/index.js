@@ -5,8 +5,8 @@ import {COLORS} from '../../../theme';
 
 const KycForm = () => {
   return (
-    <View style={{flex: 1, backgroundColor: COLORS.blueGreen}}>
-      <View style={{height: 90}}></View>
+    <View style={{flex: 1, backgroundColor: COLORS.blueGreenOpacity9,justifyContent:"space-between"}}>
+      <View style={{height: 40}}></View>
       <Form />
     </View>
   );

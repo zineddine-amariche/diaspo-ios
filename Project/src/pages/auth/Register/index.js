@@ -99,10 +99,13 @@ const Register = ({navigation, navigation: {goBack}}) => {
           <View
             style={{
               overflow: 'hidden',
-              flex: 1,
+              // flex: 1,
               backgroundColor: '#FFF',
               marginHorizontal: 20,
               borderRadius: 8,
+              justifyContent:"center",
+              paddingVertical:step ==4 ?0:20,
+              paddingTop:step ==4?20:0
             }}>
             <KeyboardAwareScrollView
               extraHeight={180}

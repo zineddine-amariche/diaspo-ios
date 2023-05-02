@@ -1,28 +1,30 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import { Head, Txt } from "../../../../../components/utils";
-import { COLORS } from "../../../../../theme";
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {Head, Txt} from '../../../../../components/utils';
+import {COLORS} from '../../../../../theme';
 
-import Rectangle from "../../../../../components/views/Rectangle";
+const CardUserHistory = ({item, index}) => {
+  const date = new Date(item?.datetime * 1000);
 
-const CardUserHistory = ({ item , index }) => {
+  let price = item.type =='DEBIT' ? `${item?.amount / 100} ${' £'}` : `+${item?.amount / 100} ${' £'} `
   return (
-    <TouchableOpacity activeOpacity={.9} >
-      <Rectangle style={styles.Container}>
-        {/* <Image source={thumbnailPath} style={styles.Img} resizeMode="contain" /> */}
-        <View style={{ width: "40%" }}>
+    <TouchableOpacity activeOpacity={0.9}>
+      <View style={styles.Container}>
+        <View style={{width: '40%'}}>
           <Head fontSize={14} color={COLORS.darkBlueGrey} numberOfLines={1}>
-            {item.displayName}
+            {item.description}
           </Head>
 
           <Txt fontSize={12} color={COLORS.coolGrey}>
-            {item?.phoneNumbers[0]?.number}
+            {date.toDateString()}
           </Txt>
         </View>
         <View>
-          <Txt fontSize={17} color={index === 5 ||  index === 9  ? COLORS.coral : COLORS.blueGreen} > + £250</Txt>
+          <Txt fontSize={17} color={item.type =='DEBIT' ?COLORS.peachyPink :COLORS.greenishTeal}>
+           {price}
+          </Txt>
         </View>
-      </Rectangle>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -31,13 +33,18 @@ export default CardUserHistory;
 
 const styles = StyleSheet.create({
   Container: {
-    backgroundColor: "#fff",
-    flexDirection: "row",
+    backgroundColor: '#fff',
+    flexDirection: 'row',
     marginVertical: 5,
-    alignItems: "center",
-    width:"100%", 
-    padding:15,
-    justifyContent:'space-between'
+    alignItems: 'center',
+    width: '100%',
+    padding: 15,
+    justifyContent: 'space-between',
+    borderRadius: 4,
+    shadowColor: '#122',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
   },
   Img: {
     borderRadius: 5,

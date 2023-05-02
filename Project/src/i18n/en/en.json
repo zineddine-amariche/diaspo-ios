@@ -44,7 +44,7 @@
     "title_back": "retour",
     "button1": "Settings", 
     "button2": "log out", 
-    "titleDrawer": "menu", 
+    "titleDrawer": "Menu", 
     "button3": "Use Face ID to login/verify",
     "info": " All faces registered in your devices would be allowed to verify."
   },
@@ -68,10 +68,10 @@
   "CreateTontine": {},
   "Entertainment": {},
   "AboutDiaspora": {
-    "button1": "About Diaspora"
+    "button1": "About Tontine"
   },
   "PrivaciPolicy": {
-    "button1": "Privaci Policy"
+    "button1": "Privacy Policy"
   },
   "ConfirmedList": {},
   "CreateAccount": {},

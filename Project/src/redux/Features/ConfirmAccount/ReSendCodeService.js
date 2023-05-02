@@ -1,11 +1,12 @@
-import axios from "axios";
-// `https://wallet-gateway-svc-x6fr3lwlgq-nw.a.run.app/v1/registration/users/confirmation/${item.walletAccountUser.email}/${data.code}`;
-const API_URL = `https://wallet-gateway-svc-x6fr3lwlgq-nw.a.run.app/v1/registration/users/resend`;
-//  !register user api
-const api = async (userName, token) => {
-  // console.log('code', code)
-    // console.log('userName---', userName)
+import axios from 'axios';
 
+import {API_URL_WALLET_DEV, API_BASE_COMPLIANCE_DEV} from '@env';
+
+let API_URL = `${API_URL_WALLET_DEV}/registration/users/resend`;
+
+// const API_URL = `https://wallet-gateway-svc-x6fr3lwlgq-nw.a.run.app/v1/registration/users/resend`;
+
+const api = async (userName, token) => {
   let url = `${API_URL}/${userName}/confirmationcode`;
   const config = {
     headers: {

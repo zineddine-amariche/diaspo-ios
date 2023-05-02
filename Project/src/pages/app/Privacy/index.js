@@ -32,7 +32,7 @@ const PrivaciPolicy = ({navigation}) => {
               goBack={() => {
                 navigation.navigate('Home');
               }}
-              title={"Privaci Policy"}
+              title={"Privacy Policy"}
               
             />
             <>

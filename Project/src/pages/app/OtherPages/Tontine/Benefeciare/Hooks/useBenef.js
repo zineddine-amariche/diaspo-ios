@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {deleteSelectedList} from '../../../../../../redux/Features/Tontine/ManageBenefeciare/ManageStatesBeneficiare';
 import {resetBeneficiaries} from '../../../../../../redux/Features/Tontine/Participants/getBeneficiaires/slice';
 import {createNotification} from '../../../../../../redux/Features/Tontine/Participants/SendNotify/slice';
-import { createParticipants } from '../../../../../../redux/Features/Tontine/Participants/create/slice';
+import {createParticipants} from '../../../../../../redux/Features/Tontine/Participants/create/slice';
 
 export function UseBenef() {
   const navigation = useNavigation();
@@ -32,8 +32,8 @@ export function UseBenef() {
   });
 
   const onSuccesAction = data => {
-    const {participants, projectId, routeData} = data;
-
+    const {participants, projectId, nameTontine, routeData} = data;
+    console.log('nameTontine onSuccesAction benef', nameTontine);
     let ids = participants?.map(el => {
       return el.participantId;
     });
@@ -44,7 +44,7 @@ export function UseBenef() {
         object = {
           registration_ids: deviceTokenFromConnectedUsers,
           notification: {
-            body: `You has been invited to join “${routeData?.name}” as a beneficiary`,
+            body: `You has been invited to join “${nameTontine}” as a beneficiary`,
             OrganizationId: '2',
             content_available: true,
             priority: 'high',
@@ -57,7 +57,7 @@ export function UseBenef() {
             priority: 'high',
             sound: 'app_sound.wav',
             content_available: true,
-            bodyText: `You has been invited to join “${routeData?.name}” as a beneficiary`,
+            bodyText: `You has been invited to join “${nameTontine}” as a beneficiary`,
             organization: 'Dipaso',
             participantsId: element,
             projectId,
@@ -100,7 +100,7 @@ export function UseBenef() {
   };
 
   const onSubmit = props => {
-    const { GlobalBen, type, projectId} = props;
+    const {GlobalBen, type, nameTontine, projectId} = props;
 
     if (selectedconnectUser.length == 0) {
       Toast.show('choose connected users');
@@ -116,6 +116,7 @@ export function UseBenef() {
         projectId,
         token,
         type,
+        nameTontine,
       };
 
       let object = {

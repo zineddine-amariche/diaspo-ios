@@ -46,101 +46,94 @@ const PrimaryInput = ({
   advancedSettings,
   onDissmis,
   visible,
-  onSuccess
+  onSuccess,
 }) => {
   const colorScheme = useColorScheme();
 
- 
   return (
     <View style={{flex: 1}}>
       <View style={[styles.containerForm]}>
-
-
         {Label ? (
           <HView>
-
-          <Head fontSize={fontSize} style={{}}>
-            {Label}
-          </Head>
-        {  advancedSettings?      <TouchableOpacity onPress={onSuccess}>
-            <Image source={imageInfo} style={{marginLeft: 10}} />
-          </TouchableOpacity> :null}
+            <Head fontSize={fontSize} style={{}}>
+              {Label}
+            </Head>
+            {advancedSettings ? (
+              <TouchableOpacity onPress={onSuccess}>
+                <Image source={imageInfo} style={{marginLeft: 10}} />
+              </TouchableOpacity>
+            ) : null}
           </HView>
         ) : null}
 
+        <TouchableOpacity
+          style={{position: 'relative'}}
+          onPress={openDrawerisReceivers}>
+          <TextInput
+            placeholder={placeholder}
+            numberOfLines={1}
+            name={name}
+            id={name}
+            value={value}
+            onBlur={onBlur}
+            onChangeText={onChangeText}
+            {...style}
+            style={{
+              color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
+              paddingVertical: Platform.OS == 'ios' ? 8 : 7,
+            }}
+            secureTextEntry={hidePass ? true : false}
+            editable={editable}
+            keyboardType={keyboardType}
+            placeholderTextColor={
+              placeholderTextColor ? placeholderTextColor : COLORS.silver
+            }
+          />
 
+          {cardNumber ? (
+            <View style={{position: 'absolute', left: 6, top: 13}}>
+              <Image source={cardimg} />
+            </View>
+          ) : null}
 
-      
-          <TouchableOpacity
-            style={{position: 'relative'}}
-            onPress={openDrawerisReceivers}>
-            <TextInput
-              placeholder={placeholder}
-              numberOfLines={1}
-              name={name}
-              id={name}
-              value={value}
-              onBlur={onBlur}
-              onChangeText={onChangeText}
-              {...style}
-              style={{
-                color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
-                paddingVertical: Platform.OS =='ios' ? 18 : 7
-              }}
-              secureTextEntry={hidePass ? true : false}
-              editable={editable}
-              keyboardType={keyboardType}
-              
-              placeholderTextColor={
-                placeholderTextColor ? placeholderTextColor : COLORS.silver
-              }
-            />
+          {check === 'NonCheck' && (
+            <View style={{position: 'absolute', right: 10}}>
+              <Txt color={COLORS.coral}>Non Verify</Txt>
+            </View>
+          )}
 
-            {cardNumber ? (
-              <View style={{position: 'absolute', left: 6, top: 13}}>
-                <Image source={cardimg} />
-              </View>
-            ) : null}
+          {check === true && (
+            <View style={{position: 'absolute', right: 10}}>
+              <Txt color={COLORS.Sccess}>Verify</Txt>
+            </View>
+          )}
 
-            {check === 'NonCheck' && (
-              <View style={{position: 'absolute', right: 10}}>
-                <Txt color={COLORS.coral}>Non Verify</Txt>
-              </View>
-            )}
-
-            {check === true && (
-              <View style={{position: 'absolute', right: 10}}>
-                <Txt color={COLORS.Sccess}>Verify</Txt>
-              </View>
-            )}
-
-            {isPassword == 'pass' ? (
-              hidePass ? (
-                <TouchableOpacity onPress={HandlehidePass} style={styles.imp}>
-                  <Image source={omg} />
-                </TouchableOpacity>
-              ) : (
-                <Text style={styles.iconPass} onPress={HandlehidePass}>
-                  👁
-                </Text>
-              )
-            ) : null}
-
-            {amount && (
+          {isPassword == 'pass' ? (
+            hidePass ? (
               <TouchableOpacity onPress={HandlehidePass} style={styles.imp}>
-                <Txt>{amount}</Txt>
+                <Image source={omg} />
               </TouchableOpacity>
-            )}
+            ) : (
+              <Text style={styles.iconPass} onPress={HandlehidePass}>
+                👁
+              </Text>
+            )
+          ) : null}
 
-            {icon && (
-              <TouchableOpacity
-                style={{position: 'absolute', right: 5, top: 16}}
-                onPress={openDrawerisReceivers}>
-                <Image source={icon} />
-              </TouchableOpacity>
-            )}
-          </TouchableOpacity>
-  
+          {amount && (
+            <TouchableOpacity onPress={HandlehidePass} style={styles.imp}>
+              <Txt>{amount}</Txt>
+            </TouchableOpacity>
+          )}
+
+          {icon && (
+            <TouchableOpacity
+              style={{position: 'absolute', right: 5, top: 16}}
+              onPress={openDrawerisReceivers}>
+              <Image source={icon} />
+            </TouchableOpacity>
+          )}
+        </TouchableOpacity>
       </View>
       {errors && touched ? (
         <Animatable.View animation="fadeInLeft" duration={500}>
@@ -161,7 +154,6 @@ const BodyModelInfo = ({onDissmis}) => {
   return (
     <>
       <View style={styles.ModelContainer}>
-        {/* <Image source={illusphone} style={{width: '100%'}} /> */}
 
         <Head
           // fontFamily={'Poppins-Bold'}
@@ -221,7 +213,7 @@ const styles = StyleSheet.create({
   },
   imp: {
     position: 'absolute',
-    right: 1,
+    right: 10,
     top: 10,
   },
   light: {

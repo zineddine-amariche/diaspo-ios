@@ -31,7 +31,7 @@ const CreditDebit  = ({title,data,onSelect}) => {
 
                   <HView>
                     
-                  <View style={{marginRight:10}}>
+                  {/* <View style={{marginRight:10}}>
                     <Txt
                       color={COLORS.blueGreen}
                       style={{  fontSize: 14 ,  alignSelf: "flex-end", }}
@@ -49,8 +49,11 @@ const CreditDebit  = ({title,data,onSelect}) => {
                    <Txt color={COLORS.coolGrey} fontSize={12}> Expiry Date:</Txt>  {i.currency}
                     </Txt>
 
-                  </View>
-                  {false ? (
+                  </View> */}
+
+
+                  <Txt>Click here to pay</Txt>
+                  {/* {false ? (
             <View
               style={{
                 width: 25,
@@ -83,7 +86,7 @@ const CreditDebit  = ({title,data,onSelect}) => {
                 justifyContent: "center",
               }}
             />
-          )}
+          )} */}
                   </HView>
                 </HView>
               </TouchableOpacity>

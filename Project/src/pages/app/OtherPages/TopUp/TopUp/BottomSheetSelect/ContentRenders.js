@@ -121,7 +121,7 @@ const BodyModel = ({ onDissmis }) => {
           You can check in your account
           <Txt Bold={"400"} color={COLORS.orangeYellow} fontSize={17}>
             {" "}
-            transaction histopy.
+            transaction history.
           </Txt>
           .
         </Txt>

@@ -102,7 +102,7 @@ const DropDownModel = ({
                         >
                           {val.label}
                         </Txt>
-                        {data.length !== i + 1 && (
+                        {data?.length !== i + 1 && (
                           <Line height={1} color={COLORS.lightBlueGrey} width={"77%"} />
                         )}
                       </View>
